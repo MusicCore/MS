@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>music.title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+    <script th:src="@{/js/jplayer/audioplayer.js}" type="text/javascript"></script>
+    <script th:src="@{/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="wrapper">
+<div class="container">
+    <div th:include="common/navbar::navbar"></div>
+            <div class="row clearfix">
+                <div class="col-md-8 column" >
+                    <div class="panel panel-primary touming">
+                        <div class="panel-body" id="music_content">
+                            <p th:utext="${music.content}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 column">
+                    <div id="fixed">
+                    <div class="panel panel-primary touming">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                music.title
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <span>作者：<a href="url?author_account=">author_name</a></span><br/>
+                            <span>创建时间：<p>我是创建时间</p></span><br/>
+                            <span>修改时间：update_time，修改人：last_author</span>
+                            <!--copy-1-->
+                                    <div class="col-md-12 column">
+                                       <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
+                                    </div>
+                            <!--copy-2-->
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<div th:include="common/backgroundimg::backGroundImg"></div>
+<!--视频效果-->
+<!--<video poster="/static/js/vidbacking/preview.jpg" autoplay muted loop class="vidbacking">-->
+    <!--<source th:src="@{/static/js/vidbacking/12.28.mp4}" type="video/mp4">-->
+<!--</video>-->
+<!--js特效-->
+<!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
+</body>
+<script>
+    $(document).ready(function() {
+        $('audio').audioPlayer();
+        $('body').vidbacking({
+            'masked': true
+        });
+        // getMusic();
+    })
+    var music_info = $('#fixed');
+    var music_info_top = music_info.offset().top;//元素到页面顶部的距离
+    $(window).bind("scroll",function() {
+        if($(document).scrollTop() > music_info_top){
+            music_info.addClass("fixed");
+        }else{
+            music_info.removeClass("fixed");
+        }
+    })
+</script>
+<style>
+    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
+    span p {
+        font-family: "宋体","仿宋",sans-serif;
+        font-size:150%;
+        font-style: normal;
+    }
+    .touming{
+        background-color:rgba(255, 255, 255, 0.5);
+    }
+    .panel-body span{
+        font-family: "宋体","仿宋",sans-serif;
+        font-size:150%;font-style: normal;
+    }
+</style>
+</html>

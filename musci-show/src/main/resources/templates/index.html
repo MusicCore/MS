@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<meta charset="UTF-8">
+    <title>music.title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+<style>
+        html,body{
+            width:100%;
+            height:100%
+        }
+        body{
+            font-family: "华文细黑";
+            /*background:url("../static/img/img/7.jpg") no-repeat;*/
+            /*background-size: 100%;*/
+        }
+    </style>
+    <title>首页</title>
+</head>
+<body>
+<div class="wrapper">
+<div class="container">
+<div th:include="common/navbar::navbar"></div>
+    <div  class="row clearfix">
+        <div   class="col-md-8 column">
+            <!--<div th:include="common/musiclist::musicList"></div>-->
+            <div th:fragment="musicList" id="musicList" class="row">
+                <div th:each="item:${musiclist}" class="col-md-12 column">
+                    <div class="panel panel-primary touming"  th:onmouseover="showInfo([[${item}]]);">
+                        <div class="media panel-body" >
+                            <div class="media-left">
+                                <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'><img th:src="${item.contentImg}" class="media-object" style="width:220px"/></a>
+                            </div>
+                            <div class="media-body">
+                                <h3 th:text="${item.title}" class="media-heading"></h3>
+                                <span><p th:text="${item.contentShort}"></p></span>
+                                <div class="media-bottom">
+                                    <span class="glyphicon glyphicon-user"></span><span th:text="${item.authorName}"></span>
+                                    <span class="glyphicon glyphicon-time"></span><span th:text="${item.createTime}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        <div class="col-md-4 column hidden-xs">
+            <div id="fixed">
+            <div id="tips"  class="panel panel-primary touming">
+                <div class="panel-heading" >
+                    <h1 class="panel-title">
+                        我是小提示!!!
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <span>我是小提示</span><br/>
+                    <span>我是小提示</span><br/>
+                    <span>我是小提示</span>
+                </div>
+            </div>
+            <div id="music_info" style="display: none"  class="panel panel-primary touming">
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="musicTitle">
+                    </h3>
+                </div>
+                <div class="panel-body">
+                   创建作者：<span id="createAuthor"></span><br/>
+                   创建时间：<span id="createTime"></span><br/>
+                   修改时间：<span id="modifyTime"></span><br/>
+                   修改人：<span id="modifyName"></span>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+<div th:include="common/backgroundimg::backGroundImg"></div>
+</body>
+<script>
+    //鼠标滚动到页面最底部加载数据
+    var documentHeight = [0];
+    var pageStart = 2;
+    var music_info = $('#fixed');
+    var music_info_top = music_info.offset().top;//元素到页面顶部的距离
+    $(window).bind("scroll",function() {
+        if($(document).scrollTop() + $(window).height() > $(document).height()-1){
+            documentHeight.push($(document).height())
+            if(documentHeight[documentHeight.length-1]>documentHeight[documentHeight.length-2]){
+                documentHeight[documentHeight.length-2] = documentHeight[documentHeight.length-2] + documentHeight[documentHeight.length-1];
+                console.log("我在底部")
+                listMusic();
+                pageStart++
+                console.log(pageStart)
+            }
+        }else{
+            console.log("我bu在底部")
+        }
+        if($(document).scrollTop() > music_info_top){
+            music_info.addClass("fixed");
+        }else{
+            music_info.removeClass("fixed");
+        }
+    })
+    $(document).ready(function() {
+        // console.log("text");
+        // listMusic();
+        // $('#musicList').load("/music/musiclist?pageStart=2&rows=5");
+    })
+    function showInfo(item) {
+        // console.log(item.title)
+        if($("#musicTitle").html()==item.title){return false}
+        $("#musicTitle").html(item.title)
+        $("#createAuthor").html(item.authorName)
+        $("#createTime").html(item.createTime)
+        $("#modifyTime").html(item.updateTime)
+        $("#modifyName").html(item.lastAuthor)
+        // $("#tips").remove()
+        $("#music_info").css("display","block")
+    }
+    function musicDetail(id) {
+        window.open("/music/musicdetail?id=" + id)
+    }
+    function listMusic(){
+        $.ajax({
+            url :  "/show/music/musiclist",
+            type : "GET",
+            dataType:"json",
+            data: {"pageStart":pageStart,"rows":5},
+            success:function(result) {
+                if(result.data==null) {console.log("无更多数据");return false}
+                $.each(result.data,function (i,value) {
+                    $('#musicList').append("<div class=\"col-md-12 column\" >\n" +
+                        "    <div class=\"panel panel-primary touming\" onmouseover='showInfo("+JSON.stringify(value)+")'>\n" +
+                        "        <div class=\"media panel-body \">\n" +
+                        "            <div class=\"media-left\">\n" +
+                        "                <a href='javascript:void(0)' onclick='musicDetail("+ value.id +")'><img src='"+ value.contentImg +"' class=\"media-object\" style=\"width:220px\"/></a>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"media-body\">\n" +
+                        "                <h3 class=\"media-heading\">"+value.title+"</h3>\n" +
+                        "                <span><p>"+value.contentShort+"</p></span>\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "</div>")
+                })
+            }
+        })
+    }
+</script>
+<style>
+    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
+    span p {
+        font-family: "宋体","仿宋",sans-serif;
+        font-size:150%;
+        font-style: normal;
+    }
+    .touming{
+        background-color:rgba(255, 255, 255, 0.5);
+    }
+    .panel-body span{
+        font-family: "宋体","仿宋",sans-serif;
+        font-size:150%;font-style: normal;
+    }
+</style>
+</html>
