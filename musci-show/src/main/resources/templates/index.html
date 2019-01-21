@@ -58,7 +58,8 @@
                 <div class="panel-body">
                     <span>我是小提示</span><br/>
                     <span>我是小提示</span><br/>
-                    <span>我是小提示</span>
+                    <span>我是小提示</span><br/>
+                    <button class="back_to_top btn btn-warning">点我返回页面顶部</button>
                 </div>
             </div>
                 <div id="loading_start"  style="display: none;" class="panel panel-primary touming">
@@ -85,6 +86,24 @@
 <div th:include="common/backgroundimg::backGroundImg"></div>
 </body>
 <script>
+    //一键页面置顶start
+    var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
+
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height())
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
+    //一键页面置顶over
+
     //鼠标滚动到页面最底部加载数据
     var documentHeight = [0];
     var pageStart = 2;
@@ -95,49 +114,22 @@
             documentHeight.push($(document).height())
             if(documentHeight[documentHeight.length-1]>documentHeight[documentHeight.length-2]){
                 documentHeight[documentHeight.length-2] = documentHeight[documentHeight.length-2] + documentHeight[documentHeight.length-1];
-                console.log("我在底部")
+                // console.log("我在底部")
                 listMusic();
                 pageStart++
                 console.log(pageStart)
             }
         }else{
-            console.log("我bu在底部")
+            // console.log("我bu在底部")
         }
+        // 窗口置顶
         if($(document).scrollTop() > music_info_top){
             music_info.addClass("fixed");
         }else{
             music_info.removeClass("fixed");
         }
     })
-    $(document).ready(function() {
-        // console.log("text");
-        // listMusic();
-        // $('#musicList').load("/music/musiclist?pageStart=2&rows=5");
-    })
-    function showInfo(item) {
-        $(".wrapper").mouseover(function(e){
-            //设置移动后的默认位置
-            var endx=0;
-            var endy=0;
-            //获取music_info的初始位置，要注意的是需要转整型，因为获取到值带px
-            var left= parseInt($("#music_info").css("left"));
-            var top = parseInt($("#music_info").css("top"));
-            var downx=e.pageX;
-            var downy=e.pageY;   //pageY的y要大写，必须大写！！
-            console.log(downx)
-            console.log(left)
-            $("#music_info").css("left",downx+"px").css("top",downy+"px")
-        })
 
-
-        if($("#musicTitle").html()==item.title){return false}
-        $("#musicTitle").html(item.title+'    小摘要')
-        $("#contentShort").html(item.contentShort)
-        $("#music_info").css("display","block")
-    }
-    function hideInfo() {
-        $("#music_info").css("display","none")
-    }
     function musicDetail(id) {
         window.open("/music/musicdetail?id=" + id)
     }

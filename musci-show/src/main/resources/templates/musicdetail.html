@@ -9,7 +9,7 @@
     <meta charset="UTF-8" >
 </head>
 <body>
-<div class="wrapper">
+<div class="wrapper" id="drop">
 <div class="container">
     <div th:include="common/navbar::navbar"></div>
             <div class="row clearfix">
@@ -25,6 +25,7 @@
                     <div class="panel panel-primary touming" id="music_s" >
                         <div class="panel-heading" id="music_title">
                             <h3 class="panel-title" th:text="${music.title}">
+
                             </h3>
                         </div>
                         <div class="panel-body">
@@ -32,6 +33,7 @@
                             <span>创建时间：<span th:text="${music.createTime}"></span></span><br/>
                             <span>修改时间：<span th:text="${music.updateTime}"></span></span><br/>
                             <span>修改人：<span th:text="${music.lastAuthor}"></span></span><br/>
+                            点此DIV标题可拖拽<br/>
                             <!--copy-1-->
                                     <div class="col-md-12 column">
                                        <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
@@ -53,29 +55,19 @@
 <!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
 </body>
 <script th:src="@{/static/js/Tdrag.min.js}" type="text/javascript"></script>
+<script th:src="@{/static/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+        $("#music_s").Tdrag({
+            // scope:"#drop",
+            handle:"#music_title"
+        });
         // $('body').vidbacking({
         //     'masked': true
         // });
-        // getMusic();
-    })
-    var music_info = $('#fixed');
-    var music_info_top = music_info.offset().top;//元素到页面顶部的距离
-    $(window).bind("scroll",function() {
-        if($(document).scrollTop() > music_info_top){
-            music_info.addClass("fixed");
-        }else{
-            music_info.removeClass("fixed");
-        }
-    })
-    $("#music_s").Tdrag({
-        scope:".wrapper",
-        handle:"#music_title"
     })
 </script>
 <style>
-    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
     span p {
         font-family: "宋体","仿宋",sans-serif;
         font-size:150%;
