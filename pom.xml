@@ -38,6 +38,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--在发布环境去掉内置的tomcat-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!-- druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
