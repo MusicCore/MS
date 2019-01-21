@@ -3,12 +3,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>music.title</title>
+    <title th:text="${music.title}">我只想静静的吹口琴</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
-    <script th:src="@{/js/jplayer/audioplayer.js}" type="text/javascript"></script>
-    <script th:src="@{/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -16,7 +14,7 @@
     <div th:include="common/navbar::navbar"></div>
             <div class="row clearfix">
                 <div class="col-md-8 column" >
-                    <div class="panel panel-primary touming">
+                    <div class="panel panel-primary">
                         <div class="panel-body" id="music_content">
                             <p th:utext="${music.content}"></p>
                         </div>
@@ -24,16 +22,16 @@
                 </div>
                 <div class="col-md-4 column">
                     <div id="fixed">
-                    <div class="panel panel-primary touming">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                music.title
+                    <div class="panel panel-primary touming" id="music_s" >
+                        <div class="panel-heading" id="music_title">
+                            <h3 class="panel-title" th:text="${music.title}">
                             </h3>
                         </div>
                         <div class="panel-body">
-                            <span>作者：<a href="url?author_account=">author_name</a></span><br/>
-                            <span>创建时间：<p>我是创建时间</p></span><br/>
-                            <span>修改时间：update_time，修改人：last_author</span>
+                            <span>作者：<a href="url?author_account="><span th:text="${music.authorName}"></span></a></span><br/>
+                            <span>创建时间：<span th:text="${music.createTime}"></span></span><br/>
+                            <span>修改时间：<span th:text="${music.updateTime}"></span></span><br/>
+                            <span>修改人：<span th:text="${music.lastAuthor}"></span></span><br/>
                             <!--copy-1-->
                                     <div class="col-md-12 column">
                                        <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
@@ -54,12 +52,12 @@
 <!--js特效-->
 <!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
 </body>
+<script th:src="@{/static/js/Tdrag.min.js}" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
-        $('audio').audioPlayer();
-        $('body').vidbacking({
-            'masked': true
-        });
+        // $('body').vidbacking({
+        //     'masked': true
+        // });
         // getMusic();
     })
     var music_info = $('#fixed');
@@ -70,6 +68,10 @@
         }else{
             music_info.removeClass("fixed");
         }
+    })
+    $("#music_s").Tdrag({
+        scope:".wrapper",
+        handle:"#music_title"
     })
 </script>
 <style>
@@ -84,7 +86,7 @@
     }
     .panel-body span{
         font-family: "宋体","仿宋",sans-serif;
-        font-size:150%;font-style: normal;
+        font-size:120%;font-style: normal;
     }
 </style>
 </html>

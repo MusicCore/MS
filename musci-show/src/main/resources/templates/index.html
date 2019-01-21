@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <meta charset="UTF-8">
-    <title>music.title</title>
+    <title>我只想静静的吹口琴</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
@@ -28,7 +28,7 @@
             <!--<div th:include="common/musiclist::musicList"></div>-->
             <div th:fragment="musicList" id="musicList" class="row">
                 <div th:each="item:${musiclist}" class="col-md-12 column">
-                    <div class="panel panel-primary touming"  th:onmouseover="showInfo([[${item}]]);">
+                    <div class="panel panel-primary touming">
                         <div class="media panel-body" >
                             <div class="media-left">
                                 <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'><img th:src="${item.contentImg}" class="media-object" style="width:220px"/></a>
@@ -36,10 +36,10 @@
                             <div class="media-body">
                                 <h3 th:text="${item.title}" class="media-heading"></h3>
                                 <span><p th:text="${item.contentShort}"></p></span>
-                                <div class="media-bottom">
-                                    <span class="glyphicon glyphicon-user"></span><span th:text="${item.authorName}"></span>
-                                    <span class="glyphicon glyphicon-time"></span><span th:text="${item.createTime}"></span>
-                                </div>
+                            </div>
+                            <div class="media-bottom">
+                                <span class="glyphicon glyphicon-user"></span><span th:text="${item.authorName}"></span>
+                                <span class="glyphicon glyphicon-time"></span><span th:text="${item.createTime}"></span>
                             </div>
                         </div>
                     </div>
@@ -61,18 +61,21 @@
                     <span>我是小提示</span>
                 </div>
             </div>
-            <div id="music_info" style="display: none"  class="panel panel-primary touming">
-                <div class="panel-heading">
-                    <h3 class="panel-title" id="musicTitle">
-                    </h3>
+                <div id="loading_start"  style="display: none;" class="panel panel-primary touming">
+                    <div class="panel-body">
+                        <span><img src="/static/img/body-img/acfun/15.gif">努力加载中...</span>
+                        </div>
                 </div>
-                <div class="panel-body">
-                   创建作者：<span id="createAuthor"></span><br/>
-                   创建时间：<span id="createTime"></span><br/>
-                   修改时间：<span id="modifyTime"></span><br/>
-                   修改人：<span id="modifyName"></span>
+                <div id="loading_over" style="display: none;" class="panel panel-primary touming">
+                    <div class="panel-body">
+                        <span ><img src="/static/img/body-img/acfun/09.gif">已加载5条新数据</span>
+                        </div>
                 </div>
-            </div>
+                <div id="loading_no_more" style="display: none;" class="panel panel-primary touming">
+                    <div class="panel-body">
+                        <span ><img src="/static/img/body-img/acfun/10.gif">全部加载完了</span>
+                    </div>
+                </div>
             </div>
         </div>
         </div>
@@ -112,30 +115,53 @@
         // $('#musicList').load("/music/musiclist?pageStart=2&rows=5");
     })
     function showInfo(item) {
-        // console.log(item.title)
+        $(".wrapper").mouseover(function(e){
+            //设置移动后的默认位置
+            var endx=0;
+            var endy=0;
+            //获取music_info的初始位置，要注意的是需要转整型，因为获取到值带px
+            var left= parseInt($("#music_info").css("left"));
+            var top = parseInt($("#music_info").css("top"));
+            var downx=e.pageX;
+            var downy=e.pageY;   //pageY的y要大写，必须大写！！
+            console.log(downx)
+            console.log(left)
+            $("#music_info").css("left",downx+"px").css("top",downy+"px")
+        })
+
+
         if($("#musicTitle").html()==item.title){return false}
-        $("#musicTitle").html(item.title)
-        $("#createAuthor").html(item.authorName)
-        $("#createTime").html(item.createTime)
-        $("#modifyTime").html(item.updateTime)
-        $("#modifyName").html(item.lastAuthor)
-        // $("#tips").remove()
+        $("#musicTitle").html(item.title+'    小摘要')
+        $("#contentShort").html(item.contentShort)
         $("#music_info").css("display","block")
+    }
+    function hideInfo() {
+        $("#music_info").css("display","none")
     }
     function musicDetail(id) {
         window.open("/music/musicdetail?id=" + id)
     }
     function listMusic(){
         $.ajax({
-            url :  "/show/music/musiclist",
+            url :  "/music/musiclist",
             type : "GET",
             dataType:"json",
             data: {"pageStart":pageStart,"rows":5},
             success:function(result) {
-                if(result.data==null) {console.log("无更多数据");return false}
+                console.log(result.data)
+                if(result.data=='') {
+                    // $("#loading_over").css("display","none");
+                    $("#loading_no_more").css("display","block");
+                    setTimeout(function () {
+                        $("#loading_no_more").css("display","none");
+                    },6000)
+                return false}
+                $("#loading_no_more").css("display","none")
+                $("#loading_over").css("display","none")
+                $("#loading_start").css("display","block")
                 $.each(result.data,function (i,value) {
                     $('#musicList').append("<div class=\"col-md-12 column\" >\n" +
-                        "    <div class=\"panel panel-primary touming\" onmouseover='showInfo("+JSON.stringify(value)+")'>\n" +
+                        "    <div class=\"panel panel-primary touming\">\n" +
                         "        <div class=\"media panel-body \">\n" +
                         "            <div class=\"media-left\">\n" +
                         "                <a href='javascript:void(0)' onclick='musicDetail("+ value.id +")'><img src='"+ value.contentImg +"' class=\"media-object\" style=\"width:220px\"/></a>\n" +
@@ -144,10 +170,22 @@
                         "                <h3 class=\"media-heading\">"+value.title+"</h3>\n" +
                         "                <span><p>"+value.contentShort+"</p></span>\n" +
                         "            </div>\n" +
+                        "<div class=\"media-bottom\">\n" +
+                        "                                <span class=\"glyphicon glyphicon-user\"></span><span> "+ value.authorName +"</span>\n" +
+                        "                                <span class=\"glyphicon glyphicon-time\"></span><span> "+ value.createTime +"</span>\n" +
+                        "                            </div>" +
                         "        </div>\n" +
                         "    </div>\n" +
                         "</div>")
                 })
+                setTimeout(function () {
+                    $("#loading_start").css("display","none")
+                    $("#loading_over").css("display","block")
+                })
+                setTimeout(function () {
+                    $("#loading_over").css("display","none")
+                },6000)
+                // $("#loading").css("display","none")
             }
         })
     }
@@ -156,7 +194,7 @@
     .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
     span p {
         font-family: "宋体","仿宋",sans-serif;
-        font-size:150%;
+        font-size:120%;
         font-style: normal;
     }
     .touming{
