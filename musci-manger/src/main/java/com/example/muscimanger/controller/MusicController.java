@@ -3,6 +3,7 @@ package com.example.muscimanger.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.muscimanger.model.CommonContext;
 import com.example.muscimanger.model.Music;
+import com.example.muscimanger.model.PageForm;
 import com.example.muscimanger.service.MusicService;
 import com.example.muscimanger.until.Result;
 import com.example.muscimanger.until.ResultFactory;
@@ -65,18 +66,18 @@ public class MusicController {
 
     /**
      * 获取信息
-     * @param page
-     * @param limit
+     * @param pageForm
      * @return
      */
     @GetMapping(value = "/list")
-    public Result musicList(@RequestParam Integer page,@RequestParam Integer limit){
+    public Result musicList(PageForm pageForm){
         log.info("------------method:musicList-------------");
         try {
-            List<Music> list = musicService.listMusic();
+            List<Music> list = musicService.listMusicByPar(pageForm);
+            long total = musicService.listTotal();
             JSONObject object = new JSONObject();
             object.put("items",list);
-            object.put("total",1);
+            object.put("total",total);
             return ResultFactory.buildSuccessResult(object);
         }catch (Exception e){
             log.info("简谱查询错误："+e.getMessage());

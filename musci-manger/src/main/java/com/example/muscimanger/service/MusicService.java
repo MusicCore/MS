@@ -43,4 +43,9 @@ public interface MusicService {
      */
     public List<Music> listMusicByPar(PageForm pageForm);
 
+    /**
+     * 分页查询查询total
+     * @return
+     */
+    public Long listTotal();
 }

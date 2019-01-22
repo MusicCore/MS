@@ -3,6 +3,7 @@ package com.example.muscimanger.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.muscimanger.dto.UserDto;
 import com.example.muscimanger.model.CommonContext;
+import com.example.muscimanger.model.PageForm;
 import com.example.muscimanger.model.User;
 import com.example.muscimanger.service.UserService;
 import com.example.muscimanger.service.impl.SecurityServiceImpl;
@@ -41,13 +42,14 @@ public class UserController {
      * @return
      */
     @PostMapping(value = "/userlist")
-    public Object getUserList(@RequestParam Integer pageSize,@RequestParam Integer currentPage){
-        log.info("\n-------------------Method : login--------------------\n");
+    public Object getUserList(PageForm pageForm){
+        log.info("\n-------------------Method : getAllUser--------------------\n");
         try {
-            Integer stratRow = pageSize*(currentPage-1);
-            List<User> list = userService.listUserbyAll(stratRow,pageSize);
+            List<User> list = userService.listUserbyAll(pageForm);
+            Long total = userService.listUserTotal();
             JSONObject object = new JSONObject();
             object.put("items",list);
+            object.put("total",total);
             Result result= ResultFactory.buildSuccessResult(object);
             return result;
         }catch (Exception e){
@@ -114,7 +116,7 @@ public class UserController {
      */
     @PostMapping(value = "/userupdate")
     public Result updateInfo(@RequestBody User user){
-        log.info("\n-------------------Method : register--------------------\n");
+        log.info("\n-------------------Method :  更新"+user.getAccount() +"--------------------\n");
         try{
             userService.updateUser(user);
         }catch (Exception e){

@@ -46,4 +46,9 @@ public class MusicServiceImpl implements MusicService {
     public List<Music> listMusicByPar(PageForm pageForm) {
         return musicMapper.listByPar(pageForm);
     }
+
+    @Override
+    public Long listTotal() {
+        return musicMapper.litsTotal();
+    }
 }

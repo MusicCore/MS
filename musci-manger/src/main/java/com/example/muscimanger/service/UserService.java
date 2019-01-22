@@ -3,6 +3,7 @@ package com.example.muscimanger.service;
 
 
 import com.example.muscimanger.dto.UserDto;
+import com.example.muscimanger.model.PageForm;
 import com.example.muscimanger.model.User;
 
 import java.util.List;
@@ -33,12 +34,17 @@ public interface UserService {
 
     /**
      * 列表
-     * @param stratRow
-     * @param endRow
+     * @param pageForm
      * @return
      * @throws Exception
      */
-    public List<User> listUserbyAll(Integer stratRow, Integer endRow)throws Exception;
+    public List<User> listUserbyAll(PageForm pageForm)throws Exception;
+
+    /**
+     * 获得总数
+     * @return
+     */
+    public Long listUserTotal();
 
     /**
      * 验证账号密码

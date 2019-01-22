@@ -22,7 +22,11 @@
     </select>
     <!--分页查询-->
     <select id="getUserlist" resultMap="BaseResultMap" >
-        SELECT * FROM user  limit #{arg0},#{arg1}
+        SELECT * FROM user  limit #{pageForm.pageStart},#{pageForm.rows}
+    </select>
+    <!--分页查询获得总数-->
+    <select id="getUserListTotal" resultType="java.lang.Long">
+        SELECT count(1) FROM user
     </select>
     <!--带条件的分页查询-->
     <select id="getUserlistByif" resultMap="BaseResultMap" parameterType="hashMap">
@@ -72,13 +76,13 @@
     </insert>
     <!--更新用户信息-->
     <update id="update"  parameterType="com.example.muscimanger.model.User">
-        UPDATE user SET (
+        UPDATE user SET
           password = #{password,jdbcType=VARCHAR},
           name = #{name,jdbcType=VARCHAR},
           roles = #{roles,jdbcType=VARCHAR},
           avatar = #{avatar,jdbcType=VARCHAR},
           update_time = #{updatetime,jdbcType=DATE},
           active = #{active,jdbcType=VARCHAR}
-        )WHERE account = #{account, jdbcType=VARCHAR}
+        WHERE account = #{account, jdbcType=VARCHAR}
     </update>
 </mapper>

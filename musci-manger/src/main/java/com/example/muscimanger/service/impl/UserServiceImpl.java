@@ -3,6 +3,7 @@ package com.example.muscimanger.service.impl;
 
 import com.example.muscimanger.dto.UserDto;
 import com.example.muscimanger.mapper.UserMapper;
+import com.example.muscimanger.model.PageForm;
 import com.example.muscimanger.model.User;
 import com.example.muscimanger.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -36,9 +37,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listUserbyAll(Integer stratRow, Integer endRow) throws Exception {
-        List<User> list = userMapper.getUserlist(stratRow,endRow);
+    public List<User> listUserbyAll(PageForm pageForm) throws Exception {
+        List<User> list = userMapper.getUserlist(pageForm);
         return list;
+    }
+
+    @Override
+    public Long listUserTotal() {
+        return userMapper.getUserListTotal();
     }
 
     @Override

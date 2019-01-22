@@ -1,5 +1,6 @@
 package com.example.muscimanger.mapper;
 
+import com.example.muscimanger.model.PageForm;
 import com.example.muscimanger.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,7 +27,10 @@ public interface UserMapper {
 
     public User checkAP(String account, String password) throws Exception;
 
-    public List<User> getUserlist(Integer stratRow, Integer endRow) throws Exception;
+    public List<User> getUserlist(@Param("pageForm")PageForm pageForm) throws Exception;
+
+    public Long getUserListTotal();
 
     public User getUser(@Param("account") String account) throws Exception;
+
 }

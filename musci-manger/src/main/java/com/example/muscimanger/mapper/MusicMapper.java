@@ -57,4 +57,7 @@ public interface MusicMapper {
 
     @Select("SELECT * FROM music_score limit #{page.pageStart},#{page.rows}")
     public List<Music> listByPar(@Param("page") PageForm pageForm);
+
+    @Select("SELECT COUNT(1) FROM music_score")
+    public Long litsTotal();
 }
