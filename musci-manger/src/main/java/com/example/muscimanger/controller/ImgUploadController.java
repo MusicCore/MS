@@ -39,7 +39,7 @@ public class ImgUploadController {
         //取得upload文件夹路径
 //        String path = request.getSession().getServletContext().getRealPath("/upload");
 //        String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+ File.separator + "static" + File.separator + "upload" + File.separator + "img";
-        String path = "/root/upload/static/upload/img/";
+        String path = "/root/upload/img/";
         File nfile = new File(path);
         if(!nfile.exists() && !nfile.isDirectory()){
             nfile.mkdirs();
@@ -74,7 +74,7 @@ public class ImgUploadController {
         // uid是vue上传图片返回确认是否上传成功的id
         log.info("\n-------------------Method : 上传音乐start--------------------\n");
 //        String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+ File.separator + "static" + File.separator + "upload"+ File.separator + "music";
-        String path = "/root/upload/static/upload/music/";
+        String path = "/root/upload/music/";
         File nfile = new File(path);
         if(!nfile.exists() && !nfile.isDirectory()){
             nfile.mkdirs();

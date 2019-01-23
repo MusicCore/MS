@@ -16,7 +16,7 @@
                 <div class="col-md-8 column" >
                     <div class="panel panel-primary">
                         <div class="panel-body" id="music_content">
-                            <p th:utext="${music.content}"></p>
+                            <span th:utext="${music.content}"></span>
                         </div>
                     </div>
                 </div>
@@ -65,6 +65,9 @@
         // $('body').vidbacking({
         //     'masked': true
         // });
+    })
+    $(document).onload(function () {
+        $("#music_s")
     })
 </script>
 <style>
