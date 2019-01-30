@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="login">
+    <style>
+        .login_div{
+            background-color:rgba(255, 255, 255, 0.5);
+            transition: all 1s ease;
+        }
+        .login_div:hover{
+            background-color:rgba(255, 255, 255, 0.9);
+            -webkit-box-shadow: #666 0px 0px 50px;
+            -moz-box-shadow: #666 0px 0px 50px;
+            box-shadow: #666 0px 0px 50px;
+        }
+        .login_title_div{
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .login_info_input{
+            background-color: transparent;
+        }
+        .login_btn{
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        .login_btn:hover{
+            background-color: rgba(255, 81, 42, 0.7);
+            color: white;
+        }
+        .span_color{
+            color: white;
+        }
+    </style>
+    <div id="login_div"  class="panel login_div">
+        <div class="panel-heading login_title_div" >
+            <h3 class="panel-title span_color">
+                登录后发谱哦
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form class="bs-example bs-example-form" role="form" id="login_form">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input type="text" class="form-control login_info_input" name="account" placeholder="">
+                </div><br>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    <input type="password" class="form-control login_info_input" name="password" placeholder="">
+                </div><br>
+                <div class="btn-group btn-group-justified">
+                    <a href="#" class="btn login_btn" onclick="login()">登录</a>
+                    <a href="#" class="btn login_btn">注册</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function login() {
+            $.ajax({
+                url :  "/api/login.html",
+                type : "post",
+                dataType:"json",
+                data: $('#login_form').serialize(),
+                success:function(result) {
+                    console.log(result)
+                }
+            })
+        }
+    </script>
+</div>
+
+<div th:fragment="tips">
+    <style>
+        .tips_div{
+            background-color:rgba(255, 255, 255, 0.5);
+            transition: all 1s ease;
+        }
+        .tips_div:hover{
+            background-color:rgba(255, 255, 255, 0.9);
+            -webkit-box-shadow: #666 0px 0px 50px;
+            -moz-box-shadow: #666 0px 0px 50px;
+            box-shadow: #666 0px 0px 50px;
+        }
+        .tips_title_div{
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .tips_span_color{
+            color: white;
+        }
+    </style>
+    <div class="panel tips_div">
+        <div class="panel-heading tips_title_div" >
+            <h3 class="panel-title tips_span_color">
+                小公告
+            </h3>
+        </div>
+        <div class="panel-body">
+            我是小公告内容
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.example.muscimanger.service;
 
 import com.example.muscimanger.model.Music;
 import com.example.muscimanger.model.PageForm;
+import com.example.muscimanger.model.SerchBean;
 
 import java.util.List;
 
@@ -48,4 +49,11 @@ public interface MusicService {
      * @return
      */
     public Long listTotal();
+
+    /**
+     * 搜索(条件)
+     * @param sb
+     * @return
+     */
+    public List<Music>  listByTitle(SerchBean sb);
 }

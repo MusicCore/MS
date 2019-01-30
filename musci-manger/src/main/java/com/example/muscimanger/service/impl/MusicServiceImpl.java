@@ -4,6 +4,7 @@ import com.example.muscimanger.mapper.MusicMapper;
 import com.example.muscimanger.model.CommonContext;
 import com.example.muscimanger.model.Music;
 import com.example.muscimanger.model.PageForm;
+import com.example.muscimanger.model.SerchBean;
 import com.example.muscimanger.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,12 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public Long listTotal() {
         return musicMapper.litsTotal();
+    }
+
+    @Override
+    public List<Music> listByTitle(SerchBean sb) {
+        String title =sb.getCondition().getAsStringEmptyNull("title");
+        title= title+'%';
+        return musicMapper.listByTitle(sb);
     }
 }

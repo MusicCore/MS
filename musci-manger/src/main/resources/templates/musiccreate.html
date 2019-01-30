@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title>新建曲谱</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+</head>
+<body>
+<div class="container">
+    <div th:include="common/navbar::navbar"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-hidden="true">
+                    &times;
+                </button>
+                <strong>使用须知：</strong>内容可为图片或txt格式，word编辑格式可直接复制粘贴，选择右侧“文件上传”，请务必上传封面。
+            </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="标题" id="title" required="required" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="摘要，可大概介绍一下曲谱信息" id="contentShort" required="required" autocomplete="off">
+                </div>
+            <div th:include="common/tinymce::tinymce"></div>
+            <div class="modal fade" id="check" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <p class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span>未填写警告</p>
+                        </div>
+                        <div class="modal-body">请检查<strong>标题</strong>，<strong>摘要</strong>，<strong>内容</strong>，<strong>封面</strong>是否都不为空</div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+        <!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
+    </div>
+</div>
+<script>
+    function create() {
+        var content = window.tinymce.get('music').getContent()
+        var title = $('#title').val()
+        var contentShort = $('#contentShort').val()
+        console.log(title)
+        console.log(contentShort)
+        console.log(content)
+        console.log(contentMusic)
+        console.log(contentImg)
+        if(content == ''|| title == '' || contentShort == '' || contentImg == '') {
+            $('#check').modal('show')
+            // setTimeout(function () {
+            //     $('#check').modal('hide')
+            // },5000)
+        }
+        // $.ajax({
+        //     url :  "/music/musiclist",
+        //     type : "GET",
+        //     dataType:"json",
+        //     data: {"pageStart":pageStart,"rows":5},
+        //     success:function(result) {
+        //         if(result.data=='') {
+        //             return false}
+        //         $.each(result.data,function (i,value) {
+        //
+        //         })
+        //     }
+        // })
+    }
+</script>
+<style>
+    body{
+        background-image: url("static/img/body-img/other/bg4.gif");
+    }
+</style>
+</body>
+</html>

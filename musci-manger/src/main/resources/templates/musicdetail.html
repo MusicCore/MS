@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${music.title}">我只想静静的吹口琴</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+</head>
+<body>
+<div class="container wrapper" >
+    <div th:include="common/navbar::navbar"></div>
+            <div class="row clearfix">
+                <div class="col-md-8 column" >
+                    <div class="panel panel-primary">
+                        <div class="panel-body" id="music_content">
+                            <span th:utext="${music.content}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 column">
+                    <div id="fixed">
+                        <div th:include="common/search::search"></div>
+                        <div class="panel music_play">
+                            <div class="panel-body">
+                                <div class="col-md-12 column">
+                                    <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel info_div">
+                            <div class="panel-heading info_title_div">
+                                <h3 class="panel-title info_span_color" th:text="${music.title}">
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <p th:text="${music.contentShort}"></p>
+                            </div>
+                        </div>
+
+                    <div class="ul_info">
+                            <ul class="list-group">
+                                <li class="list-group-item li_info">创建作者：<a href="url?author_account="><span th:text="${music.authorName}"></span></a></li>
+                                <li class="list-group-item li_info">创建时间：<span th:text="${music.createTime}"></span></li>
+                                <li class="list-group-item li_info">修改时间：<span th:text="${music.updateTime}"></span></li>
+                                <li class="list-group-item li_info">最后修改：<span th:text="${music.lastAuthor}"></span></li>
+                            </ul>
+                    </div>
+
+
+                    </div>
+                </div>
+            </div>
+    <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
+        <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(96,96,96); font-size: 53px;"></span>
+    </a>
+        </div>
+</div>
+<div th:include="common/backgroundimg::backGroundImg"></div>
+<!--js特效-->
+<!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
+<script th:src="@{/static/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>
+<link id="theme" th:href="@{/static/css/vidbacking/jquery.vidbacking.css}" rel="stylesheet"/>
+<!--视频效果-->
+<!--<video poster="/static/js/vidbacking/preview.jpg" autoplay muted loop class="vidbacking">-->
+    <!--<source th:src="@{/static/js/vidbacking/12.28.mp4}" type="video/mp4">-->
+<!--</video>-->
+</body>
+<style>
+    .music_play{
+        background-color: rgba(0, 0, 0, 0.6);
+        transition: all 1s ease;
+    }
+    .music_play:hover{
+        background-color: rgba(0, 0, 0, 0.7);
+        -webkit-box-shadow: #666 0px 0px 50px;
+        -moz-box-shadow: #666 0px 0px 50px;
+        box-shadow: #666 0px 0px 50px;
+    }
+    .info_div{
+        background-color:rgba(255, 255, 255, 0.5);
+        transition: all 1s ease;
+    }
+    .info_div:hover{
+        background-color:rgba(255, 255, 255, 0.9);
+        -webkit-box-shadow: #666 0px 0px 50px;
+        -moz-box-shadow: #666 0px 0px 50px;
+        box-shadow: #666 0px 0px 50px;
+    }
+    .info_title_div{
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+    .info_span_color{
+        color: white;
+    }
+    .ul_info{
+        background-color:rgba(255, 255, 255, 0.5);
+        transition: all 1s ease;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius:5px
+    }
+    .li_info{
+        background-color:transparent;
+        border: none;
+    }
+    .li_info:hover{
+        background-color:rgba(255, 255, 255, 0.9);
+        -webkit-box-shadow: #666 0px 0px 10px;
+        -moz-box-shadow: #666 0px 0px 10px;
+        box-shadow: #666 0px 0px 10px;
+    }
+    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
+</style>
+<script>
+    $(document).ready(function() {
+        $('body').vidbacking({
+            'masked': true
+        });
+    })
+    //一键页面置顶start
+    var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
+
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height())
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
+    //一键页面置顶over
+
+    var music_info = $('#fixed');
+    var music_info_top = music_info.offset().top;//元素到页面顶部的距离
+    $(window).bind("scroll",function() {
+        // 窗口置顶
+        if($(document).scrollTop() > music_info_top){
+            music_info.addClass("fixed");
+            $(".tips").css("display","none")
+        }else{
+            music_info.removeClass("fixed");
+            $(".tips").css("display","block")
+        }
+    })
+</script>
+</html>

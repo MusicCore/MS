@@ -2,6 +2,7 @@ package com.example.muscimanger.mapper;
 
 import com.example.muscimanger.model.Music;
 import com.example.muscimanger.model.PageForm;
+import com.example.muscimanger.model.SerchBean;
 import com.example.muscimanger.provider.MusicProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -60,4 +61,7 @@ public interface MusicMapper {
 
     @Select("SELECT COUNT(1) FROM music_score")
     public Long litsTotal();
+
+    @SelectProvider(type = MusicProvider.class,method = "listSQL")
+    public List<Music> listByTitle(SerchBean sb);
 }

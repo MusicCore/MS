@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="tinymce">
+    <script th:src="@{/static/tinymce4.7.5/tinymce.min.js}" type="text/javascript"></script>
+        <div class="tinymce-container editor-container">
+            <textarea id="music"></textarea>
+            <div class="editor-custom-btn-container">
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                    文件上传
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="create()">
+                    发布
+                </button>
+            </div>
+        </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 80%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div th:include="common/upload/fileupload::img-fm"></div><br>
+                    <div th:include="common/upload/fileupload::music"></div><br>
+                    <div th:include="common/upload/fileupload::img"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <!--<button type="button" class="btn btn-primary">-->
+                        <!--确定-->
+                    <!--</button>-->
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script>
+        var toolbar = ['bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample', 'hr bullist numlist link image charmap	 preview anchor pagebreak insertdatetime media table emoticons forecolor backcolor fullscreen']
+        var plugins = ['advlist anchor autolink autosave code codesample colorpicker colorpicker contextmenu directionality emoticons fullscreen hr image importcss insertdatetime link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus table template textcolor textpattern visualblocks visualchars wordcount']
+        tinymce.init({
+            selector: '#music',
+            language_url: '/static/tinymce4.7.5/langs/zh_CN.js',
+            language: 'zh_CN',
+            height: 450,
+            body_class: 'panel-body ',
+            object_resizing: false,
+            toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
+            menubar: 'file edit insert view format table',
+            plugins: plugins,
+            end_container_on_empty_block: true,
+            powerpaste_word_import: 'clean',
+            code_dialog_height: 450,
+            code_dialog_width: 1000,
+            advlist_bullet_styles: 'square',
+            advlist_number_styles: 'default',
+            imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
+            default_link_target: '_blank',
+            link_title: false,
+            nonbreaking_force_tab: true,
+        });
+    </script>
+    <style>
+        .tinymce-container {
+            position: relative;
+        }
+        .tinymce-container>>>.mce-fullscreen {
+            z-index: 10000;
+        }
+        .tinymce-textarea {
+            visibility: hidden;
+            z-index: -1;
+        }
+        .editor-custom-btn-container {
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            /*z-index: 2005;*/
+        }
+        .fullscreen .editor-custom-btn-container {
+            z-index: 10000;
+            position: fixed;
+        }
+        .editor-upload-btn {
+            display: inline-block;
+        }
+    </style>
+</div>
+</body>
+</html>
