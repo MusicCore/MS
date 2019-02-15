@@ -6,82 +6,63 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8" >
-<style>
-    html,body{
-        width:100%;
-        height:100%
-    }
-    body{
-        font-family: "华文细黑";
-        /*background:url("../static/img/img/7.jpg") no-repeat;*/
-        /*background-size: 100%;*/
-    }
-</style>
 <title>首页</title>
 </head>
 <body>
-<div class="wrapper">
-    <div class="container">
-        <div th:include="common/navbar::navbar"></div>
-        <div  class="row clearfix">
-            <div   class="col-md-8 column">
-                <!--<div th:include="common/musiclist::musicList"></div>-->
-                <div th:fragment="musicList" id="musicList" class="row">
-                    <div th:each="item:${musiclist}" class="col-md-12 column">
-                        <div class="panel panel-primary touming">
-                            <div class="media panel-body" >
-                                <div class="media-left">
-                                    <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'><img th:src="${item.contentImg}" class="media-object" style="width:220px"/></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 th:text="${item.title}" class="media-heading"></h3>
-                                    <span><p th:text="${item.contentShort}"></p></span>
-                                </div>
-                                <div class="media-bottom">
-                                    <span class="glyphicon glyphicon-user"></span><span th:text="${item.authorName}"></span>
-                                    <span class="glyphicon glyphicon-time"></span><span th:text="${item.createTime}"></span>
-                                </div>
+<div class="container wrapper">
+    <div th:include="common/navbar::navbar"></div>
+    <div  class="row">
+        <div class="col-md-8 column">
+            <div id="musicList" class="row">
+                <div th:each="item:${musiclist}" class="col-md-12 column  music_info">
+                    <div class="thumbnail touming">
+                        <div class="caption" style="text-align: center">
+                            <div class="thumbnail touming team-grids" >
+                                <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'>
+                                    <img th:src="${item.contentImg}" alt="图片加载失败了">
+                                    <div class="capth">
+                                        <h4 th:text="${item.title}" class="span_title"></h4>
+                                        <div><span class="span_info">&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<span th:text="${item.authorName}"></span></span>
+                                            <span class="span_info">&nbsp;<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<span th:text="${item.createTime}"></span></span></div>
+                                        <p th:text="${item.contentShort}"></p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
             <div class="col-md-4 column hidden-xs">
                 <div id="fixed">
-                    <div id="tips"  class="panel panel-primary touming">
-                        <div class="panel-heading" >
-                            <h1 class="panel-title">
-                                我是小提示!!!
-                            </h1>
-                        </div>
-                        <div class="panel-body">
-                            <span>我是小提示</span><br/>
-                            <span>我是小提示</span><br/>
-                            <span>我是小提示</span><br/>
-                            <button class="back_to_top btn btn-warning">点我返回页面顶部</button>
-                        </div>
-                    </div>
-                    <div id="loading_start"  style="display: none;" class="panel panel-primary touming">
-                        <div class="panel-body">
-                            <span><img src="/static/img/body-img/acfun/15.gif">努力加载中...</span>
-                        </div>
-                    </div>
-                    <div id="loading_over" style="display: none;" class="panel panel-primary touming">
-                        <div class="panel-body">
-                            <span ><img src="/static/img/body-img/acfun/09.gif">已加载5条新数据</span>
-                        </div>
-                    </div>
-                    <div id="loading_no_more" style="display: none;" class="panel panel-primary touming">
-                        <div class="panel-body">
-                            <span ><img src="/static/img/body-img/acfun/10.gif">全部加载完了</span>
-                        </div>
-                    </div>
+                    <div th:include="common/search::search(${title})"></div>
+                    <div th:include="common/login::login"></div>
+                    <!--<div id="loading_start"  style="display: none;" class="panel panel-primary touming">-->
+                    <!--<div class="panel-body">-->
+                    <!--<span><img src="/static/img/body-img/acfun/15.gif">努力加载中...</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div id="loading_over" style="display: none;" class="panel panel-primary touming">-->
+                    <!--<div class="panel-body">-->
+                    <!--<span ><img src="/static/img/body-img/acfun/09.gif">已加载5条新数据</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div id="loading_no_more" style="display: none;" class="panel panel-primary touming">-->
+                    <!--<div class="panel-body">-->
+                    <!--<span ><img src="/static/img/body-img/acfun/10.gif">全部加载完了</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <div class="tips">
+                    <div th:include="common/login::tips"></div>
                 </div>
             </div>
+            <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
+                <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(96,96,96); font-size: 53px;"></span>
+            </a>
         </div>
     </div>
-</div>
 </div>
 <div th:include="common/backgroundimg::backGroundImg"></div>
 </body>
@@ -105,7 +86,6 @@
     //一键页面置顶over
 
     //鼠标滚动到页面最底部加载数据
-    // var title = [[${title}]];
     var documentHeight = [0];
     var pageStart = 2;
     var music_info = $('#fixed');
@@ -118,7 +98,6 @@
                 // console.log("我在底部")
                 listMusic();
                 pageStart++
-                console.log(pageStart)
             }
         }else{
             // console.log("我bu在底部")
@@ -126,8 +105,10 @@
         // 窗口置顶
         if($(document).scrollTop() > music_info_top){
             music_info.addClass("fixed");
+            $(".tips").css("display","none")
         }else{
             music_info.removeClass("fixed");
+            $(".tips").css("display","block")
         }
     })
 
@@ -139,63 +120,104 @@
             url :  "/music/musicSRlist",
             type : "GET",
             dataType:"json",
-            data: {"title":"口","pageStart":pageStart,"rows":5},
+            data: {"title":$('#title').val(),"pageStart":pageStart,"rows":5},
             success:function(result) {
-                console.log(result.data)
                 if(result.data=='') {
-                    // $("#loading_over").css("display","none");
-                    $("#loading_no_more").css("display","block");
-                    setTimeout(function () {
-                        $("#loading_no_more").css("display","none");
-                    },6000)
                     return false}
-                $("#loading_no_more").css("display","none")
-                $("#loading_over").css("display","none")
-                $("#loading_start").css("display","block")
                 $.each(result.data,function (i,value) {
-                    $('#musicList').append("<div class=\"col-md-12 column\" >\n" +
-                        "    <div class=\"panel panel-primary touming\">\n" +
-                        "        <div class=\"media panel-body \">\n" +
-                        "            <div class=\"media-left\">\n" +
-                        "                <a href='javascript:void(0)' onclick='musicDetail("+ value.id +")'><img src='"+ value.contentImg +"' class=\"media-object\" style=\"width:220px\"/></a>\n" +
-                        "            </div>\n" +
-                        "            <div class=\"media-body\">\n" +
-                        "                <h3 class=\"media-heading\">"+value.title+"</h3>\n" +
-                        "                <span><p>"+value.contentShort+"</p></span>\n" +
-                        "            </div>\n" +
-                        "<div class=\"media-bottom\">\n" +
-                        "                                <span class=\"glyphicon glyphicon-user\"></span><span> "+ value.authorName +"</span>\n" +
-                        "                                <span class=\"glyphicon glyphicon-time\"></span><span> "+ value.createTime +"</span>\n" +
-                        "                            </div>" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "</div>")
+                    $('#musicList').append(
+                        "<div  class=\"col-md-12 column music_info\">\n" +
+                        "                <div class=\"thumbnail touming\">\n" +
+                        "                    <div class=\"caption\" style=\"text-align: center\">\n" +
+                        "                         <div class=\"thumbnail touming team-grids\" >\n" +
+                        "                             <a href='javascript:void(0)' onclick='musicDetail("+value.id+")'>\n" +
+                        "                                 <img src="+value.contentImg+" alt=\"图片加载失败了\">\n" +
+                        "                                 <div class=\"capth\">\n" +
+                        "                                     <h4 class=\"span_title\">"+value.title+"</h4>\n" +
+                        "                                     <div><span class=\"span_info\">&nbsp;<span class=\"glyphicon glyphicon-user\"></span>&nbsp;&nbsp;"+value.authorName+"</span>\n" +
+                        "                                         <span class=\"span_info\">&nbsp;<span class=\"glyphicon glyphicon-time\"></span>&nbsp;&nbsp;"+value.createTime+"</span></div>\n" +
+                        "                                     <p>"+value.contentShort+"</p>\n" +
+                        "                                 </div>\n" +
+                        "                             </a>\n" +
+                        "                         </div>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>"
+                    )
                 })
-                setTimeout(function () {
-                    $("#loading_start").css("display","none")
-                    $("#loading_over").css("display","block")
-                })
-                setTimeout(function () {
-                    $("#loading_over").css("display","none")
-                },6000)
-                // $("#loading").css("display","none")
             }
         })
     }
 </script>
 <style>
-    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
-    span p {
-        font-family: "宋体","仿宋",sans-serif;
-        font-size:120%;
-        font-style: normal;
+    .back_to_top{
+        position: fixed;
+        _position: absolute;
+        bottom: 70px;
+        left: 90%;
     }
+    .toTop_img{
+        background-color: transparent;
+        outline: none;
+    }
+    .music_info{
+        transition: all 0.5s ease;
+    }
+    .music_info:after{
+        content:url("/static/img/body-img/acfun/15.gif");position:absolute;top:-10px;left:-10px;
+    }
+    .music_info:hover{
+        -webkit-box-shadow: #666 0px 0px 30px;
+        -moz-box-shadow: #666 0px 0px 30px;
+        box-shadow: #666 0px 0px 30px;
+    }
+    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
     .touming{
         background-color:rgba(255, 255, 255, 0.5);
     }
-    .panel-body span{
-        font-family: "宋体","仿宋",sans-serif;
-        font-size:150%;font-style: normal;
+    .span_title{
+        background-color: #2aabd2;
+        color: white;
+        font-size: 200%;
+    }
+    .span_info{
+        background-color: #3c3c3c;
+        color: white;
+        font-size: 100%;
+    }
+    a,
+    a:visited,
+    a:link,
+    a:active,
+    a:hover{
+        text-decoration: none;
+    }
+    .team-grids{ position: relative }
+    .team-grids a {
+        overflow: hidden;
+        position: relative;
+        display: block;
+    }
+    .capth h4 {
+        color: #fff; font-size: 1.8em; margin-top: 2px; }
+    .capth p { font-size: 1.1em; margin: 0.5em 0 }
+    .team-grids a .capth{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        color: #ffffff;
+        position: absolute;
+        bottom: -75%;
+        right: 0;
+        background-color: rgba(51,51,51,0.68);
+        padding: 1% 10%;
+        text-align: center;
+        transition: all 0.5s ease;
+    }
+    .team-grids:hover .capth{
+        width: 100%;
+        bottom: 0%;
+        padding: 35% 10%;
     }
 </style>
 </html>

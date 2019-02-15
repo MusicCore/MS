@@ -30,13 +30,13 @@ public class LoginController {
     private final static Logger log = LoggerFactory.getLogger(LoginController.class);
 
     /**
-     * 登入
+     * vue登入
      * @param user
      * @param
      * @return
      */
     @PostMapping(value = "/login")
-    public Object login(@RequestBody User user, HttpServletRequest request){
+    public Object vueLogin(@RequestBody User user, HttpServletRequest request){
         log.info("\n-------------------Method : login--------------------\n");
         try{
             //账号密码认证成功之后创建用户令牌时间为20分钟。并存入redis里
@@ -53,6 +53,28 @@ public class LoginController {
             return result;
         }
     }
+
+    /**
+     * 登入
+     * @param user
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/login.do")
+    public Object login(User user, HttpServletRequest request){
+        log.info("\n-------------------Method : login.do--------------------\n");
+        try{
+            CommonContextDto commonContext = securityService.createUserContext(user.getAccount(),user.getPassword(),request);
+            JSONObject object = new JSONObject();
+            object.put("commonContext",commonContext);
+            return ResultFactory.buildSuccessResult(object);
+        }catch (Exception e){
+            log.debug(e.getMessage());
+            Result result=ResultFactory.buildFailResult(e.getMessage());
+            return result;
+        }
+    }
+
     /**
      * token过期处理
      * @return

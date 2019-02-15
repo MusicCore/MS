@@ -58,12 +58,13 @@
     <script>
         function login() {
             $.ajax({
-                url :  "/api/login.html",
+                url :  "/api/login.do",
                 type : "post",
                 dataType:"json",
                 data: $('#login_form').serialize(),
                 success:function(result) {
                     console.log(result)
+
                 }
             })
         }

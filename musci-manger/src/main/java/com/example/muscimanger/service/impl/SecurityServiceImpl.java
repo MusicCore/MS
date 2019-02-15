@@ -48,6 +48,7 @@ public class SecurityServiceImpl {
         context.setName(dto.getName());
         context.setRoles(dto.getRoles());
         context.setToken(dto.getToken());
+        context.setAvatar(dto.getAvatar());
         return context;
     }
 
