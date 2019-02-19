@@ -1,76 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <title>INSPINIA | Register</title>
-
-    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{/static/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
-    <link th:href="@{/static/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
-    <link th:href="@{/static/css/animate.css}" rel="stylesheet"/>
-    <link th:href="@{/static/css/style.css}" rel="stylesheet"/>
-
-
-
-    <!-- Sweet Alert -->
-    <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
-
+    <title>普通人口琴 | Register</title>
 </head>
-
-<body class="gray-bg">
-
-<div class="middle-box text-center loginscreen   animated fadeInDown">
-    <div>
-        <div>
-            <h2 class="logo-name">YX</h2>
+<body>
+<div class="container wrapper">
+    <div th:include="common/navbar::navbar"></div>
+    <div  class="row">
+        <div class="col-md-8 column text-center">
+            <h3>欢迎注册</h3>
+            <form id="register_form" class="m-t" role="form" onsubmit="return false" action="/api/register" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control regiest_input" placeholder="账号" name="account" required="required" autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control regiest_input" placeholder="密码" name="password" required="required" autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control regiest_input" placeholder="昵称" name="name" required="required" autocomplete="off"/>
+                </div>
+                <button type="submit" onclick="register()" class="btn btn-primary block full-width m-b">注  册</button>
+            </form>
         </div>
-        <h3>欢迎注册</h3>
-        <!--<p>Create account to see it in action.</p>-->
-        <form class="m-t" role="form" action="/api/register" method="post">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="账号" name="account" required=""/>
+        <div class="col-md-4 column hidden-xs">
+            <div id="fixed">
+                <br><br>
+                <div th:include="common/login::register_tips"></div>
             </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="密码" name="password" required=""/>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="昵称" name="name" required=""/>
-            </div>
-            <div class="form-group">
-                <div class="checkbox i-checks"><label> <input type="checkbox"/><i></i> 记住账号密码 </label></div>
-            </div>
-            <button type="submit" class="btn btn-primary block full-width m-b">注  册</button>
+        </div>
+        <script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
-            <p class="text-muted text-center"><small>已经注册 ?</small></p>
-            <a class="btn btn-sm btn-white btn-block" th:href="login" href="login.html">登  录</a>
-        </form>
-        <!--<p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>-->
     </div>
 </div>
-<!-- Mainly scripts -->
-<script th:src="@{/static/js/jquery-2.1.1.min.js}"></script>
-<script th:src="@{/static/bootstrap/js/bootstrap.min.js}"></script>
-<!-- Mainly scripts -->
-<!--<script src="js/jquery-2.1.1.js"></script>-->
-<!--<script src="js/bootstrap.min.js"></script>-->
-<!-- iCheck -->
-<script src="js/plugins/iCheck/icheck.min.js"></script>
-<!-- Sweet alert -->
-<script th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
-<!--<script>-->
-
-<!--$(document).ready(function(){-->
-<!--$('.i-checks').iCheck({-->
-<!--checkboxClass: 'icheckbox_square-green',-->
-<!--radioClass: 'iradio_square-green',-->
-<!--});-->
-<!--});-->
-
-<!--</script>-->
-
 <script th:inline="javascript">
     var error = [[${error}]];
     $(document).ready(function () {
@@ -80,13 +45,55 @@
                 text : error
             });
         }
-        $('.i-checks').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-        });
     });
-
 </script>
+<script>
+    function register() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/api/register" ,
+            data: $('#register_form').serialize(),
+            success: function (result) {
+                console.log(result);
+                if(result.code == 400) {
+                    swal({
+                        title: result.message,
+                        timer: 3000,
+                        icon: "error",
+                        allowOutsideClick : true
+                    });
+                }
+                if(result.code == 200) {
+                    swal({
+                        title: result.data,
+                        text: "正在前往首页登录！",
+                        icon:  "success",
+                        timer: 3000,
+                        allowOutsideClick : true
+                    });
+                    setTimeout(function () {
+                        window.location.href = '/'
+                    }, 3000)
+                }
+            },
+            error : function() {
+                swal({
+                    title: "对不起，发生了请求错误",
+                    text: "正在竭力抢修！",
+                    icon:  "error",
+                    timer: 2000,
+                    allowOutsideClick : true
+                });
+            }
+        });
+    }
+</script>
+<style>
+    .regiest_input{
+        background-color: transparent;
+    }
+</style>
 </body>
 
 </html>

@@ -54,8 +54,8 @@ public class TokenServiceImpl {
 
     public void saveToken(String key,String token,HttpSession session){
         if (token.startsWith("token:PC")){
-            //电脑端生成令牌过期时间为20分钟
-            redisUtil.set(token,key,72,TimeUnit.HOURS);
+            //电脑端生成令牌过期时间为7天
+            redisUtil.set(token,key,7,TimeUnit.DAYS);
 //            redisUtil.set(key,session,20,TimeUnit.MINUTES);
         }else{
             redisUtil.set(token,key);

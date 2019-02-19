@@ -4,6 +4,7 @@ package com.example.muscimanger.filter;
 import com.example.muscimanger.dto.UserDto;
 import com.example.muscimanger.model.CommonContext;
 import com.example.muscimanger.service.UserService;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
 
 
 @Service("SecurityFilter")
@@ -37,6 +40,18 @@ public class SecurityFilter implements HandlerInterceptor {
 //        新增判断vue程序来请求的时候携带token让其通过
 //        获取请求头里面的taken
         String token = request.getHeader("X-Token");
+        if(token == null ){
+            Cookie[] cookies=request.getCookies();
+            for (Cookie cookie : cookies) {
+                switch(cookie.getName()){
+                    case "token":
+                        token = URLDecoder.decode(cookie.getValue(),"utf-8");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         if(token != null){
             System.out.println(redisTemplate.opsForValue().get(token));
             if(redisTemplate.opsForValue().get(token) != null) {

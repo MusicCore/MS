@@ -52,6 +52,9 @@ public class MusicPreController {
         return "musiccreate.html";
     }
 
+    @GetMapping(value = "/register")
+    public String toRegister() { return "register.html"; }
+
     @GetMapping(value = "/music/musicSRlist")
     @ResponseBody
     public Result getmusicSRlist(HttpServletRequest request){

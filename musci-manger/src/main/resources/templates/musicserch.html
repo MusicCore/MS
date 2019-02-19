@@ -19,7 +19,7 @@
                         <div class="caption" style="text-align: center">
                             <div class="thumbnail touming team-grids" >
                                 <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'>
-                                    <img th:src="${item.contentImg}" alt="图片加载失败了">
+                                    <img th:src="${item.contentImg}" alt="图片加载失败了" class="img-responsive" style="height: 380px">
                                     <div class="capth">
                                         <h4 th:text="${item.title}" class="span_title"></h4>
                                         <div><span class="span_info">&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<span th:text="${item.authorName}"></span></span>
@@ -38,6 +38,7 @@
                 <div id="fixed">
                     <div th:include="common/search::search(${title})"></div>
                     <div th:include="common/login::login"></div>
+                    <div th:include="common/login::tips"></div>
                     <!--<div id="loading_start"  style="display: none;" class="panel panel-primary touming">-->
                     <!--<div class="panel-body">-->
                     <!--<span><img src="/static/img/body-img/acfun/15.gif">努力加载中...</span>-->
@@ -55,7 +56,6 @@
                     <!--</div>-->
                 </div>
                 <div class="tips">
-                    <div th:include="common/login::tips"></div>
                 </div>
             </div>
             <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
@@ -131,7 +131,7 @@
                         "                    <div class=\"caption\" style=\"text-align: center\">\n" +
                         "                         <div class=\"thumbnail touming team-grids\" >\n" +
                         "                             <a href='javascript:void(0)' onclick='musicDetail("+value.id+")'>\n" +
-                        "                                 <img src="+value.contentImg+" alt=\"图片加载失败了\">\n" +
+                        "                                 <img src="+value.contentImg+" alt=\"图片加载失败了\" class=\"img-responsive\" style=\"height: 380px\">\n" +
                         "                                 <div class=\"capth\">\n" +
                         "                                     <h4 class=\"span_title\">"+value.title+"</h4>\n" +
                         "                                     <div><span class=\"span_info\">&nbsp;<span class=\"glyphicon glyphicon-user\"></span>&nbsp;&nbsp;"+value.authorName+"</span>\n" +

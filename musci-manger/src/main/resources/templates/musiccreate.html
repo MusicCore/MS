@@ -19,6 +19,13 @@
                 </button>
                 <strong>使用须知：</strong>内容可为图片或txt格式，word编辑格式可直接复制粘贴，选择右侧“文件上传”，请务必上传封面。
             </div>
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-hidden="true">
+                    &times;
+                </button>
+                <strong>使用须知：</strong>由于小破站用户信息登录后只有7天免登录时间，所有上传失败可能是用户信息已过期了。
+            </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="标题" id="title" required="required" autocomplete="off">
                 </div>
@@ -26,50 +33,79 @@
                     <input type="text" class="form-control" placeholder="摘要，可大概介绍一下曲谱信息" id="contentShort" required="required" autocomplete="off">
                 </div>
             <div th:include="common/tinymce::tinymce"></div>
-            <div class="modal fade" id="check" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <p class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span>未填写警告</p>
-                        </div>
-                        <div class="modal-body">请检查<strong>标题</strong>，<strong>摘要</strong>，<strong>内容</strong>，<strong>封面</strong>是否都不为空</div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal -->
-            </div>
         </div>
-        <!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
-    </div>
+        </div>
 </div>
 <script>
     function create() {
         var content = window.tinymce.get('music').getContent()
         var title = $('#title').val()
         var contentShort = $('#contentShort').val()
-        console.log(title)
-        console.log(contentShort)
-        console.log(content)
-        console.log(contentMusic)
-        console.log(contentImg)
+        // console.log(title)
+        // console.log(contentShort)
+        // console.log(content)
+        // console.log(contentMusic)
+        // console.log(contentImg)
         if(content == ''|| title == '' || contentShort == '' || contentImg == '') {
-            $('#check').modal('show')
-            // setTimeout(function () {
-            //     $('#check').modal('hide')
-            // },5000)
+            swal({
+                title: "未填写警告！",
+                text: "请您检查 标题，摘要，内容，封面图片 是否都填写完整",
+                icon:  "warning",
+                timer: 5000,
+                allowOutsideClick : true,
+                content: true
+            });
+            return false
         }
-        // $.ajax({
-        //     url :  "/music/musiclist",
-        //     type : "GET",
-        //     dataType:"json",
-        //     data: {"pageStart":pageStart,"rows":5},
-        //     success:function(result) {
-        //         if(result.data=='') {
-        //             return false}
-        //         $.each(result.data,function (i,value) {
-        //
-        //         })
-        //     }
-        // })
+        var music = {
+            "title" : title,
+            "contentShort" : contentShort,
+            "content" : content,
+            "contentImg" : contentImg,
+            "contentMusic" : contentMusic,
+        }
+        $('#music_create_btn').attr("disabled", true);
+        $.ajax({
+            url :  "/api/article/create",
+            type : "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify(music),
+            success:function(result) {
+                if(result.code == 200) {
+                    swal({
+                        title: result.message,
+                        text: "曲谱新建成功！3秒后跳转",
+                        icon: "success",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                    setTimeout(function () {
+                        window.location.href = "/music/musicSR?title="+ title
+                    }, 3000)
+                }
+                if(result.code == 400) {
+                    swal({
+                        title: result.data,
+                        text: "曲谱新建失败！",
+                        icon: "error",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                    $('#music_create_btn').attr("disabled", false);
+                }
+            },
+            error : function() {
+                swal({
+                    title: "对不起，发生了请求错误",
+                    text: "正在竭力抢修！",
+                    icon:  "error",
+                    timer: 2000,
+                    allowOutsideClick : true
+                });
+                $('#music_create_btn').attr("disabled", false);
+            }
+        })
     }
 </script>
 <style>

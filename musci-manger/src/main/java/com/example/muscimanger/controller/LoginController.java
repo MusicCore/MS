@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
 
 /**
  * 登入登出控制器
@@ -55,31 +57,10 @@ public class LoginController {
     }
 
     /**
-     * 登入
-     * @param user
-     * @param
-     * @return
-     */
-    @PostMapping(value = "/login.do")
-    public Object login(User user, HttpServletRequest request){
-        log.info("\n-------------------Method : login.do--------------------\n");
-        try{
-            CommonContextDto commonContext = securityService.createUserContext(user.getAccount(),user.getPassword(),request);
-            JSONObject object = new JSONObject();
-            object.put("commonContext",commonContext);
-            return ResultFactory.buildSuccessResult(object);
-        }catch (Exception e){
-            log.debug(e.getMessage());
-            Result result=ResultFactory.buildFailResult(e.getMessage());
-            return result;
-        }
-    }
-
-    /**
      * token过期处理
      * @return
      */
-    @PostMapping(value = "/token_expire")
+    @RequestMapping(value = "/token_expire")
     public Result tokenExpire() {
         log.info("\n-------------------Method : token失效 --------------------\n");
         return ResultFactory.buidResult(50014, "token已过期", "");
@@ -93,6 +74,22 @@ public class LoginController {
     public Result loginOut(HttpServletRequest request){
         log.info("\n-------------------Method : login--------------------\n");
         String token = request.getHeader("X-Token");
+        try {
+            if (token == null) {
+                Cookie[] cookies = request.getCookies();
+                for (Cookie cookie : cookies) {
+                    switch (cookie.getName()) {
+                        case "token":
+                            token = URLDecoder.decode(cookie.getValue(), "utf-8");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }catch (Exception e){
+            log.error("登出出错：" + e);
+        }
         securityService.deleteToken(token);
         return ResultFactory.buidResult(200,"您已登出","");
     }

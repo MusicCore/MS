@@ -100,7 +100,7 @@ public class UserController {
                 setUser(user);
                 userService.insertUser(user);
 //                userMapper.insert(user);
-                Result result=ResultFactory.buildFailResult("注册成功");
+                Result result=ResultFactory.buildSuccessResult("注册成功!!");
                 return result;
             }catch (Exception e1){
                 log.debug(e1.getMessage());
@@ -160,7 +160,7 @@ public class UserController {
         if (null==user.getRoles())
             user.setRoles("user");
         if (null==user.getAvatar())
-            user.setAvatar("/");
+            user.setAvatar("/static/img/body-img/other/tx.jpg");
         if (null==user.getCreatetime())
             user.setCreatetime(date);
         if (null==user.getUpdatetime())
