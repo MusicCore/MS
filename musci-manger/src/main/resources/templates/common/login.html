@@ -81,10 +81,27 @@
             }
         })
         function login() {
+            if ($("#account").val() == '' || $("#password").val() == ''){
+                swal({
+                    title: "请填写账号密码！",
+                    text : "没账号请您注册哦",
+                    timer: 2000,
+                    icon: "error",
+                    allowOutsideClick : true
+                });
+                return false
+            }
             var user = {
                 "account" : $("#account").val(),
                 "password" : $("#password").val()
             }
+            swal({
+                title: "正在努力登录中。。",
+                text: "请稍等片刻",
+                timer: 5000,
+                icon: "success",
+                allowOutsideClick : true
+            });
             $.ajax({
                 url : "/api/login",
                 type : "post",
@@ -93,6 +110,15 @@
                 data:  JSON.stringify(user),
                 success:function(result) {
                     // console.log(result) 设置7天的cookie有效时间
+                    if(result.code == 400) {
+                        swal({
+                            title: result.message,
+                            timer: 2000,
+                            icon: "error",
+                            allowOutsideClick : true
+                        });
+                        return false
+                    }
                     $.cookie('token',result.data.commonContext.token, {expires : 7})
                     $.cookie('name',result.data.commonContext.name, {expires : 7})
                     $.cookie('avatar',result.data.commonContext.avatar, {expires : 7})
@@ -148,7 +174,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            我是小公告内容
+            兴趣使然的小站
         </div>
     </div>
 </div>

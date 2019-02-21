@@ -86,7 +86,7 @@ public class MusicController {
     }
 
     /**
-     * 插入信息
+     * vue插入信息
      */
     @PostMapping(value = "/create")
     public Result musicCreate(@RequestBody Music music) {
@@ -100,6 +100,7 @@ public class MusicController {
             return ResultFactory.buildFailResult(e.getMessage());
         }
     }
+
     /**
      * 数据装载
      * @param music

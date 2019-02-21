@@ -64,15 +64,15 @@
         </div>
     </form>
     <script>
-        var contentImg = '';
+        let contentImg = '';
         $(function () {
-            var oFileInput = new imgfmInput();
+            const oFileInput = new imgfmInput();
             oFileInput.Init("img_fm-zh", "/api/imgupload");
         })
-        var imgfmInput = function () {
-            var oFile = new Object();
+        const imgfmInput = function () {
+            const oFile = new Object();
             oFile.Init = function(ctrlName, uploadUrl) {
-                var control = $('#' + ctrlName);
+                const control = $('#' + ctrlName);
                 control.fileinput({
                     language: 'zh', //设置语言
                     uploadUrl: uploadUrl, //上传的地址
@@ -144,7 +144,7 @@
 
                 $("#music-zh").on("fileuploaded", function (event, data, previewId, index) {
                     if(contentMusic!=''){
-                        window.tinymce.get('music').insertContent("<audio src="+contentMusic+" controlsList=\"nodownload\" controls=\"controls\">\n" +
+                        window.tinymce.get('music').insertContent("<audio src="+data.response.data.url+" controlsList=\"nodownload\" controls=\"controls\">\n" +
                             "        肥肠抱歉，您的浏览器不支持audio音频播放！请考虑更换浏览器！\n" +
                             "    </audio>")
                     }

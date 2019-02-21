@@ -1,9 +1,7 @@
 package com.example.muscimanger.controller;
 
-import com.example.muscimanger.model.Music;
-import com.example.muscimanger.model.PageForm;
-import com.example.muscimanger.model.SerchBean;
-import com.example.muscimanger.model.TableTagBean;
+import com.alibaba.fastjson.JSONObject;
+import com.example.muscimanger.model.*;
 import com.example.muscimanger.service.MusicService;
 import com.example.muscimanger.until.Result;
 import com.example.muscimanger.until.ResultFactory;
@@ -11,12 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -66,6 +65,7 @@ public class MusicPreController {
     @GetMapping(value = "/music/musicSR")
     public String getMusicListforTitle(HttpServletRequest request, @RequestParam("title") String title, PageForm pageForm, Model model){
         try {
+            title = URLDecoder.decode(title,"utf-8");
             SerchBean SB = SerchBean.getFromExt(request);
             TableTagBean ttb = TableTagBean.getFromExt(request);
             List<Music> list = musicService.listByTitle(SB);
@@ -86,6 +86,45 @@ public class MusicPreController {
             model.addAttribute("error",e);
         }
         return "musicdetail.html";
+    }
+
+    /**
+     * 获取修改页面信息
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/modify")
+    public String musicModify(int id,Model model) {
+        log.info("------------method:musicModify-------------");
+        try {
+            Music music = musicService.listMusicById(id);
+            model.addAttribute("ms",music);
+        }catch (Exception e) {
+            log.info("简谱查询错误："+e.getMessage());
+            model.addAttribute("error",e);
+        }
+        return "musicmodify.html";
+    }
+
+    /**
+     * 更新
+     * @param music
+     * @return
+     */
+    @PostMapping(value = "/musicupdate")
+    @ResponseBody
+    public Result musicUpdate(@RequestBody Music music){
+        log.info("------------method:musicUpdate-------------");
+        try {
+            Music musicOrigin =  musicService.listMusicById(music.getId());
+            music.setAuthorAccount(musicOrigin.getAuthorAccount());
+            music.setIsModify(musicOrigin.getIsModify());
+            musicService.updateMusicInfoById(music);
+            return ResultFactory.buildSuccessResult(music.getId());
+        }catch (Exception e){
+            log.info("简谱更新错误："+e.getMessage());
+            return ResultFactory.buildFailResult(e.getMessage());
+        }
     }
 
 }

@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
+    <link rel="shortcut icon" th:href="@{/static/img/body-img/other/bitbug_favicon.ico}" type="image/x-icon" />
+    <!--制作的图标，使用href关联，仅仅需要更改href的内容  -->
 </head>
 <body>
 <div class="container wrapper" >
@@ -22,6 +24,9 @@
                 <div class="col-md-4 column">
                     <div id="fixed">
                         <div th:include="common/search::search('')"></div>
+                        <div class="modify_div panel">
+                            <a href="javascript:void(0)" onclick="modifyMusic()" class="btn btn-lg btn-block modify_btn" type="button">点我修改</a>
+                        </div>
                         <div class="panel music_play">
                             <div class="panel-body">
                                 <div class="col-md-12 column">
@@ -46,6 +51,7 @@
                                 <li class="list-group-item li_info">创建时间：<span th:text="${music.createTime}"></span></li>
                                 <li class="list-group-item li_info">修改时间：<span th:text="${music.updateTime}"></span></li>
                                 <li class="list-group-item li_info">最后修改：<span th:text="${music.lastAuthor}"></span></li>
+                                <input th:value="${music.id}" type="hidden" id="musicId">
                             </ul>
                     </div>
 
@@ -113,6 +119,25 @@
         box-shadow: #666 0px 0px 10px;
     }
     .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
+    .modify_div{
+        background-color: rgba(0, 0, 0, 0.6);
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius:5px
+    }
+    .modify_btn{
+        background-color: transparent;
+        transition: all 1s ease;
+        color: white;
+    }
+    .modify_btn:active,
+    .modify_btn:hover{
+        /*background-color: rgba(0, 0, 0, 0.65);*/
+        color: white;
+        -webkit-box-shadow: #666 0px 0px 30px;
+        -moz-box-shadow: #666 0px 0px 30px;
+        box-shadow: #666 0px 0px 30px;
+    }
 </style>
 <script>
     $(document).ready(function() {
@@ -120,6 +145,10 @@
             'masked': true
         });
     })
+    function modifyMusic() {
+        console.log($('#musicId').val())
+        window.location.href = "/modify?id=" + $('#musicId').val()
+    }
     //一键页面置顶start
     var backButton=$('.back_to_top');
     function backToTop() {

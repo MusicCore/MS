@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <title>新建曲谱</title>
+    <title th:text="${ms.title}">新建曲谱</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
@@ -30,32 +30,40 @@
                 由于网络或者服务器不稳定
                 出现问题导致未提交发布就刷新了页面，或者说您自己选择了刷新页面，想要回到之前的编辑内容，请您选择“文件”-“恢复上次的草稿”。
             </div>
-                <div class="form-group">
-                    <input type="text"  class="form-control" placeholder="标题" id="title" required="required" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <input type="text"  class="form-control" placeholder="摘要，可大概介绍一下曲谱信息" id="contentShort" required="required" autocomplete="off">
-                </div>
-            <div th:include="common/tinymce::tinymce('')"></div>
+            <div class="form-group">
+                <input type="text" th:value="${ms.title}" class="form-control" placeholder="标题" id="title" required="required" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="text" th:value="${ms.contentShort}" class="form-control" placeholder="摘要，可大概介绍一下曲谱信息" id="contentShort" required="required" autocomplete="off">
+            </div>
+            <div th:include="common/tinymce::tinymce(${ms.content})"></div>
+
+            <input type="hidden" id="fm_img" th:value="${ms.contentImg}">
+            <input type="hidden" id="content_music" th:value="${ms.contentMusic}">
+            <input type="hidden" id="musicId" th:value="${ms.id}">
         </div>
-        </div>
+    </div>
 </div>
 <script>
     window.onbeforeunload = function(){
         return;
     }
-
+    let musicId = '';
     $(document).ready(function () {
+        contentImg = $('#fm_img').val()
+        contentMusic = $('#content_music').val()
+        musicId = $('#musicId').val()
     });
     function create() {
         const content = window.tinymce.get('music').getContent()
         const title = $('#title').val()
         const contentShort = $('#contentShort').val()
-        // console.log(title)
-        // console.log(contentShort)
-        // console.log(content)
-        // console.log(contentMusic)
-        // console.log(contentImg)
+        console.log(title)
+        console.log(contentShort)
+        console.log(content)
+        console.log(contentMusic)
+        console.log(contentImg)
+        console.log(musicId)
         debugger
         if(content == ''|| title == '' || contentShort == '' || contentImg == '') {
             swal({
@@ -74,11 +82,11 @@
             "content" : content,
             "contentImg" : contentImg,
             "contentMusic" : contentMusic,
-            "isModify" : 1
+            "id" : musicId
         }
         $('#music_create_btn').attr("disabled", true);
         $.ajax({
-            url :  "/api/article/create",
+            url :  "/musicupdate",
             type : "POST",
             contentType: "application/json; charset=utf-8",
             dataType:"json",
@@ -87,12 +95,12 @@
                 if(result.code == 200) {
                     swal({
                         title: result.message,
-                        text: "曲谱新建成功！3秒后跳转",
+                        text: "曲谱修改成功！3秒后跳转",
                         icon: "success",
                         timer: 5000,
                         allowOutsideClick: true
                     });
-                    const openUrl = encodeURI("/music/musicSR?title="+ title)
+                    const openUrl = encodeURI("/music/musicdetail?id="+ result.data)
                     setTimeout(function () {
                         window.location.href = openUrl
                     }, 3000)
@@ -100,7 +108,7 @@
                 if(result.code == 400) {
                     swal({
                         title: result.data,
-                        text: "曲谱新建失败！",
+                        text: "曲谱修改失败！",
                         icon: "error",
                         timer: 5000,
                         allowOutsideClick: true

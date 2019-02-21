@@ -19,7 +19,7 @@ public class SpiderTask {
 
     private static final String regEx_html = "<[^>]+>"; // 定义HTML标签的正则表达式
 
-    @Scheduled(fixedRate = 10000)
+//    @Scheduled(fixedRate = 10000)
     public void SpiderAndSave()throws Exception{
         System.out.println("test-----------------------------");
         for (int i = 1314; i < 1315; i++) {

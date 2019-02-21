@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
+    <link rel="shortcut icon" th:href="@{/static/img/body-img/other/bitbug_favicon.ico}" type="image/x-icon" />
+    <!--制作的图标，使用href关联，仅仅需要更改href的内容  -->
 </head>
 <body>
 <div class="container wrapper">
@@ -38,21 +40,6 @@
                 <div th:include="common/search::search('')"></div>
                 <div th:include="common/login::login"></div>
                 <div th:include="common/login::tips"></div>
-                <!--<div id="loading_start"  style="display: none;" class="panel panel-primary touming">-->
-                    <!--<div class="panel-body">-->
-                        <!--<span><img src="/static/img/body-img/acfun/15.gif">努力加载中...</span>-->
-                        <!--</div>-->
-                <!--</div>-->
-                <!--<div id="loading_over" style="display: none;" class="panel panel-primary touming">-->
-                    <!--<div class="panel-body">-->
-                        <!--<span ><img src="/static/img/body-img/acfun/09.gif">已加载5条新数据</span>-->
-                        <!--</div>-->
-                <!--</div>-->
-                <!--<div id="loading_no_more" style="display: none;" class="panel panel-primary touming">-->
-                    <!--<div class="panel-body">-->
-                        <!--<span ><img src="/static/img/body-img/acfun/10.gif">全部加载完了</span>-->
-                    <!--</div>-->
-                <!--</div>-->
             </div>
             <div class="tips">
 
@@ -113,7 +100,7 @@
     })
 
     function musicDetail(id) {
-        window.open("/music/musicdetail?id=" + id)
+        window.open("music/musicdetail?id=" + id)
     }
     function listMusic(){
         $.ajax({
