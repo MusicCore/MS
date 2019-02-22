@@ -57,7 +57,8 @@ public class ImgUploadController {
 
         try {
             file.transferTo(targerFile);
-            String url = security.getDomain() + "img/" +fileName;
+            String url = initUrl("img/",fileName);
+//            String url = security.getDomain() + "img/" +fileName;
             ImgUrl imgUrl = new ImgUrl(fileName,url,uid);
             log.info("\n-------------------Method : 上传图片over--------------------\n");
             return ResultFactory.buildSuccessResult(imgUrl);
@@ -90,7 +91,8 @@ public class ImgUploadController {
 
         try {
             file.transferTo(targerFile);
-            String url = security.getDomain() + "music/"+ fileName;
+            String url = initUrl("music/",fileName);
+//            String url = security.getDomain() + "music/"+ fileName;
             ImgUrl imgUrl = new ImgUrl(fileName,url,uid);
             log.info("\n-------------------Method : 上传音乐over--------------------\n");
             return ResultFactory.buildSuccessResult(imgUrl);
@@ -99,5 +101,14 @@ public class ImgUploadController {
             log.error("出错："+ e);
             return ResultFactory.buildFailResult("上传失败");
         }
+    }
+
+    public String initUrl(String s1,String s2){
+        String domain;
+        do{
+            domain = security.getDomain();
+        }while (domain == null || "" == domain);
+        String url = domain + s1 + s2;
+        return url;
     }
 }

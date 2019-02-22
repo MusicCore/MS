@@ -34,7 +34,7 @@
                     <input type="text"  class="form-control" placeholder="标题" id="title" required="required" autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <input type="text"  class="form-control" placeholder="摘要，可大概介绍一下曲谱信息" id="contentShort" required="required" autocomplete="off">
+                    <input type="text"  class="form-control" placeholder="摘要，可大概介绍一下曲谱信息，字数有限制，请适量输入" id="contentShort" required="required" autocomplete="off">
                 </div>
             <div th:include="common/tinymce::tinymce('')"></div>
         </div>
@@ -49,14 +49,20 @@
     });
     function create() {
         const content = window.tinymce.get('music').getContent()
-        const title = $('#title').val()
-        const contentShort = $('#contentShort').val()
-        // console.log(title)
-        // console.log(contentShort)
-        // console.log(content)
-        // console.log(contentMusic)
-        // console.log(contentImg)
-        debugger
+        let title = $('#title').val()
+        let contentShort = $('#contentShort').val()
+        console.log(title)
+        console.log(contentShort)
+        console.log(content)
+        console.log(contentMusic)
+        console.log(contentImg)
+        return false
+        if (title.length > 35){
+            title = title.substring(0,35)+'.....'
+        }
+        if (contentShort.length > 220){
+            contentShort = contentShort.substring(0,215)+'.....'
+        }
         if(content == ''|| title == '' || contentShort == '' || contentImg == '') {
             swal({
                 title: "未填写警告！",
