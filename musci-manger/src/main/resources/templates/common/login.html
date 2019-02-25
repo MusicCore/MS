@@ -119,9 +119,9 @@
                         });
                         return false
                     }
-                    $.cookie('token',result.data.commonContext.token, {expires : 7})
-                    $.cookie('name',result.data.commonContext.name, {expires : 7})
-                    $.cookie('avatar',result.data.commonContext.avatar, {expires : 7})
+                    $.cookie('token',result.data.commonContext.token, {expires : 7,path : "/"})
+                    $.cookie('name',result.data.commonContext.name, {expires : 7 ,path : "/"})
+                    $.cookie('avatar',result.data.commonContext.avatar, {expires : 7 ,path : "/"})
                     window.location.reload()
                 }
             })

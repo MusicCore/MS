@@ -9,6 +9,7 @@ import com.example.muscimanger.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URLDecoder;
 import java.util.List;
 
 @Service("musicService")
@@ -56,7 +57,11 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public List<Music> listByTitle(SerchBean sb) {
         String title =sb.getCondition().getAsStringEmptyNull("title");
-        title= title+'%';
+        try {
+            title = URLDecoder.decode(title, "utf-8") + '%';
+        }catch (Exception e){
+
+        }
         return musicMapper.listByTitle(sb);
     }
 }

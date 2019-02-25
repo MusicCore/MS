@@ -15,16 +15,29 @@
     <div th:include="common/navbar::navbar"></div>
             <div class="row clearfix">
                 <div class="col-md-8 column" >
-                    <div class="panel panel-primary">
+                    <div class="panel music_play hidden-lg">
+                        <div class="panel-body">
+                            <div class="col-md-12 column">
+                                <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-justified col-md-12 column" style="margin-top: 5px">
+                        <a href="javascript:void(0)" class="btn font_btn" onclick="fontSizeChange('100%')">初始字体大小</a>
+                        <a href="javascript:void(0)" class="btn font_btn" onclick="fontSizeChange('150%')">1.5倍字体大小</a>
+                        <a href="javascript:void(0)" class="btn font_btn" onclick="fontSizeChange('200%')">2倍字体大小</a>
+                    </div>
+
+                    <div class="panel panel-primary info_div">
                         <div class="panel-body" id="music_content">
-                            <span th:utext="${music.content}"></span>
+                            <span th:utext="${music.content}" class="span_content"></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 column">
+                <div class="col-md-4 column hidden-xs hidden-sm hidden-md">
                     <div id="fixed">
                         <div th:include="common/search::search('')"></div>
-                        <div class="modify_div panel">
+                        <div class="modify_div panel" id="modify_div" style="display: none">
                             <a href="javascript:void(0)" onclick="modifyMusic()" class="btn btn-lg btn-block modify_btn" type="button">点我修改</a>
                         </div>
                         <div class="panel music_play">
@@ -75,6 +88,23 @@
 <!--</video>-->
 </body>
 <style>
+    .music_content{
+        background-color: transparent;
+    }
+    .font_btn,
+    .font_btn:active,
+    .font_btn:visited,
+    .font_btn:active{
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+    }
+    .font_btn:hover{
+        background-color: rgba(255, 81, 42, 0.7);
+        color: white;
+    }
+    .span_content{
+
+    }
     .music_play{
         background-color: rgba(0, 0, 0, 0.6);
         transition: all 1s ease;
@@ -144,7 +174,15 @@
         $('body').vidbacking({
             'masked': true
         });
+        if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){
+            $('#modify_div').css("display","none")
+        }else {
+            $('#modify_div').css("display","block")
+        }
     })
+    function fontSizeChange(font) {
+        $(".span_content").css("font-size", font)
+    }
     function modifyMusic() {
         console.log($('#musicId').val())
         window.location.href = "/modify?id=" + $('#musicId').val()

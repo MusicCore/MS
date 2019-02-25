@@ -39,12 +39,6 @@ public class MusicPreController {
         return "index.html";
     }
 
-    @GetMapping(value = "/music/musiclist")
-    @ResponseBody
-    public Result getMusicList(PageForm PageForm){
-        List<Music> list = musicService.listMusicByPar(PageForm);
-        return ResultFactory.buildSuccessResult(list);
-    }
 
     @GetMapping(value = "/musiccreate")
     public String toMusicCreate(){
@@ -54,30 +48,9 @@ public class MusicPreController {
     @GetMapping(value = "/register")
     public String toRegister() { return "register.html"; }
 
-    @GetMapping(value = "/music/musicSRlist")
-    @ResponseBody
-    public Result getmusicSRlist(HttpServletRequest request){
-        SerchBean SB = SerchBean.getFromExt(request);
-        List<Music> list = musicService.listByTitle(SB);
-        return ResultFactory.buildSuccessResult(list);
-    }
 
-    @GetMapping(value = "/music/musicSR")
-    public String getMusicListforTitle(HttpServletRequest request, @RequestParam("title") String title, PageForm pageForm, Model model){
-        try {
-            title = URLDecoder.decode(title,"utf-8");
-            SerchBean SB = SerchBean.getFromExt(request);
-            TableTagBean ttb = TableTagBean.getFromExt(request);
-            List<Music> list = musicService.listByTitle(SB);
-            model.addAttribute("musiclist",list);
-            model.addAttribute("title",title);
-        }catch (Exception e){
-            model.addAttribute("error","error");
-        }
-        return "musicserch.html";
-    }
-    @GetMapping(value = "/music/musicdetail")
-    public String getMusicDetail(Model model,int id){
+    @GetMapping(value = "/musicdetail")
+    public String getMusicDetail(Model model, int id){
         try {
             Music music = musicService.listMusicById(id);
             model.addAttribute("music",music);
@@ -87,6 +60,22 @@ public class MusicPreController {
         }
         return "musicdetail.html";
     }
+
+    @GetMapping(value = "/musicSR")
+    public String getMusicListforTitle(HttpServletRequest request, @RequestParam("title") String title, PageForm pageForm, Model model){
+        try {
+//            title = URLDecoder.decode(title,"utf-8");
+            SerchBean SB = SerchBean.getFromExt(request);
+            TableTagBean ttb = TableTagBean.getFromExt(request);
+            List<Music> list = musicService.listByTitle(SB);
+            model.addAttribute("musiclist",list);
+            model.addAttribute("title",title);
+        }catch (Exception e){
+            model.addAttribute("error",e);
+        }
+        return "musicserch.html";
+    }
+
 
     /**
      * 获取修改页面信息

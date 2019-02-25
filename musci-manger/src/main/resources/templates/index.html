@@ -35,7 +35,7 @@
             </div>
             </div>
 
-        <div class="col-md-4 column hidden-xs">
+        <div class="col-md-4 column hidden-xs hidden-sm">
             <div id="fixed">
                 <div th:include="common/search::search('')"></div>
                 <div th:include="common/login::login"></div>
@@ -100,7 +100,7 @@
     })
 
     function musicDetail(id) {
-        window.open("music/musicdetail?id=" + id)
+        window.open("/musicdetail?id=" + id)
     }
     function listMusic(){
         $.ajax({
