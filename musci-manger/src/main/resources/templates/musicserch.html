@@ -83,6 +83,7 @@
             if(documentHeight[documentHeight.length-1]>documentHeight[documentHeight.length-2]){
                 documentHeight[documentHeight.length-2] = documentHeight[documentHeight.length-2] + documentHeight[documentHeight.length-1];
                 // console.log("我在底部")
+                $('#img_loading').css("display","block")
                 listMusic();
                 pageStart++
             }
@@ -109,6 +110,7 @@
             dataType:"json",
             data: {"title":$('#title').val(),"pageStart":pageStart,"rows":5},
             success:function(result) {
+                $('#img_loading').css("display","none")
                 if(result.data=='') {
                     return false}
                 $.each(result.data,function (i,value) {

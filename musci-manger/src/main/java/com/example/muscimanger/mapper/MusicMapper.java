@@ -56,7 +56,7 @@ public interface MusicMapper {
     @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
     public void  update(Music param) throws Exception;
 
-    @Select("SELECT * FROM music_score limit #{page.pageStart},#{page.rows}")
+    @Select("SELECT * FROM music_score order by id desc limit #{page.pageStart},#{page.rows}")
     public List<Music> listByPar(@Param("page") PageForm pageForm);
 
     @Select("SELECT COUNT(1) FROM music_score")

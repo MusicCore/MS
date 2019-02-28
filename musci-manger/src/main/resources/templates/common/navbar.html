@@ -38,12 +38,14 @@
 
                         </li>
                         <li class="dropdown" id="user_info">
-                            <a href="#" class="dropdown-toggle a_url" data-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle a_url" role="button" data-toggle="dropdown" id="dropdownMenu1">
                                 <span id="user_name"></span>
-                                <!--<b class="caret"></b>-->
+                                <b class="caret"></b>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a onclick="logout()" href="javascript:void(0);">注销</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                                <li role="presentation" tabindex="-1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-user"></span> 个人信息</a></li>
+                                <li role="presentation" tabindex="-1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-bookmark"></span> 收藏夹 </a></li>
+                                <li role="presentation" tabindex="-1"><a onclick="logout()" href="javascript:void(0);"><span class="glyphicon glyphicon-off"></span> 注销退出 </a></li>
                             </ul>
                         </li>
                     </ul>
@@ -52,8 +54,8 @@
 
                 <div class="row clearfix">
                     <div class="col-md-12 column visible-md visible-lg">
-                        <nav class="navbar-default navbar-fixed-bottom" role="navigation">
-
+                        <nav class="navbar-default navbar-fixed-bottom" role="navigation" style="text-align: center">
+                            <div style="display: none" id="img_loading"><img th:src="@{/static/img/body-img/other/loading.gif}"></div>
                         </nav>
                     </div>
                 </div>
