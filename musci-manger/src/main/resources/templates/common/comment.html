@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="comment(cmtList)">
+    <div class="panel info_div" th:each="item:${cmtList}">
+        <div class="panel-heading comment_contentTitle">
+            <h3 class="panel-title">
+                <span  th:text="${item.commentAuthorName}"></span> <span style="float: right" th:text="${item.commentDate}"></span>
+            </h3>
+        </div>
+        <div class="panel-body comment_content">
+            <span th:text="${item.commentContent}"></span>
+            <div>
+            <span class="span_huifu"><button type="submit" class="btn btn-sm comment_span_button">回 复</button></span>
+            </div>
+        </div>
+    </div>
+    <form>
+    <div class="panel info_div">
+        <div class="panel-heading comment_title">
+            <h3 class="panel-title">
+                评论
+            </h3>
+        </div>
+        <div class="panel-body">
+            <textarea class="col-md-12 column comment">我是评论框</textarea>
+            <span class="comment_span">
+                <button type="submit" class="btn btn-sm comment_span_button">发 送</button>
+            </span>
+        </div>
+    </div>
+    </form>
+    <style>
+        .span_huifu{
+            float: right;
+            margin-top: 5px;
+        }
+        .comment_contentTitle{
+            background-color:rgba(255, 255, 255, 0.8);
+        }
+        .comment_content{
+            background-color: transparent;
+        }
+        .comment{
+            border-radius: 5px;
+            background-color:transparent;
+            resize: none;
+            outline: none;
+            height: 100px;
+        }
+        .comment_title{
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+        }
+        .comment_span{
+            float: right;
+            margin-top: 5px;
+        }
+        .comment_span_button{
+            background-color: rgba(0,0,0,0.5);
+            transition: all 1s ease;
+            color: white;
+        }
+        .comment_span_button:active,
+        .comment_span_button:hover{
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+        }
+    </style>
+</div>
+</body>
+</html>

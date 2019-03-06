@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,8 +53,14 @@ public class MusicPreController {
     @GetMapping(value = "/musicdetail")
     public String getMusicDetail(Model model, int id){
         try {
+            Comment comment = new Comment(1,2,"张三","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论1",1, 0,12);
+            Comment comment1 = new Comment(1,2,"李四","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论2，父级评论是1",1, 1,12);
+            Comment comment2 = new Comment(1,2,"王五","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论1",1, 0,12);
+            List<Comment> cmtList = new ArrayList<>();
+            cmtList.add(comment);cmtList.add(comment1);cmtList.add(comment2);
             Music music = musicService.listMusicById(id);
             model.addAttribute("music",music);
+            model.addAttribute("cmtList",cmtList);
         }catch (Exception e){
             log.error("getMusicDetail："+ e);
             model.addAttribute("error",e);

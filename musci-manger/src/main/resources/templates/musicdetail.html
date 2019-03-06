@@ -33,6 +33,7 @@
                             <span th:utext="${music.content}" class="span_content"></span>
                         </div>
                     </div>
+                    <div th:include="common/comment::comment(${cmtList})"></div>
                 </div>
                 <div class="col-md-4 column hidden-xs hidden-sm hidden-md">
                     <div id="fixed">

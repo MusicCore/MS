@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Service("musicService")
@@ -58,6 +59,7 @@ public class MusicServiceImpl implements MusicService {
     public List<Music> listByTitle(SerchBean sb) {
         String title =sb.getCondition().getAsStringEmptyNull("title");
         try {
+            title = URLEncoder.encode(title, "utf-8") + '%';
             title = URLDecoder.decode(title, "utf-8") + '%';
         }catch (Exception e){
 
