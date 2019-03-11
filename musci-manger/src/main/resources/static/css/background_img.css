@@ -29,7 +29,7 @@
 }
 .cb-slideshow:after {
     /*content: '';*/
-    background: transparent url(http://ptracg.com/upload/bgImg/pattern.png) repeat top left;
+    background: transparent url(/static/img/body-img/other/pattern.png) repeat top left;
 }
 .cb-slideshow li span { 
     width: 100%;

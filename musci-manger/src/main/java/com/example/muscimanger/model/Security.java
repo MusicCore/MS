@@ -16,6 +16,9 @@ public class Security {
     //    服务器域名
     private String domain;
 
+    //    本地测试域名
+    private String test_domain;
+
     public String getEnable() {
         return enable;
     }
@@ -46,5 +49,13 @@ public class Security {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public String getTest_domain() {
+        return test_domain;
+    }
+
+    public void setTest_domain(String test_domain) {
+        this.test_domain = test_domain;
     }
 }

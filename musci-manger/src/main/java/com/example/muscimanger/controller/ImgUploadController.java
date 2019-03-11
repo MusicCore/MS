@@ -38,8 +38,8 @@ public class ImgUploadController {
         log.info("\n-------------------Method : 上传图片start--------------------\n");
         //取得upload文件夹路径
 //        String path = request.getSession().getServletContext().getRealPath("/upload");
-//        String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+ File.separator + "static" + File.separator + "upload" + File.separator + "img";
-        String path = "/root/upload/img/";
+        String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+ File.separator + "static" + File.separator + "upload" + File.separator + "img";
+//        String path = "/root/upload/img/";
         File nfile = new File(path);
         if(!nfile.exists() && !nfile.isDirectory()){
             nfile.mkdirs();
