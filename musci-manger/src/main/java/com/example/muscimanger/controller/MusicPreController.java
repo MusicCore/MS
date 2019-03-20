@@ -1,22 +1,20 @@
 package com.example.muscimanger.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.example.muscimanger.model.*;
 import com.example.muscimanger.service.MusicService;
+import com.example.muscimanger.service.CommentService;
 import com.example.muscimanger.until.Result;
 import com.example.muscimanger.until.ResultFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -26,6 +24,28 @@ public class MusicPreController {
 
     @Resource(name = "musicService")
     private MusicService musicService;
+    @Resource(name="commentService")
+    private CommentService commentService;
+
+    @PostMapping(value="/comment")
+    public Result toComment(Model model,@RequestBody Comment comment){
+        try {
+            commentService.save(comment);
+            return ResultFactory.buildSuccessResult("");
+        }catch (Exception e){
+            return ResultFactory.buildFailResult(e.getMessage());
+        }
+    }
+
+    @PostMapping(value="/rComment")
+    public Result removerComment(Model model,Integer id){
+        try {
+            commentService.remove(id);
+            return ResultFactory.buildSuccessResult("");
+        }catch (Exception e){
+            return ResultFactory.buildFailResult(e.getMessage());
+        }
+    }
 
     @GetMapping(value = "/")
     public String goIndex(Model model, PageForm pageForm){
@@ -53,13 +73,7 @@ public class MusicPreController {
     @GetMapping(value = "/musicdetail")
     public String getMusicDetail(Model model, int id){
         try {
-            Comment comment = new Comment(1,2,"张三","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论1",1, 0,12,"");
-            Comment comment1 = new Comment(2,2,"李四","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论2，父级评论是1",1, 1,12,"张三");
-            Comment comment2 = new Comment(3,2,"王五","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论1",1, 0,12,"");
-            Comment comment3 = new Comment(4,2,"第四人","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论2，父级评论是1",1, 1,12,"李四");
-            Comment comment4 = new Comment(5,2,"第五人","noway","/static/img/body-img/other/tx.jpg","2019-3-5 00","我是评论1",1, 1,12,"第四人");
-            List<Comment> cmtList = new ArrayList<>();
-            cmtList.add(comment);cmtList.add(comment1);cmtList.add(comment2);cmtList.add(comment3);cmtList.add(comment4);
+            List<Comment> cmtList = commentService.listById(id);
             Music music = musicService.listMusicById(id);
             model.addAttribute("music",music);
             model.addAttribute("cmtList",cmtList);

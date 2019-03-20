@@ -1,7 +1,7 @@
 package com.example.muscimanger.service.impl;
 
 import com.example.muscimanger.model.Rate;
-import com.example.muscimanger.service.RateRepository;
+import com.example.muscimanger.Repository.RateRepository;
 import com.example.muscimanger.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
