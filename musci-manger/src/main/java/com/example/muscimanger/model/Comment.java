@@ -108,4 +108,13 @@ public class Comment {
     public void setReplyTo(String replyTo) {
         this.replyTo = replyTo;
     }
+
+    public int getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
+    }
+
 }

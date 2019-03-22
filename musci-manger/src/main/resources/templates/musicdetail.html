@@ -34,19 +34,32 @@
                         </div>
                     </div>
                     <div th:include="common/comment::comment(${cmtList})"></div>
+
                 </div>
                 <div class="col-md-4 column hidden-xs hidden-sm hidden-md">
                     <div id="fixed">
                         <div th:include="common/search::search('')"></div>
-                        <div class="modify_div panel" id="modify_div" style="display: none">
-                            <a href="javascript:void(0)" onclick="modifyMusic()" class="btn btn-lg btn-block modify_btn" type="button">点我修改</a>
-                        </div>
+
                         <div class="panel music_play">
                             <div class="panel-body">
                                 <div class="col-md-12 column">
                                     <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div id="show_btn_div" style="display: none">
+                        <div class="modify_div panel" th:if="${role} eq 'superadmin'" id="modify_div">
+                            <a href="javascript:void(0)" onclick="modifyMusic()" class="btn btn-lg btn-block modify_btn" type="button">点我修改</a>
+                        </div>
+                        <div class="modify_div panel" id="fav_div">
+                            <div th:if="${isFav} eq false" class="add_fav">
+                                <a href="javascript:void(0)" onclick="addFav()" class="btn btn-lg btn-block modify_btn" type="button">点我收藏</a>
+                            </div>
+                            <div th:if="${isFav} eq true" class="cancel_fav">
+                                <a href="javascript:void(0)" onclick="cancelFav()" class="btn btn-lg btn-block modify_btn" type="button">取消收藏</a>
+                            </div>
+                        </div>
                         </div>
 
                         <div class="panel info_div">
@@ -65,11 +78,9 @@
                                 <li class="list-group-item li_info">创建时间：<span th:text="${music.createTime}"></span></li>
                                 <li class="list-group-item li_info">修改时间：<span th:text="${music.updateTime}"></span></li>
                                 <li class="list-group-item li_info">最后修改：<span th:text="${music.lastAuthor}"></span></li>
-                                <input th:value="${music.id}" type="hidden" id="musicId">
                             </ul>
                     </div>
-
-
+                        <input th:value="${music.id}" type="hidden" id="musicId">
                     </div>
                 </div>
             </div>
@@ -89,8 +100,17 @@
 <!--</video>-->
 </body>
 <style>
-    .music_content{
-        background-color: transparent;
+    .back_to_top{
+        position: fixed;
+        _position: absolute;
+        bottom: 70px;
+        left: 90%;
+    }
+    .add_fav{
+        text-align: center;
+    }
+    .cancel_fav{
+        text-align: center;
     }
     .font_btn,
     .font_btn:active,
@@ -176,9 +196,13 @@
             'masked': true
         });
         if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){
-            $('#modify_div').css("display","none")
+            // $('#modify_div').css("display","none")
+            // $('#fav_div').css("display","none")
+            $('#show_btn_div').css("display","none")
         }else {
-            $('#modify_div').css("display","block")
+            // $('#modify_div').css("display","block")
+            // $('#fav_div').css("display","block")
+            $('#show_btn_div').css("display","block")
         }
     })
     function fontSizeChange(font) {
@@ -187,6 +211,82 @@
     function modifyMusic() {
         console.log($('#musicId').val())
         window.location.href = "/modify?id=" + $('#musicId').val()
+    }
+    function addFav() {
+        $('.add_fav').html('<img src="static/img/body-img/loading/loading.gif">')
+        $.ajax({
+            url : '/favorites/link?music_id=' + $('#musicId').val(),
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType : 'JSON',
+            // data : {
+            //     "music_id" : $('#musicId').val()
+            // },
+            success:function(result) {
+                if(result.code == 200) {
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 1000)
+                }
+                if(result.code == 400) {
+                    swal({
+                        title: result.data,
+                        text: "失败！",
+                        icon: "error",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                }
+            },
+            error : function() {
+                swal({
+                    title: "对不起，发生了请求错误",
+                    text: "正在竭力抢修！",
+                    icon:  "error",
+                    timer: 2000,
+                    allowOutsideClick : true
+                });
+                $('.add_fav').html('<a href="javascript:void(0)" onclick="addFav()" class="btn btn-lg btn-block modify_btn" type="button">点我收藏</a>')
+            }
+        })
+    }
+    function cancelFav() {
+        $('.cancel_fav').html('<img src="static/img/body-img/loading/loading.gif">')
+        $.ajax({
+            url : '/favorites/remove?music_id=' + $('#musicId').val(),
+            type: 'GET',
+            contentType: "application/json; charset=utf-8",
+            dataType : 'JSON',
+            // data : {
+            //     "music_id" : $('#musicId').val()
+            // },
+            success:function(result) {
+                if(result.code == 200) {
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 1000)
+                }
+                if(result.code == 400) {
+                    swal({
+                        title: result.data,
+                        text: "失败！",
+                        icon: "error",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                }
+            },
+            error : function() {
+                swal({
+                    title: "对不起，发生了请求错误",
+                    text: "正在竭力抢修！",
+                    icon:  "error",
+                    timer: 2000,
+                    allowOutsideClick : true
+                });
+                $('.cancel_fav').html('<a href="javascript:void(0)" onclick="cancelFav()" class="btn btn-lg btn-block modify_btn" type="button">取消收藏</a>')
+            }
+        })
     }
     //一键页面置顶start
     var backButton=$('.back_to_top');

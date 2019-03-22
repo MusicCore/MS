@@ -34,8 +34,10 @@
 
                 <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
+                        <span id="ad_role" style="display: none">
                         <a class="navbar-brand a_url" type="button" href="/bkimgmanage">背景管理</a>
                         <a class="navbar-brand a_url" type="button" href="/imgmanage">图片管理</a>
+                        </span>
                         <li id="user_avatar">
 
                         </li>
@@ -46,7 +48,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                                 <li role="presentation" tabindex="-1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-user"></span> 个人信息</a></li>
-                                <li role="presentation" tabindex="-1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-bookmark"></span> 收藏夹 </a></li>
+                                <li role="presentation" tabindex="-1"><a href="/musicfav"><span class="glyphicon glyphicon-bookmark"></span> 收藏夹 </a></li>
                                 <li role="presentation" tabindex="-1"><a onclick="logout()" href="javascript:void(0);"><span class="glyphicon glyphicon-off"></span> 注销退出 </a></li>
                             </ul>
                         </li>
@@ -80,6 +82,7 @@
                         $.cookie('token', null)
                         $.cookie('name', null)
                         $.cookie('avatar', null)
+                        $.cookie('role', null)
                         setTimeout(function () {
                             window.location.href = '/'
                         }, 3000)
@@ -89,6 +92,11 @@
         $(document).ready(function () {
             // console.log($.cookie('name'))
             // console.log($.cookie('avatar'))
+            if (typeof ($.cookie('role')) == 'undefined' || $.cookie('role') == 'null' || $.cookie('role') == '' || $.cookie('role') == 'user' ) {
+                $('#ad_role').remove()
+            }else {
+                $('#ad_role').show()
+            }
             if(typeof ($.cookie('name')) == 'undefined' || $.cookie('name') == 'null' || $.cookie('name') == ''){
 
             }else {
@@ -117,6 +125,7 @@
                         $.cookie('token', null)
                         $.cookie('name', null)
                         $.cookie('avatar', null)
+                        $.cookie('role', null)
                         setTimeout(function () {
                             window.location.href = '/'
                         }, 3000)

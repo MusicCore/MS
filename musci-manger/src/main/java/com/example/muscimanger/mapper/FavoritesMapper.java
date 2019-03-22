@@ -18,6 +18,12 @@ public interface FavoritesMapper {
     @Select("select * from music_score mc where mc.id in (select f.music_id from favorites f where f.user_id = #{id})")
     public List<Music> listFavorites(Integer id) throws Exception;
 
-    @Delete("delete from favorites where music_id = #{id}")
-    public void removeFavorites(Integer id) throws Exception;
+    @Select("select * from music_score mc where mc.id in (select f.music_id from favorites f where f.user_id = #{id}) limit #{page},#{rows}")
+    public List<Music> listFavoritesByPage(Integer id,Integer page,Integer rows) throws Exception;
+
+    @Select("select count(1) from music_score mc where mc.id in (select f.music_id from favorites f where f.user_id = #{id})")
+    public int listFavoritesTotal(Integer id) throws Exception;
+
+    @Delete("delete from favorites where music_id = #{id} and user_id = #{uid}")
+    public void removeFavorites(Integer id,Integer uid) throws Exception;
 }
