@@ -21,13 +21,13 @@
         <div class="col-md-12 column">
             <nav class="navbar navbar-default" role="navigation">
                 <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">首页</a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="/music/index">首页</a>
                 </div>
 
                 <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
-                    <form class="navbar-form navbar-left" role="search">
+                    <form action="/music/musicSR" class="navbar-form navbar-left" role="search">
                         <div class="form-group">
-                            <input class="form-control" type="text" />
+                            <input id="title" name="title" class="form-control" type="text" value="" placeholder="请输入查询内容"/>
                         </div> <button class="btn btn-default" type="submit">搜索</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
@@ -59,6 +59,7 @@
 </div>
     <script>
         function changeTheme(theme) {
+            console.log("cc"+$( "#title" ).value);
             switch (theme) {
                 case 'origin':
                     console.log("origin")

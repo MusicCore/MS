@@ -2,72 +2,200 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <meta charset="UTF-8">
-<title>music.title</title>
+<title>我只想静静的吹口琴</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8" >
-<!-- 新 Bootstrap 核心 CSS 文件 -->
-<link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    html,body{
+        width:100%;
+        height:100%
+    }
+    body{
+        font-family: "华文细黑";
+        /*background:url("../static/img/img/7.jpg") no-repeat;*/
+        /*background-size: 100%;*/
+    }
+</style>
 <title>首页</title>
 </head>
 <body>
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">首页</a>
-                </div>
-
-                <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input class="form-control" type="text" />
-                        </div> <button class="btn btn-default" type="submit">搜索</button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                    </ul>
-                </div>
-            </nav>
-            <!-- 左对齐 -->
-            <div class="media">
-                <div class="media-left">
-                    <img src="http://static.runoob.com/images/mix/img_avatar.png" class="media-object" style="width:60px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">左对齐</h4>
-                    <p>这是一些示例文本。这是一些示例文本。这是一些示例文本。这是一些示例文本。这是一些示例文本。这是一些示例文本。这是一些示例文本。这是一些示例文本。</p>
+<div class="wrapper">
+    <div class="container">
+        <div th:include="common/navbar::navbar"></div>
+        <div  class="row clearfix">
+            <div   class="col-md-8 column">
+                <!--<div th:include="common/musiclist::musicList"></div>-->
+                <div th:fragment="musicList" id="musicList" class="row">
+                    <div th:each="item:${musiclist}" class="col-md-12 column">
+                        <div class="panel panel-primary touming">
+                            <div class="media panel-body" >
+                                <div class="media-left">
+                                    <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'><img th:src="${item.contentImg}" class="media-object" style="width:220px"/></a>
+                                </div>
+                                <div class="media-body">
+                                    <h3 th:text="${item.title}" class="media-heading"></h3>
+                                    <span><p th:text="${item.contentShort}"></p></span>
+                                </div>
+                                <div class="media-bottom">
+                                    <span class="glyphicon glyphicon-user"></span><span th:text="${item.authorName}"></span>
+                                    <span class="glyphicon glyphicon-time"></span><span th:text="${item.createTime}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <hr>
-        </div>
-    </div>
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            标题链接
+
+            <div class="col-md-4 column hidden-xs">
+                <div id="fixed">
+                    <div id="tips"  class="panel panel-primary touming">
+                        <div class="panel-heading" >
+                            <h1 class="panel-title">
+                                我是小提示!!!
+                            </h1>
+                        </div>
+                        <div class="panel-body">
+                            <span>我是小提示</span><br/>
+                            <span>我是小提示</span><br/>
+                            <span>我是小提示</span><br/>
+                            <button class="back_to_top btn btn-warning">点我返回页面顶部</button>
+                        </div>
+                    </div>
+                    <div id="loading_start"  style="display: none;" class="panel panel-primary touming">
+                        <div class="panel-body">
+                            <span><img src="/static/img/body-img/acfun/15.gif">努力加载中...</span>
+                        </div>
+                    </div>
+                    <div id="loading_over" style="display: none;" class="panel panel-primary touming">
+                        <div class="panel-body">
+                            <span ><img src="/static/img/body-img/acfun/09.gif">已加载5条新数据</span>
+                        </div>
+                    </div>
+                    <div id="loading_no_more" style="display: none;" class="panel panel-primary touming">
+                        <div class="panel-body">
+                            <span ><img src="/static/img/body-img/acfun/10.gif">全部加载完了</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+</div>
+<div th:include="common/backgroundimg::backGroundImg"></div>
 </body>
 <script>
-    $(document).ready(function() {
+    //一键页面置顶start
+    var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
 
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height())
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
+    //一键页面置顶over
+
+    //鼠标滚动到页面最底部加载数据
+    // var title = [[${title}]];
+    var documentHeight = [0];
+    var pageStart = 2;
+    var music_info = $('#fixed');
+    var music_info_top = music_info.offset().top;//元素到页面顶部的距离
+    $(window).bind("scroll",function() {
+        if($(document).scrollTop() + $(window).height() > $(document).height()-1){
+            documentHeight.push($(document).height())
+            if(documentHeight[documentHeight.length-1]>documentHeight[documentHeight.length-2]){
+                documentHeight[documentHeight.length-2] = documentHeight[documentHeight.length-2] + documentHeight[documentHeight.length-1];
+                // console.log("我在底部")
+                listMusic();
+                pageStart++
+                console.log(pageStart)
+            }
+        }else{
+            // console.log("我bu在底部")
+        }
+        // 窗口置顶
+        if($(document).scrollTop() > music_info_top){
+            music_info.addClass("fixed");
+        }else{
+            music_info.removeClass("fixed");
+        }
     })
-    function getMusicTitalAndIdList() {
-        $.ajax({
-            url:'',
-            type:"GET",
-            dataType:"json",
-            success:function (result) {
-                $.each(result.data,function (i,value) {
 
+    function musicDetail(id) {
+        window.open("/music/musicdetail?id=" + id)
+    }
+    function listMusic(){
+        $.ajax({
+            url :  "/music/musicSRlist",
+            type : "GET",
+            dataType:"json",
+            data: {"title":"口","pageStart":pageStart,"rows":5},
+            success:function(result) {
+                console.log(result.data)
+                if(result.data=='') {
+                    // $("#loading_over").css("display","none");
+                    $("#loading_no_more").css("display","block");
+                    setTimeout(function () {
+                        $("#loading_no_more").css("display","none");
+                    },6000)
+                    return false}
+                $("#loading_no_more").css("display","none")
+                $("#loading_over").css("display","none")
+                $("#loading_start").css("display","block")
+                $.each(result.data,function (i,value) {
+                    $('#musicList').append("<div class=\"col-md-12 column\" >\n" +
+                        "    <div class=\"panel panel-primary touming\">\n" +
+                        "        <div class=\"media panel-body \">\n" +
+                        "            <div class=\"media-left\">\n" +
+                        "                <a href='javascript:void(0)' onclick='musicDetail("+ value.id +")'><img src='"+ value.contentImg +"' class=\"media-object\" style=\"width:220px\"/></a>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"media-body\">\n" +
+                        "                <h3 class=\"media-heading\">"+value.title+"</h3>\n" +
+                        "                <span><p>"+value.contentShort+"</p></span>\n" +
+                        "            </div>\n" +
+                        "<div class=\"media-bottom\">\n" +
+                        "                                <span class=\"glyphicon glyphicon-user\"></span><span> "+ value.authorName +"</span>\n" +
+                        "                                <span class=\"glyphicon glyphicon-time\"></span><span> "+ value.createTime +"</span>\n" +
+                        "                            </div>" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "</div>")
                 })
+                setTimeout(function () {
+                    $("#loading_start").css("display","none")
+                    $("#loading_over").css("display","block")
+                })
+                setTimeout(function () {
+                    $("#loading_over").css("display","none")
+                },6000)
+                // $("#loading").css("display","none")
             }
         })
     }
 </script>
+<style>
+    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
+    span p {
+        font-family: "宋体","仿宋",sans-serif;
+        font-size:120%;
+        font-style: normal;
+    }
+    .touming{
+        background-color:rgba(255, 255, 255, 0.5);
+    }
+    .panel-body span{
+        font-family: "宋体","仿宋",sans-serif;
+        font-size:150%;font-style: normal;
+    }
+</style>
 </html>

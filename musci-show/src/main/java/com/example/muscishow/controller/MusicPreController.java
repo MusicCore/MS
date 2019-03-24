@@ -2,6 +2,8 @@ package com.example.muscishow.controller;
 
 import com.example.muscishow.model.Music;
 import com.example.muscishow.model.PageForm;
+import com.example.muscishow.model.SerchBean;
+import com.example.muscishow.model.TableTagBean;
 import com.example.muscishow.service.MusicService;
 import com.example.muscishow.until.Result;
 import com.example.muscishow.until.ResultFactory;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -42,6 +45,27 @@ public class MusicPreController {
         return ResultFactory.buildSuccessResult(list);
     }
 
+    @GetMapping(value = "/music/musicSRlist")
+    @ResponseBody
+    public Result getmusicSRlist(HttpServletRequest request){
+        SerchBean SB = SerchBean.getFromExt(request);
+        List<Music> list = musicService.listByTitle(SB);
+        return ResultFactory.buildSuccessResult(list);
+    }
+
+    @GetMapping(value = "/music/musicSR")
+    public String getMusicListforTitle(HttpServletRequest request, @RequestParam("title") String title, PageForm pageForm, Model model){
+        try {
+            SerchBean SB = SerchBean.getFromExt(request);
+            TableTagBean ttb = TableTagBean.getFromExt(request);
+            List<Music> list = musicService.listByTitle(SB);
+            model.addAttribute("musiclist",list);
+            model.addAttribute("title",title);
+        }catch (Exception e){
+            model.addAttribute("error","error");
+        }
+        return "musicserch.html";
+    }
     @GetMapping(value = "/music/musicdetail")
     public String getMusicDetail(Model model,int id){
         try {

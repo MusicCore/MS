@@ -3,6 +3,7 @@ package com.example.muscishow.service;
 
 import com.example.muscishow.model.Music;
 import com.example.muscishow.model.PageForm;
+import com.example.muscishow.model.SerchBean;
 
 import java.util.List;
 
@@ -22,5 +23,12 @@ public interface MusicService {
      * @return
      */
     public List<Music>  listMusicByPar(PageForm pageForm);
+
+    /**
+     * 搜索(条件)
+     * @param pageForm
+     * @return
+     */
+    public List<Music>  listByTitle(SerchBean sb);
 
 }
