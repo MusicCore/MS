@@ -40,7 +40,7 @@
                     <div id="fixed">
                         <div th:include="common/search::search('')"></div>
 
-                        <div class="panel music_play">
+                        <div class="panel music_play" th:if="${music.contentMusic} ne ''" >
                             <div class="panel-body">
                                 <div class="col-md-12 column">
                                     <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
@@ -49,7 +49,7 @@
                         </div>
 
                         <div id="show_btn_div" style="display: none">
-                        <div class="modify_div panel" th:if="${role} eq 'superadmin'" id="modify_div">
+                        <div class="modify_div panel" th:if="${showModify} eq 1" id="modify_div">
                             <a href="javascript:void(0)" onclick="modifyMusic()" class="btn btn-lg btn-block modify_btn" type="button">点我修改</a>
                         </div>
                         <div class="modify_div panel" id="fav_div">
@@ -74,10 +74,10 @@
 
                     <div class="ul_info">
                             <ul class="list-group">
-                                <li class="list-group-item li_info">创建作者：<a href="url?author_account="><span th:text="${music.authorName}"></span></a></li>
+                                <li class="list-group-item li_info">创建作者：<a href="#"><span th:text="${music.authorName}"></span></a></li>
                                 <li class="list-group-item li_info">创建时间：<span th:text="${music.createTime}"></span></li>
-                                <li class="list-group-item li_info">修改时间：<span th:text="${music.updateTime}"></span></li>
-                                <li class="list-group-item li_info">最后修改：<span th:text="${music.lastAuthor}"></span></li>
+                                <li class="list-group-item li_info" th:if="${music.updateTime} ne null">修改时间：<span th:text="${music.updateTime}"></span></li>
+                                <li class="list-group-item li_info" th:if="${music.lastAuthor} ne null">最后修改：<span th:text="${music.lastAuthor}"></span></li>
                             </ul>
                     </div>
                         <input th:value="${music.id}" type="hidden" id="musicId">

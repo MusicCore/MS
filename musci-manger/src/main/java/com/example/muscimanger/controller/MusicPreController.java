@@ -102,10 +102,10 @@ public class MusicPreController {
             Music music = musicService.listMusicById(id);
             model.addAttribute("music",music);
             model.addAttribute("cmtList",cmtList);
+            int showModify = 0;
             //因为此url被设定为不拦截url,所以在这里拿role,并判断用户是否收藏了此谱,此代码块只针对登录了的用户所作
             Cookie[] cookies=request.getCookies();
             String token = null;
-            String role = null;
             boolean isFav = false;
             for (Cookie cookie : cookies) {
                 switch(cookie.getName()){
@@ -117,11 +117,11 @@ public class MusicPreController {
                 }
             }
             if(token != null){
-                System.out.println(redisTemplate.opsForValue().get(token));
+                if(music.getIsModify() == 1 ) showModify = 1;
                 if(redisTemplate.opsForValue().get(token) != null) {
                     String uid = redisTemplate.opsForValue().get(token);
                     UserDto dto = userService.selectUserById(uid);
-                    role = dto.getRoles();
+                    if (dto.getAccount().equals(music.getAuthorAccount()) || dto.getRoles().equals("superadmin")) showModify = 1;
                     List<Music> list = favoritesService.list(dto.getId());
                     for (Music musicFav:
                             list) {
@@ -129,7 +129,7 @@ public class MusicPreController {
                     }
                 }
             }
-            model.addAttribute("role",role);
+            model.addAttribute("showModify",showModify);
             model.addAttribute("isFav",isFav);
             //因为此url被设定为不拦截url,所以在这里拿role,此代码块只针对登录了的用户所作
         }catch (Exception e){
