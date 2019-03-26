@@ -35,7 +35,7 @@ public interface MusicService {
      * @param music
      * @throws Exception
      */
-    public void  updateMusicInfoById(Music music) throws Exception;
+    public void  updateMusicInfoById(Music music,int isModify) throws Exception;
 
     /**
      * 通过分页查询（其他参数待加

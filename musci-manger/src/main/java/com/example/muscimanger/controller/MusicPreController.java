@@ -185,8 +185,8 @@ public class MusicPreController {
         try {
             Music musicOrigin =  musicService.listMusicById(music.getId());
             music.setAuthorAccount(musicOrigin.getAuthorAccount());
-            music.setIsModify(musicOrigin.getIsModify());
-            musicService.updateMusicInfoById(music);
+//            music.setIsModify(musicOrigin.getIsModify());
+            musicService.updateMusicInfoById(music,musicOrigin.getIsModify());
             return ResultFactory.buildSuccessResult(music.getId());
         }catch (Exception e){
             log.info("简谱更新错误："+e.getMessage());

@@ -56,7 +56,7 @@ public class MusicController {
     public Result musicUpdate(@RequestBody Music music){
         log.info("------------method:musicUpdate-------------");
         try {
-            musicService.updateMusicInfoById(music);
+            musicService.updateMusicInfoById(music,music.getIsModify());
             return  ResultFactory.buildSuccessResult("");
         }catch (Exception e){
             log.info("简谱更新错误："+e.getMessage());
