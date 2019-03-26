@@ -48,14 +48,14 @@ public class ImgManageController {
     @RequestMapping("/imgmanage/show")
     @ResponseBody
     public Result showImg(int page){
-        ImgAndTotal files = getImgList(IMG_PATH_test,security.getTest_domain()+"img/",page);
+        ImgAndTotal files = getImgList(IMG_PATH,security.getDomain()+"img/",page);
         return ResultFactory.buildSuccessResult(files);
     }
 
     @PostMapping("/imgmanage/delete")
     @ResponseBody
     public Result imgDel(String fileName){
-        File file = new File(IMG_PATH_test+File.separator+fileName);
+        File file = new File(IMG_PATH+File.separator+fileName);
         if(file.exists()){
             file.delete();
             log.info("\n删除"+fileName+"文件\n");
@@ -71,14 +71,14 @@ public class ImgManageController {
     @RequestMapping("/imgmanage_bk/show")
     @ResponseBody
     public Result showbkImg(){
-        ImgAndTotal files = getImgList(BKIMG_PATH_test,security.getTest_domain()+"bgImg/",1);
+        ImgAndTotal files = getImgList(BKIMG_PATH,security.getDomain()+"bgImg/",1);
         return ResultFactory.buildSuccessResult(files);
     }
 
     @RequestMapping("/imgmanage_bk/change")
     @ResponseBody
     public Result changeBkImg(MultipartFile file,String name){
-        File file_origin = new File(BKIMG_PATH_test+File.separator + name);
+        File file_origin = new File(BKIMG_PATH+File.separator + name);
         if(file_origin.exists()){
             file_origin.delete();
             log.info("\n替换之前删除"+name+"文件\n");

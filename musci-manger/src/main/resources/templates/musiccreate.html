@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <title>新建曲谱</title>
+    <title>普通人口琴 | 新建曲谱</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
@@ -56,6 +56,7 @@
         // console.log(content)
         // console.log(contentMusic)
         // console.log(contentImg)
+        // console.log(isModify)
         if (title.length > 35){
             title = title.substring(0,35)+'.....'
         }
@@ -79,7 +80,7 @@
             "content" : content,
             "contentImg" : contentImg,
             "contentMusic" : contentMusic,
-            "isModify" : 1
+            "isModify" : isModify
         }
         $('#music_create_btn').attr("disabled", true);
         $.ajax({

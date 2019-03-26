@@ -6,6 +6,22 @@
         <div class="tinymce-container editor-container">
             <textarea th:utext="${content}" id="music"></textarea>
             <div class="editor-custom-btn-container">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm" id="btn_isModify">可修改</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">
+                        <span class="caret" title="在此设置是否别人可以修改"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0)" onclick="changeIsModify(1)">
+                            <span class="glyphicon glyphicon-ok"> 除我外别人<strong>可以修改</strong></span></a>
+                        </li>
+                        <li><a href="javascript:void(0)" onclick="changeIsModify(0)">
+                            <span class="glyphicon glyphicon-remove" style="color: rgb(204, 60, 39);"> 除我外别人<strong>无法修改</strong></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
                     文件上传
                 </button>
@@ -33,7 +49,18 @@
         </div><!-- /.modal -->
     </div>
     <script>
-        //  plugins = 【autosave】
+        var isModify = 1;
+        function changeIsModify(i) {
+            isModify = i;
+            switch (i) {
+                case 0:
+                    $('#btn_isModify').text("不可修改")
+                    break;
+                case 1:
+                    $('#btn_isModify').text("可修改")
+                    break;
+            }
+        }
         var toolbar = ['bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample', 'hr bullist numlist link image charmap	 preview anchor pagebreak insertdatetime media table emoticons forecolor backcolor fullscreen']
         var plugins = ['advlist anchor autolink autosave code codesample colorpicker colorpicker contextmenu directionality emoticons fullscreen hr image importcss insertdatetime link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus table template textcolor textpattern visualblocks visualchars wordcount']
         tinymce.init({

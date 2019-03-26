@@ -17,6 +17,16 @@ public class CommonContext implements Serializable {
 
     private String avatar;
 
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getAvatar() {
         return avatar;
     }

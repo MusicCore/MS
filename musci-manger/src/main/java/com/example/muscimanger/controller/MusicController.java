@@ -107,7 +107,7 @@ public class MusicController {
      */
     public Music insData(Music music){
         //默认系统时间
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
         Date date = new Date();
         if(null==music.getAuthorAccount())
             music.setAuthorAccount(CommonContext.getInstance().getAccount());
