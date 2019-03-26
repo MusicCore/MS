@@ -53,7 +53,7 @@ public interface MusicMapper {
     public List<Music> list() throws Exception;
 
     @Select("SELECT * FROM music_score WHERE id = #{id}")
-    @Cacheable(key="#p0",unless="#result == null")
+    @Cacheable(value = "MI",key="#p0",unless="#result == null")
     public Music listById(Integer id) throws Exception;
 
     @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
