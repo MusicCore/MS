@@ -18,6 +18,9 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * redis缓存配置
+ */
 @Configuration
 public class RedisCacheConfig {
 

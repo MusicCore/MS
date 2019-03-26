@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * 收藏夹Controller
+ */
 @Controller
 public class FavoritesController {
 

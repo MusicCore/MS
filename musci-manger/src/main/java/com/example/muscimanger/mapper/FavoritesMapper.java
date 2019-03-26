@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 收藏夹Mapper
+ */
 @Repository
 @Mapper
 public interface FavoritesMapper {

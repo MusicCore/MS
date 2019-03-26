@@ -26,9 +26,8 @@ import java.util.concurrent.CountDownLatch;
 
 
 /**
- * Redis缓存配置类
+ * Redis缓存配置类（无用）
  * @author szekinwin
- *
  */
 
 public class RedisConfig extends CachingConfigurerSupport{

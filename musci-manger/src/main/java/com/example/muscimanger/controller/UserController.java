@@ -24,7 +24,6 @@ import java.util.List;
  * 用户功能
  * wjk
  */
-
 @RestController
 @RequestMapping("/api")
 //@RestController包含了@ResponseBody故返回的都是json类型的值，不会跳转jsp页面

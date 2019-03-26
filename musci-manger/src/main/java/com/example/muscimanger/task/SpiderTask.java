@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * pyhon爬取汇率（暂时无用）
+ */
 @Component
 public class SpiderTask {
     @Autowired
@@ -24,7 +27,6 @@ public class SpiderTask {
         System.out.println("test-----------------------------");
         for (int i = 1314; i < 1315; i++) {
             String a=utils.getTimeById(i);
-
             Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
             Matcher m_html = p_html.matcher(a);
             a = m_html.replaceAll(""); // 过滤html标签

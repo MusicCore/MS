@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+/**
+ * 谱子Mapper
+ */
 @Mapper
 @CacheConfig(cacheNames = "music")
 public interface MusicMapper {

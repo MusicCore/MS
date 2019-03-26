@@ -19,7 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
 
-
+/**
+ * 拦截器
+ * 对未登录的用户进行过滤
+ * 储存用户信息
+ */
 @Service("SecurityFilter")
 public class SecurityFilter implements HandlerInterceptor {
 

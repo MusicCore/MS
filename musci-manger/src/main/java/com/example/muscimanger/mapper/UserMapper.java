@@ -7,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+/**
+ * 用户Mapper
+ */
 @Repository
 @Mapper
 public interface UserMapper {
