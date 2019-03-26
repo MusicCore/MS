@@ -15,25 +15,25 @@
     <div  class="row">
         <div class="col-md-8 column">
             <div id="musicList" class="row">
-            <div th:each="item:${musiclist}" class="col-md-12 column  music_info">
-                <div class="thumbnail touming">
-                    <div class="caption" style="text-align: center">
-                         <div class="thumbnail touming team-grids">
-                             <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'>
-                                 <img th:src="${item.contentImg}" alt="图片加载失败了" class="img-responsive" style="height: 380px">
-                                 <div class="capth">
-                                     <h4 th:text="${item.title}" class="span_title"></h4>
-                                     <div><span class="span_info">&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<span th:text="${item.authorName}"></span></span>
-                                         <span class="span_info">&nbsp;<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<span th:text="${item.createTime}"></span></span></div>
-                                     <p th:text="${item.contentShort}"></p>
-                                 </div>
-                             </a>
-                         </div>
+                <div th:each="item:${musiclist}" class="col-md-12 column  music_info">
+                    <div class="thumbnail touming">
+                        <div class="caption" style="text-align: center">
+                            <div class="thumbnail touming team-grids">
+                                <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'>
+                                    <img th:src="${item.contentImg}" alt="图片加载失败了" class="img-responsive" style="height: 380px">
+                                    <div class="capth">
+                                        <h4 th:text="${item.title}" class="span_title"></h4>
+                                        <div><span class="span_info">&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<span th:text="${item.authorName}"></span></span>
+                                            <span class="span_info">&nbsp;<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<span th:text="${item.createTime}"></span></span></div>
+                                        <p th:text="${item.contentShort}"></p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-            </div>
+        </div>
 
         <div class="col-md-4 column hidden-xs hidden-sm">
             <div id="fixed">
@@ -46,7 +46,7 @@
             </div>
         </div>
         </div>
-    <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
+    <a href="javascript:void(0)" class="  toTop_img btn-lg" >
         <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(96,96,96); font-size: 53px;"></span>
     </a>
     </div>

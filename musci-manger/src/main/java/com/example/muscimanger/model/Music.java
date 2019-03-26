@@ -2,8 +2,10 @@ package com.example.muscimanger.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Music {
+public class Music implements Serializable {
     private Integer id;
     private String title;
     private String contentMusic;

@@ -5,12 +5,14 @@ import com.example.muscimanger.model.PageForm;
 import com.example.muscimanger.model.SerchBean;
 import com.example.muscimanger.provider.MusicProvider;
 import org.apache.ibatis.annotations.*;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 @Mapper
+@CacheConfig(cacheNames = "music")
 public interface MusicMapper {
     @Insert("INSERT INTO music_score(" +
             "   id," +
@@ -51,12 +53,15 @@ public interface MusicMapper {
     public List<Music> list() throws Exception;
 
     @Select("SELECT * FROM music_score WHERE id = #{id}")
+    @Cacheable(key="#p0",unless="#result == null")
     public Music listById(Integer id) throws Exception;
 
     @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
+    @Caching(put = @CachePut("#p0.id"), evict = { @CacheEvict(value = "Music_Par", allEntries = true) })
     public void  update(Music param) throws Exception;
 
     @Select("SELECT * FROM music_score order by id desc limit #{page.pageStart},#{page.rows}")
+    @Cacheable(value = "Music_Par",key = "#p0.pageStart",unless="#result == null")
     public List<Music> listByPar(@Param("page") PageForm pageForm);
 
     @Select("SELECT COUNT(1) FROM music_score")
