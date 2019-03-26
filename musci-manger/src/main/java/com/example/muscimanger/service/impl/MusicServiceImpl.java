@@ -36,8 +36,10 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public void updateMusicInfoById(Music music) throws Exception {
-        if (music.getIsModify() ==  1 || music.getAuthorAccount().equals(CommonContext.getInstance().getAccount())){
+    public void updateMusicInfoById(Music music,int isModify) throws Exception {
+        if (isModify ==  1 || music.getAuthorAccount().equals(CommonContext.getInstance().getAccount())){
+            //非简谱创建者想把简谱设定为不可修改时拦截此操作，设置成原始状态
+            if (! CommonContext.getInstance().getAccount().equals(music.getAuthorAccount())) music.setIsModify(isModify);
             music.setLastAuthor(CommonContext.getInstance().getName());
             musicMapper.update(music);
         }else {

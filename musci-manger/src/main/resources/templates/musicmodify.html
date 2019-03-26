@@ -58,13 +58,7 @@
         const content = window.tinymce.get('music').getContent()
         const title = $('#title').val()
         const contentShort = $('#contentShort').val()
-        console.log(title)
-        console.log(contentShort)
-        console.log(content)
-        console.log(contentMusic)
-        console.log(contentImg)
-        console.log(musicId)
-        debugger
+        console.log(isModify)
         if(content == ''|| title == '' || contentShort == '' || contentImg == '') {
             swal({
                 title: "未填写警告！",
@@ -82,6 +76,7 @@
             "content" : content,
             "contentImg" : contentImg,
             "contentMusic" : contentMusic,
+            "isModify" : isModify,
             "id" : musicId
         }
         $('#music_create_btn').attr("disabled", true);
@@ -107,7 +102,7 @@
                 }
                 if(result.code == 400) {
                     swal({
-                        title: result.data,
+                        title: result.message,
                         text: "曲谱修改失败！",
                         icon: "error",
                         timer: 5000,
