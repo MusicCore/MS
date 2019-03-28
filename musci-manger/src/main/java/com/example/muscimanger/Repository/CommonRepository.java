@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 评论Reposotory
+ * 继承jap
+ */
 @Repository
 public interface CommonRepository extends JpaRepository<Comment,Integer> {
     List<Comment> findAll();

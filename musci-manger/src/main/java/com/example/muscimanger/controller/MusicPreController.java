@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 前端Controller
+ */
 @Controller
 public class MusicPreController {
 
@@ -42,6 +45,12 @@ public class MusicPreController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    /**
+     * 添加评论
+     * @param model
+     * @param comment
+     * @return
+     */
     @PostMapping(value="/comment")
     @ResponseBody
     public Result toComment(Model model,@RequestBody Comment comment){
@@ -56,6 +65,12 @@ public class MusicPreController {
         }
     }
 
+    /**
+     * 移除评论
+     * @param model
+     * @param id
+     * @return
+     */
     @PostMapping(value="/rComment")
     @ResponseBody
     public Result removerComment(Model model, Integer id){
@@ -69,6 +84,12 @@ public class MusicPreController {
         }
     }
 
+    /**
+     * 分页查询谱子数据 返回首页
+     * @param model
+     * @param pageForm
+     * @return
+     */
     @GetMapping(value = "/")
     public String goIndex(Model model, PageForm pageForm){
         pageForm.setPageStart(1);
@@ -82,18 +103,34 @@ public class MusicPreController {
         return "index.html";
     }
 
-
+    /**
+     * 跳转上传谱子页面
+     * @return
+     */
     @GetMapping(value = "/musiccreate")
     public String toMusicCreate(){
         return "musiccreate.html";
     }
-
+    /**
+     * 跳转注册页面
+     * @return
+     */
     @GetMapping(value = "/register")
     public String toRegister() { return "register.html"; }
-
+    /**
+     * 跳转收藏夹页面
+     * @return
+     */
     @GetMapping(value = "/musicfav")
     public String toFav() { return "musicfav.html"; }
 
+    /**
+     * 谱子详情页面
+     * @param model
+     * @param id
+     * @param request
+     * @return
+     */
     @GetMapping(value = "/musicdetail")
     public String getMusicDetail(Model model, int id,HttpServletRequest request){
 
@@ -139,10 +176,17 @@ public class MusicPreController {
         return "musicdetail.html";
     }
 
+    /**
+     * 搜索谱子
+     * @param request
+     * @param title
+     * @param pageForm
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/musicSR")
     public String getMusicListforTitle(HttpServletRequest request, @RequestParam("title") String title, PageForm pageForm, Model model){
         try {
-//            title = URLDecoder.decode(title,"utf-8");
             SerchBean SB = SerchBean.getFromExt(request);
             TableTagBean ttb = TableTagBean.getFromExt(request);
             List<Music> list = musicService.listByTitle(SB);
@@ -153,8 +197,6 @@ public class MusicPreController {
         }
         return "musicserch.html";
     }
-
-
     /**
      * 获取修改页面信息
      * @param id
@@ -194,6 +236,10 @@ public class MusicPreController {
         }
     }
 
+    /**
+     * 装填数据
+     * @param comment
+     */
     public void initComment(Comment comment){
         //默认系统时间
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
