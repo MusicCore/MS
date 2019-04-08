@@ -162,7 +162,10 @@ public class MusicPreController {
                     List<Music> list = favoritesService.list(dto.getId());
                     for (Music musicFav:
                             list) {
-                        if(music.getId() == musicFav.getId()) isFav = true;
+                        if(music.getId() == musicFav.getId()) {
+                            isFav = true;
+                            break;
+                        }
                     }
                 }
             }

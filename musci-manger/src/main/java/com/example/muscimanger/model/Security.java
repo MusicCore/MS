@@ -15,9 +15,26 @@ public class Security {
     private String loginAllows;
     //    服务器域名
     private String domain;
-
     //    本地测试域名
     private String test_domain;
+    private String wxspAppid;
+    private String wxspSecret;
+
+    public String getWxspAppid() {
+        return wxspAppid;
+    }
+
+    public void setWxspAppid(String wxspAppid) {
+        this.wxspAppid = wxspAppid;
+    }
+
+    public String getWxspSecret() {
+        return wxspSecret;
+    }
+
+    public void setWxspSecret(String wxspSecret) {
+        this.wxspSecret = wxspSecret;
+    }
 
     public String getEnable() {
         return enable;

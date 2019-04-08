@@ -6,6 +6,7 @@ import com.example.muscimanger.model.PageForm;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -31,7 +32,12 @@ public class MusicAspect {
     private final String MUSIC_SET_KEY = "music_set";
     @Pointcut(value = "within(com.example.muscimanger.mapper.MusicMapper)")
     public void MusicAop() {
+        System.out.println("aop");
+    }
 
+    @Before("MusicAop()")
+    public void before(){
+        System.out.println("before");
     }
 
     @Around("MusicAop()")
