@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -20,16 +21,18 @@ import java.util.Set;
  * 包括
  * 分页缓存处理
  */
-@Component
 @Aspect
+@Component
 public class MusicAspect {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private MusicMapper musicMapper;
 
+
     private final String MUSIC_SET_KEY = "music_set";
-    @Pointcut(value = "within(com.example.muscimanger.mapper.MusicMapper)")
+
+    @Pointcut(value = "within( com.example.muscimanger.service.impl.*)" )
     public void MusicAop() {
 
     }
@@ -40,10 +43,17 @@ public class MusicAspect {
         String methodName = pjp.getSignature().getName();
         //参数
         Object[] objects = pjp.getArgs();
-        if ("listByPar".equals(methodName)){
+        if ("listMusicByPar".equals(methodName)){
             PageForm page =  (PageForm) objects[0];
             try {
-                Set<Integer> ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getPageStart(), page.getRows());
+                Set<Integer> ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getPageStart(), page.getRows()-1);
+                if(ids.size()<=0){
+                    List<Integer> Aids = musicMapper.list();
+                    for (Integer id: Aids) {
+                        redisTemplate.opsForZSet().add(MUSIC_SET_KEY, id, id);
+                    }
+                    ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getPageStart(), page.getRows()-1);
+                }
                 List<Music> list = new ArrayList<>(ids.size());
                 for (int id : ids){
                     //查询list的时候冲缓存中拿取
@@ -51,16 +61,18 @@ public class MusicAspect {
                     //后面以命中缓存为准
                     list.add(musicMapper.listById(id));
                 }
+                return list;
             }catch (Exception e){
                 try {
-                    //arround(前-执行-后)
                     return pjp.proceed();//执行
+//                    arround(前-执行-后)
+
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                     return null;
                 }
             }
-        }else if("save".equals(methodName)){
+        }else if("saveMusic".equals(methodName)){
             Music music =  (Music) objects[0];
             try {
                 pjp.proceed();
@@ -71,7 +83,7 @@ public class MusicAspect {
             }
             //添加
             redisTemplate.opsForZSet().add(MUSIC_SET_KEY, music.getId(), music.getId());
-        }else if("update".equals(methodName)){
+        }else if("updateMusicInfoById".equals(methodName)){
             Music music =  (Music) objects[0];
             try {
                 pjp.proceed();
@@ -84,6 +96,17 @@ public class MusicAspect {
         }else if("delete".equals(methodName)) {
                  int id = (int) objects[0];
                redisTemplate.opsForZSet().remove(MUSIC_SET_KEY, id);
+        }else if("listAll".equals(methodName)){
+            try {
+                List<Integer> ids = (List<Integer>)pjp.proceed();
+                for (Integer id: ids) {
+                    redisTemplate.opsForZSet().add(MUSIC_SET_KEY, id, id);
+                }
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                return null;
+            }
+
         }
         try {
             return pjp.proceed();

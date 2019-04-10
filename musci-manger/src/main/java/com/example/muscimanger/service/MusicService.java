@@ -21,7 +21,7 @@ public interface MusicService {
      * @return
      * @throws Exception
      */
-    public List<Music> listMusic() throws Exception;
+    public List<Integer> listMusic() throws Exception;
 
     /**
      * 查询

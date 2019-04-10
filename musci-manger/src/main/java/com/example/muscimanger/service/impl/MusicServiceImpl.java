@@ -24,9 +24,9 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public List<Music> listMusic() throws Exception {
-        List<Music> list = musicMapper.list();
-        return list;
+    public List<Integer> listMusic() throws Exception {
+        List<Integer> ids = musicMapper.list();
+        return ids;
     }
 
     @Override

@@ -53,8 +53,8 @@ public interface MusicMapper {
     @CachePut(key = "'MI'+#p0.id")
     public void save(Music param) throws Exception;
 
-    @Select("SELECT * FROM music_score")
-    public List<Music> list() throws Exception;
+    @Select("SELECT id FROM music_score")
+    public List<Integer> list() throws Exception;
 
     @Select("SELECT * FROM music_score WHERE id = #{id}")
     @Cacheable(key="'MI'+#p0",unless="#result == null")
