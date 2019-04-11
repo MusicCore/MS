@@ -58,7 +58,7 @@ public class TokenServiceImpl {
             redisUtil.set(token,key,7,TimeUnit.DAYS);
 //            redisUtil.set(key,session,20,TimeUnit.MINUTES);
         }else{
-            redisUtil.set(token,key);
+            redisUtil.set(token,key,7,TimeUnit.DAYS);
 //            redisUtil.set(key,session);
         }
     }

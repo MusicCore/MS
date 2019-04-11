@@ -42,4 +42,19 @@ public interface FavoritesService {
      * @throws Exception
      */
     public void remove(Integer id) throws Exception;
+
+    /**
+     * 关联用户id和谱子id  微信接口
+     * @param openId
+     * @param unionId
+     * @param musicId
+     * @throws Exception
+     */
+    public void saveWx(String openId,String unionId,Integer musicId) throws Exception;
+
+    public List<Music> listWx(String openId) throws Exception;
+
+    public JSONObject listByPageWx(String openId, Integer page, Integer rows) throws Exception;
+
+    public void removeWx(Integer musicId,String openId) throws Exception;
 }

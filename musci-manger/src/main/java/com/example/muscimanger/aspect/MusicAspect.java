@@ -6,6 +6,7 @@ import com.example.muscimanger.model.PageForm;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,7 +35,12 @@ public class MusicAspect {
 
     @Pointcut(value = "within( com.example.muscimanger.service.impl.*)" )
     public void MusicAop() {
+        System.out.println("aop");
+    }
 
+    @Before("MusicAop()")
+    public void before(){
+        System.out.println("before");
     }
 
     @Around("MusicAop()")

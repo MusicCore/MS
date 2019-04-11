@@ -6,6 +6,7 @@ import com.example.muscimanger.controller.MusicPreController;
 import com.example.muscimanger.mapper.FavoritesMapper;
 import com.example.muscimanger.model.CommonContext;
 import com.example.muscimanger.model.Music;
+import com.example.muscimanger.model.PageForm;
 import com.example.muscimanger.service.FavoritesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,7 @@ public class FavoritesServiceImpl implements FavoritesService{
         JSONObject obj = new JSONObject();
         obj.put("favlist",favoritesMapper.listFavoritesByPage(Uid,(page-1)*rows,rows));
         int totalPages = favoritesMapper.listFavoritesTotal(Uid);
-        if((totalPages % rows) > 0) {
-            totalPages = totalPages / rows + 1;
-        }else {
-            totalPages = totalPages / rows;
-        }
-        obj.put("totalPages",totalPages);
+        obj.put("totalPages",getTotal(totalPages,rows));
         return obj;
     }
 
@@ -48,6 +44,41 @@ public class FavoritesServiceImpl implements FavoritesService{
     @Override
     public void remove(Integer Mid) throws Exception{
         favoritesMapper.removeFavorites(Mid, CommonContext.getInstance().getId());
-        log.info("\n用户ID："+ Mid +"取消收藏：" + CommonContext.getInstance().getId() +"\n");
+        log.info("\n用户ID："+ CommonContext.getInstance().getId() +"取消收藏：" + Mid +"\n");
+    }
+
+    //以下为微信接口impl
+    @Override
+    public void saveWx(String openId, String unionId, Integer musicId) throws Exception {
+        favoritesMapper.saveWx(openId,unionId,musicId);
+    }
+
+    @Override
+    public List<Music> listWx(String openId) throws Exception {
+        return favoritesMapper.listFavoritesWx(openId);
+    }
+
+    @Override
+    public JSONObject listByPageWx(String openId, Integer page, Integer rows) throws Exception {
+        JSONObject obj = new JSONObject();
+        PageForm pageForm = new PageForm(page,rows);
+        obj.put("favlist",favoritesMapper.listFavoritesByPageWx(openId,pageForm.getPageStart(),pageForm.getRows()));
+        int totalPageWx = favoritesMapper.listFavoritesTotalWx(openId);
+        obj.put("totalPages",getTotal(totalPageWx,rows));
+        return obj;
+    }
+
+    @Override
+    public void removeWx(Integer musicId,String openId) throws Exception {
+        favoritesMapper.removeFavoritesWx(musicId, openId);
+        log.info("\n微信用户ID："+ openId +"取消收藏：" + musicId +"\n");
+    }
+
+    public int getTotal(int totalPages,int rows){
+        if((totalPages % rows) > 0) {
+            return totalPages / rows + 1;
+        }else {
+            return totalPages / rows;
+        }
     }
 }
