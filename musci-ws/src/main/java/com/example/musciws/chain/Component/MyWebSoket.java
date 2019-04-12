@@ -32,7 +32,7 @@ public class MyWebSoket {
      * table代表聊天室的位置
      * id保存MyWebSoket
      */
-    private static ConcurrentMap<String,ConcurrentMap<Integer,MyWebSoket>> tableW_clients  = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String,ConcurrentMap<String,MyWebSoket>> tableW_clients  = new ConcurrentHashMap<>();
     /**
      *  会话
      */
@@ -48,7 +48,7 @@ public class MyWebSoket {
     /**
      * 用户id
      */
-    private Integer id;
+    private String id;
     /**
      * 建立连接
      * @param
@@ -56,7 +56,7 @@ public class MyWebSoket {
      * @param session
      */
     @OnOpen
-    public void onOpen(@PathParam("id")Integer id, Session session){
+    public void onOpen(@PathParam("id")String id, Session session){
         chatNum++;
 //        logger.info("现在来连接的客户id："+session.getId()+"用户名："+name);
 //        this.username = name;
@@ -75,7 +75,7 @@ public class MyWebSoket {
 
             sendMessageAll(JSON.toJSONString(map1),table);
 
-            ConcurrentHashMap<Integer, MyWebSoket> clients = new ConcurrentHashMap<Integer, MyWebSoket>();
+            ConcurrentHashMap<String, MyWebSoket> clients = new ConcurrentHashMap<String, MyWebSoket>();
             //            加入自己的信息
             clients.put(id,this);
             //            加入聊天室的信息
@@ -83,7 +83,7 @@ public class MyWebSoket {
             //给自己发一条消息：告诉自己现在都有谁在线
             Map<String,Object> map2 = Maps.newHashMap();
             map2.put("messageType",3);
-            Set<Integer> set = tableW_clients.get(table).keySet();
+            Set<String> set = tableW_clients.get(table).keySet();
             map2.put("onlineUsers",set);
             sendMessageTo(JSON.toJSONString(map2),table,id);
         }catch (IOException e){
@@ -105,7 +105,7 @@ public class MyWebSoket {
      * 连接关闭
      */
     @OnClose
-    public void close(String num){
+    public void close(@PathParam("table") String num){
         chatNum--;
         tableW_clients.get(num).remove(id);
         try {
@@ -132,8 +132,8 @@ public class MyWebSoket {
             JSONObject json  = JSON.parseObject(message);
             String tableN = json.getString("table");
             String msg = json.getString("message");
-            Integer fromid = Integer.parseInt(json.getString("id"));
-            Integer toid = Integer.parseInt(json.getString("toid"));
+            String fromid = json.getString("id");
+            String toid =json.getString("toid");
             String fromusername = json.getString("username");
             String tousername =json.getString("toname");
             //如果不是发给所有，那么就发给某一个人
@@ -173,7 +173,7 @@ public class MyWebSoket {
      * @param message
      * @throws IOException
      */
-    public void sendMessageAll(ConcurrentMap<Integer,MyWebSoket> clients,String message) throws IOException {
+    public void sendMessageAll(ConcurrentMap<String,MyWebSoket> clients,String message) throws IOException {
         for (MyWebSoket item : clients.values()) {
             item.session.getAsyncRemote().sendText(message);
         }
@@ -184,7 +184,7 @@ public class MyWebSoket {
      * @param table
      * @throws IOException
      */
-    public void sendMessageTo(String message,String table,Integer id) throws IOException {
+    public void sendMessageTo(String message,String table,String id) throws IOException {
         if (tableW_clients.containsKey(table)){
             sendMessageTo(tableW_clients.get(table),message,id);
         }
@@ -196,7 +196,7 @@ public class MyWebSoket {
      * @param message
      * @throws IOException
      */
-    public void sendMessageTo(ConcurrentMap<Integer,MyWebSoket> clients,String message,Integer id) throws IOException {
+    public void sendMessageTo(ConcurrentMap<String,MyWebSoket> clients,String message,String id) throws IOException {
         for (MyWebSoket item : clients.values()) {
             if (item.id.equals(id) ) {
                 item.session.getAsyncRemote().sendText(message);
