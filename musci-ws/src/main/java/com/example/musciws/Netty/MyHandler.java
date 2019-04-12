@@ -1,15 +1,11 @@
-package com.example.musciws;
+package com.example.musciws.Netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.buffer.UnpooledDirectByteBuf;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.Charset;
 
 public class MyHandler extends SimpleChannelInboundHandler<Object> {
     private WebSocketServerHandshaker handshaker;
@@ -20,10 +16,11 @@ public class MyHandler extends SimpleChannelInboundHandler<Object> {
 
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof FullHttpRequest) { // 传统的HTTP接入
             handleHttpRequest(ctx, (FullHttpRequest) msg);
-        } else if (msg instanceof WebSocketFrame) { // WebSocket接入
+        }
+        if (msg instanceof WebSocketFrame) { // WebSocket接入
             handleWebSocketFrame(ctx, (WebSocketFrame) msg);
         }
     }
@@ -38,7 +35,7 @@ public class MyHandler extends SimpleChannelInboundHandler<Object> {
         ctx.close();
     }
 
-//    @Override
+    @Override
     public void close(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
 //        super.close(ctx, promise);
         System.out.println("delete : id = " + this.sessionId + " table = " + this.table);
@@ -110,7 +107,7 @@ public class MyHandler extends SimpleChannelInboundHandler<Object> {
      * @param ctx
      * @param frame
      */
-    private void handleWebSocketFrame(ChannelHandlerContext ctx,WebSocketFrame frame){
+    private void handleWebSocketFrame(ChannelHandlerContext ctx,WebSocketFrame frame)throws Exception{
         // 判断是否是关闭链路的指令
         if (frame instanceof CloseWebSocketFrame){
             handshaker.close(ctx.channel(),(CloseWebSocketFrame)frame.retain());
@@ -134,7 +131,7 @@ public class MyHandler extends SimpleChannelInboundHandler<Object> {
                 if(InformationOperateMap.map.containsKey(mage.getTable())){
                     //判断是否有其他用户
                     if(InformationOperateMap.map.get(mage.getTable()).size() > 0){
-                        InformationOperateMap.map.get((mage.getTable()).forEach((id, iom) ->{
+                        InformationOperateMap.map.get(mage.getTable()).forEach((id,iom) ->{
                             try {
                                 Mage mag = iom.getMage();
                                 mag.setMessage("30003");
@@ -143,7 +140,7 @@ public class MyHandler extends SimpleChannelInboundHandler<Object> {
                             } catch (Exception e) {
                                 System.err.println(e);
                             }
-                        }));
+                        });
                     }
                 }
                 //添加用户
@@ -166,6 +163,12 @@ public class MyHandler extends SimpleChannelInboundHandler<Object> {
             System.err.println("------------------error--------------------------");
         }
     }
+
+    /**
+     * WebSocket返回
+     * @param msg
+     * @throws Exception
+     */
     public void sendWebSocket(String msg) throws Exception {
         if (this.handshaker == null || this.ctx == null || this.ctx.isRemoved()) {
             throw new Exception("尚未握手成功，无法向客户端发送WebSocket消息");

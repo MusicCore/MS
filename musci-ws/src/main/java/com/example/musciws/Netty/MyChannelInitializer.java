@@ -1,4 +1,4 @@
-package com.example.musciws;
+package com.example.musciws.Netty;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
