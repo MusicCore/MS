@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MWsController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("/mywebsocket/{id}")
-    public String webSocket(@PathVariable String id, Model model){
+    @RequestMapping("/mywebsocket/")
+    public String webSocket(){
         try{
             logger.info("跳转到mywebsocket的页面上");
-            model.addAttribute("id",id);
             return "webTable.html";
         }
         catch (Exception e){

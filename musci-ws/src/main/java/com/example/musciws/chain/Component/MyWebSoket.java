@@ -13,14 +13,14 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 
-//@Component
-//@ServerEndpoint("/mywebsoket/{id}")
+@Component
+@ServerEndpoint("/mywebsoket/{table}")
 public class MyWebSoket {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
@@ -30,7 +30,6 @@ public class MyWebSoket {
     /**
      * 聊天室
      * table代表聊天室的位置
-     * id保存MyWebSoket
      */
     private static ConcurrentMap<String,ConcurrentMap<String,MyWebSoket>> tableW_clients  = new ConcurrentHashMap<>();
     /**
@@ -52,17 +51,16 @@ public class MyWebSoket {
     /**
      * 建立连接
      * @param
-     * @param id
      * @param session
      */
     @OnOpen
-    public void onOpen(@PathParam("id")String id, Session session){
+    public void onOpen(@PathParam("table")String table, Session session){
         chatNum++;
-//        logger.info("现在来连接的客户id："+session.getId()+"用户名："+name);
-//        this.username = name;
-        this.id =id;
-//        this.table=table;
+        this.username = randomName();
+        this.id =session.getId();
+        this.table=table;
         this.session = session;
+        logger.info("现在来连接的客户id："+session.getId()+"用户名："+username);
         logger.info("有新连接加入！ 当前在线人数" + chatNum);
         try {
             //messageType 1代表上线 2代表下线 3代表在线名单 4代表普通消息
@@ -70,8 +68,8 @@ public class MyWebSoket {
             Map<String,Object> map1 = Maps.newHashMap();
             map1.put("messageType",1);
             map1.put("username",username);
-//            map1.put("id",id);
-//            map1.put("table",table);
+            map1.put("id",id);
+            map1.put("table",table);
 
             sendMessageAll(JSON.toJSONString(map1),table);
 
@@ -83,7 +81,12 @@ public class MyWebSoket {
             //给自己发一条消息：告诉自己现在都有谁在线
             Map<String,Object> map2 = Maps.newHashMap();
             map2.put("messageType",3);
-            Set<String> set = tableW_clients.get(table).keySet();
+            Set<String> set = new HashSet<>();
+            for (MyWebSoket s:tableW_clients.get(table).values()) {
+                set.add(s.username);
+            }
+//            Set<String> set = tableW_clients.get(table).keySet();
+            set.remove(username);
             map2.put("onlineUsers",set);
             sendMessageTo(JSON.toJSONString(map2),table,id);
         }catch (IOException e){
@@ -144,12 +147,12 @@ public class MyWebSoket {
             map1.put("fromusername",fromusername);
             if(tousername.equals("All")){
                 map1.put("tousername","所有人");
-                sendMessageAll(JSON.toJSONString(map1),fromusername);
+                sendMessageAll(JSON.toJSONString(map1),table);
             }
             else{
                 map1.put("tousername",tousername);
                 map1.put("toid",toid);
-                sendMessageTo(JSON.toJSONString(map1),tableN,id);
+                sendMessageTo(JSON.toJSONString(map1),tableN,fromid);
             }
         }catch (IOException o){
             logger.info("发生了错误了");
@@ -206,5 +209,25 @@ public class MyWebSoket {
     }
     public static synchronized int getOnlineCount() {
         return chatNum;
+    }
+
+    //随机姓名
+    private String randomName() {
+        Random random = new Random();
+        String str = "";
+        int hightPos, lowPos;
+        for (int i = 0; i < 4; ++i) {
+            hightPos = (176 + Math.abs(random.nextInt(39)));
+            lowPos = (161 + Math.abs(random.nextInt(93)));
+            byte[] b = new byte[2];
+            b[0] = (Integer.valueOf(hightPos)).byteValue();
+            b[1] = (Integer.valueOf(lowPos)).byteValue();
+            try {
+                str += new String(b, "GB2312");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        return str;
     }
 }

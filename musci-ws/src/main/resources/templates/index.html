@@ -40,7 +40,7 @@
             socket = new WebSocket("ws://127.0.0.1:9099/");
             //接收消息
             socket.onmessage = function (data) {
-                                                                                    console.log("console.log()"+data);
+                console.log("console.log()"+data);
                 var mage = JSON.parse(data.data);
                 console.log(mage.message);
                 if(mage.message == "10001"){
