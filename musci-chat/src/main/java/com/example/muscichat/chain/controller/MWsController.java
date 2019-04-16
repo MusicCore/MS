@@ -1,4 +1,4 @@
-package com.example.musciws.chain.controller;
+package com.example.muscichat.chain.controller;
 
 import com.example.musciws.chain.tool.radom;
 import org.slf4j.Logger;

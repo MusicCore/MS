@@ -1,4 +1,4 @@
-package com.example.musciws.chain.Component;
+package com.example.muscichat.chain.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
