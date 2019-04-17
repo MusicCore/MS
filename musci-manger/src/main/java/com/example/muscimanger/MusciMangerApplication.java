@@ -11,12 +11,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @PropertySource("${spring.config.location:classpath}:common-application.properties")
 @EnableCaching
+@EnableEurekaClient
 public class MusciMangerApplication {
 
     public static void main(String[] args) {
@@ -58,5 +62,16 @@ public class MusciMangerApplication {
         log.info("\n将监听到80端口转向443 SSL加密端口");
         return connector;
     }
+
+    /**
+     * 实现负载均衡
+     * @return
+     */
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+
 }
 

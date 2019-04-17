@@ -16,6 +16,8 @@
         <option value="$PROJECT_DIR$/musci-show/pom.xml" />
         <option value="$PROJECT_DIR$/musci-eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/musci-ws/pom.xml" />
+        <option value="$PROJECT_DIR$/musci-cfg/pom.xml" />
+        <option value="$PROJECT_DIR$/musci-chat/pom.xml" />
       </list>
     </option>
   </component>
