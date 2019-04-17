@@ -49,6 +49,9 @@
     <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
         <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(96,96,96); font-size: 53px;"></span>
     </a>
+    <div class="ba_info">
+        备案/许可证编号 | <a href="http://www.miitbeian.gov.cn/" class="ba_text">粤ICP备19037341号</a>
+    </div><br>
     </div>
 </div>
 <div th:include="common/backgroundimg::backGroundImg"></div>
@@ -82,7 +85,7 @@
             documentHeight.push($(document).height())
             if(documentHeight[documentHeight.length-1]>documentHeight[documentHeight.length-2]){
                 documentHeight[documentHeight.length-2] = documentHeight[documentHeight.length-2] + documentHeight[documentHeight.length-1];
-                // console.log("我在底部")
+                console.log("我在底部")
                 $('#img_loading').css("display","block")
                 listMusic();
                 pageStart++
@@ -139,6 +142,12 @@
     }
 </script>
 <style>
+    .ba_info{
+        text-align: center;
+    }
+    .ba_text{
+        color: black;
+    }
     .back_to_top{
         position: fixed;
         _position: absolute;

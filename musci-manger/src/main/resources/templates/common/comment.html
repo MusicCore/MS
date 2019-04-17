@@ -216,6 +216,16 @@
             if(window.tinymce.get('comment_tinymce_child').getContent() == '') {
                 return false
             }
+            if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){
+                swal({
+                    title: "请先登录！",
+                    text: "失败！",
+                    icon: "error",
+                    timer: 3000,
+                    allowOutsideClick: true
+                });
+                return false
+            }
             $('#editor-custom-btn-child').html('<img src="static/img/body-img/loading/loading_btn.gif">')
             const cmt = {
                 "commentPostId" : $('#musicId').val(),
@@ -259,6 +269,16 @@
 
         function addComment() {
             if(window.tinymce.get('comment_tinymce').getContent() == '') {
+                return false
+            }
+            if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){
+                swal({
+                    title: "请先登录！",
+                    text: "失败！",
+                    icon: "error",
+                    timer: 3000,
+                    allowOutsideClick: true
+                });
                 return false
             }
             $('#editor-custom-btn').html('<img src="static/img/body-img/loading/loading_btn.gif">')
