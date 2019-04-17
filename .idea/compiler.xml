@@ -9,11 +9,13 @@
         <module name="musci-eureka-server" />
         <module name="musci-manger" />
         <module name="musci-show" />
+        <module name="musci-ws" />
         <module name="musci-zuul" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="musci-t" target="1.8" />
+      <module name="musci-websocket" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -21,6 +23,7 @@
       <module name="musci-eureka-server" options="-parameters" />
       <module name="musci-manger" options="-parameters" />
       <module name="musci-show" options="-parameters" />
+      <module name="musci-ws" options="-parameters" />
       <module name="musci-zuul" options="-parameters" />
     </option>
   </component>

@@ -1,0 +1,17 @@
+#server:
+#  port: 8002
+#
+#eureka:
+#  instance:
+#    hostname: CfgMgr
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/MusicCore/Config.git
+#          searchPaths: Config
+#          username: wjk5342311
+#          password: 5342311
+#      label: master
+#
+#

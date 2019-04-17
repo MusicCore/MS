@@ -3,6 +3,7 @@ package com.example.musciws.chain.Component;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.musciws.WebSocket.WebSocket;
+import com.example.musciws.chain.tool.radom;
 import com.google.common.collect.Maps;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
@@ -13,14 +14,14 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 
-//@Component
-//@ServerEndpoint("/mywebsoket/{id}")
+@Component
+@ServerEndpoint("/mywebsoket/{table}")
 public class MyWebSoket {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
@@ -30,9 +31,8 @@ public class MyWebSoket {
     /**
      * 聊天室
      * table代表聊天室的位置
-     * id保存MyWebSoket
      */
-    private static ConcurrentMap<String,ConcurrentMap<String,MyWebSoket>> tableW_clients  = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String,Set<Session>> rooms  = new ConcurrentHashMap<>();
     /**
      *  会话
      */
@@ -46,22 +46,15 @@ public class MyWebSoket {
      */
     private String table;
     /**
-     * 用户id
-     */
-    private String id;
-    /**
      * 建立连接
      * @param
-     * @param id
      * @param session
      */
     @OnOpen
-    public void onOpen(@PathParam("id")String id, Session session){
+    public void onOpen(@PathParam("table")String table, Session session){
         chatNum++;
-//        logger.info("现在来连接的客户id："+session.getId()+"用户名："+name);
-//        this.username = name;
-        this.id =id;
-//        this.table=table;
+        this.username = radom.randomName();
+        this.table=table;
         this.session = session;
         logger.info("有新连接加入！ 当前在线人数" + chatNum);
         try {
@@ -70,22 +63,27 @@ public class MyWebSoket {
             Map<String,Object> map1 = Maps.newHashMap();
             map1.put("messageType",1);
             map1.put("username",username);
-//            map1.put("id",id);
-//            map1.put("table",table);
-
-            sendMessageAll(JSON.toJSONString(map1),table);
-
-            ConcurrentHashMap<String, MyWebSoket> clients = new ConcurrentHashMap<String, MyWebSoket>();
+            map1.put("table",table);
             //            加入自己的信息
-            clients.put(id,this);
             //            加入聊天室的信息
-            tableW_clients.put(table,clients);
+            // 将session按照房间名来存储，将各个房间的用户隔离
+            if (!rooms.containsKey(table)) {
+                // 创建房间不存在时，创建房间
+                Set<Session> room = new HashSet<>();
+                // 添加用户
+                room.add(session);
+                rooms.put(table,room);
+            } else {
+                // 房间已存在，直接添加用户到相应的房间
+                rooms.get(table).add(session);
+            }
+            sendMessageAll(JSON.toJSONString(map1),table);
             //给自己发一条消息：告诉自己现在都有谁在线
-            Map<String,Object> map2 = Maps.newHashMap();
-            map2.put("messageType",3);
-            Set<String> set = tableW_clients.get(table).keySet();
-            map2.put("onlineUsers",set);
-            sendMessageTo(JSON.toJSONString(map2),table,id);
+//            Map<String,Object> map2 = Maps.newHashMap();
+//            map2.put("messageType",3);
+//            Set<Session> room =rooms.get(table);
+//            Set<String> set = new HashSet<>();
+//            sendMessageTo(JSON.toJSONString(map2),table,username);
         }catch (IOException e){
             logger.info("服务端发生了错误"+e.getMessage());
         }
@@ -105,14 +103,16 @@ public class MyWebSoket {
      * 连接关闭
      */
     @OnClose
-    public void close(@PathParam("table") String num){
+    public void close(@PathParam("table") String num,Session session){
         chatNum--;
-        tableW_clients.get(num).remove(id);
+        rooms.get(num).remove(session);
+        if(rooms.get(num).isEmpty()){
+            rooms.remove(num);
+        }
         try {
             //messageType 1代表上线 2代表下线 3代表在线名单  4代表普通消息
             Map<String,Object> map1 = Maps.newHashMap();
             map1.put("messageType",2);
-            map1.put("onlineUsers", tableW_clients.get(num).keySet());
             map1.put("username",username);
             sendMessageAll(JSON.toJSONString(map1),username);
         }catch (IOException o){
@@ -120,7 +120,6 @@ public class MyWebSoket {
         }
         logger.info("有连接关闭！ 当前在线人数" + chatNum);
     }
-
     /**
      * 接受消息
      * @param message
@@ -132,25 +131,14 @@ public class MyWebSoket {
             JSONObject json  = JSON.parseObject(message);
             String tableN = json.getString("table");
             String msg = json.getString("message");
-            String fromid = json.getString("id");
-            String toid =json.getString("toid");
             String fromusername = json.getString("username");
-            String tousername =json.getString("toname");
-            //如果不是发给所有，那么就发给某一个人
             //messageType 1代表上线 2代表下线 3代表在线名单  4代表普通消息
             Map<String,Object> map1 = Maps.newHashMap();
             map1.put("messageType",4);
             map1.put("textMessage",msg);
             map1.put("fromusername",fromusername);
-            if(tousername.equals("All")){
-                map1.put("tousername","所有人");
-                sendMessageAll(JSON.toJSONString(map1),fromusername);
-            }
-            else{
-                map1.put("tousername",tousername);
-                map1.put("toid",toid);
-                sendMessageTo(JSON.toJSONString(map1),tableN,id);
-            }
+            //对所有人说
+            sendMessageAll(JSON.toJSONString(map1),table);
         }catch (IOException o){
             logger.info("发生了错误了");
         }
@@ -162,20 +150,18 @@ public class MyWebSoket {
      * @throws IOException
      */
     public void sendMessageAll(String message,String table) throws IOException {
-        if (tableW_clients.containsKey(table)){
-            sendMessageAll(tableW_clients.get(table),message);
+        if (rooms.containsKey(table)){
+            sendMessageAll(rooms.get(table),message);
         }
     }
-
     /**
-     * 发送消息给别人
-     * @param clients
+     * 广播
      * @param message
      * @throws IOException
      */
-    public void sendMessageAll(ConcurrentMap<String,MyWebSoket> clients,String message) throws IOException {
-        for (MyWebSoket item : clients.values()) {
-            item.session.getAsyncRemote().sendText(message);
+    public void sendMessageAll(Set<Session> room,String message) throws IOException {
+        for (Session item : room) {
+            item.getAsyncRemote().sendText(message);
         }
     }
     /**
@@ -184,27 +170,27 @@ public class MyWebSoket {
      * @param table
      * @throws IOException
      */
-    public void sendMessageTo(String message,String table,String id) throws IOException {
-        if (tableW_clients.containsKey(table)){
-            sendMessageTo(tableW_clients.get(table),message,id);
+    public void sendMessageTo(String message,String table,String username) throws IOException {
+        if (rooms.containsKey(table)){
+            sendMessageTo(rooms.get(table),message,username);
         }
     }
 
     /**
      * 自己发送消息
-     * @param clients
      * @param message
      * @throws IOException
      */
-    public void sendMessageTo(ConcurrentMap<String,MyWebSoket> clients,String message,String id) throws IOException {
-        for (MyWebSoket item : clients.values()) {
-            if (item.id.equals(id) ) {
-                item.session.getAsyncRemote().sendText(message);
-                break;
-            }
-        }
+    public void sendMessageTo(Set<Session> room,String message,String username) throws IOException {
+//        for (MyWebSoket item : room) {
+//            if (item.username.equals(username) ) {
+//                item.session.getAsyncRemote().sendText(message);
+//            }
+//        }
     }
     public static synchronized int getOnlineCount() {
         return chatNum;
     }
+
+
 }
