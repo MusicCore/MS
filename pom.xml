@@ -18,6 +18,7 @@
     <modules>
         <module>musci-manger</module>
         <module>musci-show</module>
+        <module>music-api</module>
     </modules>
 
     <properties>
@@ -48,6 +49,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
         </dependency>
         <!-- mail -->
         <dependency>

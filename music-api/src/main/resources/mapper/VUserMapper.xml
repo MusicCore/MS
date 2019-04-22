@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.musicapi.vue.user.mapper.VUserMapper">
+    <resultMap id="BaseResultMap" type="com.example.musicapi.common.model.User">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="roles" property="roles" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createtime" jdbcType="DATE"/>
+        <result column="update_time" property="updatetime" jdbcType="DATE"/>
+        <result column="active" property="active" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--分页查询-->
+    <select id="getUserlist" resultMap="BaseResultMap" >
+        SELECT * FROM user  limit #{pageForm.pageStart},#{pageForm.rows}
+    </select>
+    <!--分页查询获得总数-->
+    <select id="getUserListTotal" resultType="java.lang.Long">
+        SELECT count(1) FROM user
+    </select>
+    <!--带条件的分页查询-->
+    <select id="getUserlistByif" resultMap="BaseResultMap" parameterType="hashMap">
+        SELECT * FROM user
+        <where>
+            <if test="account!=null">
+                and account = #{account}
+            </if>
+            <if test="name!=null">
+                and name = #{name}
+            </if>
+            <if test="roles!=null">
+                and roles = #{roles}
+            </if>
+            <if test="active!=null">
+                and active = #{active}
+            </if>
+        </where>
+          limit #{stratRow},#{endRow}
+    </select>
+
+    <!--根据账号找回密码-->
+    <select id="selectPwdByAccount" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT password FROM user WHERE account = #{account, jdbcType=VARCHAR}
+    </select>
+</mapper>

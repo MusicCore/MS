@@ -1,0 +1,30 @@
+2019.4.22修改内容：
+
+旧show使用了：/api/article/create ， /api/register，/api/logout，/api/login
+/musicdetail，/music/musicSRlist，/musicupdate,/modify，/music/musiclist，/，/musicSR
+/favorites/list，/favorites/remove，/favorites/link，/rComment，/comment
+
+修改后为：/show/register,/show/logout,/show/login,/show/create
+/show/musicdetail,/show/modify,/show/musicupdate,/music/musicSRlist 以及 /music/musiclist(在公共Controller中提供使用)
+/show/favorites/list，/show/favorites/remove，/show/favorites/link
+/show/comment/rComment，/show/comment/comment
+以上都为接口形式 /，/musicSR为前端页面展示使用，废除
+
+show分为了评论、用户、乐谱三模块，其中评论与用户与vue和wechat独立，部分乐谱以及用户mapper共用
+
+图片音乐上传共用登录，注册，登出各独立，但是判断token过期共用，考虑到拦截器处理
+
+
+vue修改后的api为：
+1.登入登出控制器：
+/vue/login，/vue/logout
+
+2.用户功能：
+/vue/userlist，/vue/info，/vue/userupdate
+
+3.乐谱：
+/vue/music/detail，/vue/music/update，/vue/music/list，/vue/music/create
+因为vue使用之前的api后，show使用了部分，导致修改了接收参数类型，注意对接
+
+
+wechat小程序在此只使用了一些收藏api，在其分类下，用户功能只调用了token返回
