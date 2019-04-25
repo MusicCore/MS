@@ -132,7 +132,9 @@ public class SMusicPageController {
         log.info("------------method:musicModify-------------");
         try {
             Music music = musicService.listMusicById(id);
-            return ResultFactory.buildSuccessResult(new JSONObject().put("ms",music));
+            JSONObject obj = new JSONObject();
+            obj.put("ms",music);
+            return ResultFactory.buildSuccessResult(obj);
 //            model.addAttribute("ms",music);
         }catch (Exception e) {
             log.info("简谱查询错误："+e.getMessage());

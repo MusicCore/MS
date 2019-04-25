@@ -21,8 +21,8 @@ import java.util.Set;
  * 包括
  * 分页缓存处理
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class MusicAspect {
     @Autowired
     private RedisTemplate redisTemplate;

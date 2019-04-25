@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title>普通人口琴 | 图片管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+    <link rel="shortcut icon" th:href="@{/static/img/body-img/other/bitbug_favicon.ico}" type="image/x-icon" />
+    <!--制作的图标，使用href关联，仅仅需要更改href的内容  -->
+</head>
+<body>
+<div class="container wrapper">
+    <div th:include="common/navbar::navbar"></div>
+    <script th:src="@{/static/bootstrap/js/bootstrap-paginator.js}" type="text/javascript"></script>
+    <div  class="row">
+        <div class="col-md-12 column">
+                <div id="htmlDiv_img"></div>
+        </div>
+        <div class="col-md-12 column" style="text-align: center">
+            <ul id="pageButton"></ul>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 80%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">图片预览</h4>
+                </div>
+                <div class="modal-body" >
+                    <div id="bigImg_show"></div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
+        <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(96,96,96); font-size: 53px;"></span>
+    </a>
+</div>
+<!--<div th:include="common/backgroundimg::backGroundImg"></div>-->
+</body>
+<script>
+    // 初始化页面
+    getPage(1);
+    // 分页函数
+    function getPage(page) {
+        $.ajax({
+            url : "/imgmanage/show",
+            type : "POST",
+            data : {
+                "page" : page // 初始页
+            },
+            dataType : "json",
+            success : function(result) {
+                var totalPages;
+                if (result.data != null) {
+                    totalPages = result.data.totalPages;
+                    var htm = "";
+                    $.each(result.data.imgUrlList, function(i, item) {
+                        var imgId = "img_"+i
+                        var nameId = "name_"+i
+                        htm += ' <div class="col-sm-6 col-md-4">\n' +
+                            '                    <div class="thumbnail">\n' +
+                            "                      <div class='img_show_div'><a href='javascript:void(0)' onclick='showBigImg("+imgId+")' title='原图预览'><img id='"+imgId+"' src='"+item.url+"' class='img-responsive' alt='图片加载失败' style='height: 200px'></a></div>\n "   +
+                            '                        <div class="caption">\n' +
+                            '                            <p id="'+nameId+'">'+item.name+'</p>\n' +
+                            '                            <div class="btn-group btn-group-justified">\n' +
+                            '                                <a href="javascript:void(0)" onclick="delImg('+nameId+')" class="btn img_btn_del" role="button">点我删除</a>\n' +
+                            '                            </div>\n' +
+                            '                        </div>\n' +
+                            '                    </div>\n' +
+                            '                </div>'
+                    });
+                    $('#htmlDiv_img').html(htm);
+
+
+                    var element = $('#pageButton');
+                    var options = {
+                        bootstrapMajorVersion : 3,
+                        currentPage : page, // 当前页数
+                        numberOfPages : 15, // 显示按钮的数量
+                        totalPages : totalPages, // 总页数
+                        itemTexts : function(type, page, current) {
+                            switch (type) {
+                                case "first":
+                                    return "首页";
+                                case "prev":
+                                    return "上一页";
+                                case "next":
+                                    return "下一页";
+                                case "last":
+                                    return "末页";
+                                case "page":
+                                    return page;
+                            }
+                        },
+                        // 点击事件，用于通过Ajax来刷新整个list列表
+                        onPageClicked : function(event, originalEvent, type, page) {
+                            getPage(page);
+                        }
+                    };
+
+                    element.bootstrapPaginator(options);
+                }
+            }
+        });
+    };
+    function showBigImg(imgId) {
+        $('#bigImg_show').html('<img src="'+ $(imgId).attr("src")+'" class="img-responsive">')
+        $('#myModal').modal('show')
+    }
+    function delImg(nameId) {
+        $.ajax({
+            url: "/imgmanage/delete",
+            type: "POST",
+            dataType: "json",
+            data: {"fileName": $(nameId).text()},
+            success: function (result) {
+                swal({
+                    title: result.message,
+                    text: "3秒后本提示自动关闭",
+                    timer: 3000,
+                    icon: "success",
+                    allowOutsideClick: true
+                });
+                var page = $('#pageButton').bootstrapPaginator("getPages").current
+                getPage(page)
+            }
+        })
+    }
+    $('img').on('mousedown',function (e) {
+        e.preventDefault()
+    })
+    //一键页面置顶start
+    var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
+
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height())
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
+    //一键页面置顶over
+
+</script>
+<style>
+    .img_show_div{
+        height: 200px;
+    }
+    .img_btn_del{
+        background-color: rgba(255, 17, 10, 0.7);
+        color: white;
+    }
+    .img_btn_del:visited,
+    .img_btn_del:active{
+        background-color: rgba(255, 17, 10, 0.8);
+        color: white;
+    }
+    .img_btn_del:hover{
+        background-color: rgba(255, 17, 10, 1);
+        color: white;
+    }
+
+    .back_to_top{
+        position: fixed;
+        _position: absolute;
+        bottom: 70px;
+        left: 90%;
+    }
+    .toTop_img{
+        background-color: transparent;
+        outline: none;
+    }
+    a,
+    a:visited,
+    a:link,
+    a:active,
+    a:hover{
+        text-decoration: none;
+    }
+    .team-grids{ position: relative }
+    .team-grids a {
+        overflow: hidden;
+        position: relative;
+        display: block;
+    }
+    .capth h4 {
+        color: #fff; font-size: 1.8em; margin-top: 2px; }
+    .capth p { font-size: 1.1em; margin: 0.5em 0 }
+    .team-grids a .capth{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        color: #ffffff;
+        position: absolute;
+        bottom: -75%;
+        right: 0;
+        background-color: rgba(51,51,51,0.68);
+        padding: 1% 10%;
+        text-align: center;
+        transition: all 0.5s ease;
+    }
+    .team-grids:hover .capth{
+        width: 100%;
+        bottom: 0%;
+        padding: 35% 10%;
+    }
+    body{
+        background-image: url("static/img/body-img/other/bg4.gif");
+    }
+</style>
+</html>

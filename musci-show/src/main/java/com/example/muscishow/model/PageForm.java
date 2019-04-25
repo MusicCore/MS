@@ -12,8 +12,11 @@ public class PageForm {
 		this.pageStart=pageStart;
 		this.rows=rows;
 	}
+//	public int getPageStart() {
+//		return (pageStart-1)*rows;
+//	}
 	public int getPageStart() {
-		return (pageStart-1)*rows;
+		return pageStart;//由于服务者处有做处理，所以消费者这里不做处理
 	}
 	public void setPageStart(int pageStart) {
 		this.pageStart = pageStart;

@@ -38,7 +38,7 @@ public class SUserController {
      * @return
      */
     @PostMapping(value = "/register")
-    public Object register(@RequestBody User user){
+    public Result register(@RequestBody User user){
         log.info("\n-------------------Method : register--------------------\n");
         try {
             sUserService.checkIsHaveAccount(user);

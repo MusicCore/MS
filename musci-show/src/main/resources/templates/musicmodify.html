@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title th:text="${ms.title}">新建曲谱</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+    <link rel="shortcut icon" th:href="@{/static/img/body-img/other/bitbug_favicon.ico}" type="image/x-icon" />
+    <!--制作的图标，使用href关联，仅仅需要更改href的内容  -->
+</head>
+<body>
+<div class="container">
+    <div th:include="common/navbar::navbar"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-hidden="true">
+                    &times;
+                </button>
+                <strong>使用须知：</strong>内容可为图片或txt格式，word编辑格式可直接复制粘贴，选择右侧“文件上传”，请务必上传封面。
+            </div>
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-hidden="true">
+                    &times;
+                </button>
+                <strong>使用须知：</strong>由于小破站用户信息登录后只有7天免登录时间，所以上传失败可能是用户信息已过期了。<br>
+                由于网络或者服务器不稳定
+                出现问题导致未提交发布就刷新了页面，或者说您自己选择了刷新页面，想要回到之前的编辑内容，请您选择“文件”-“恢复上次的草稿”。
+            </div>
+            <div class="form-group">
+                <input type="text" th:value="${ms.title}" class="form-control" placeholder="标题" id="title" required="required" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="text" th:value="${ms.contentShort}" class="form-control" placeholder="摘要，可大概介绍一下曲谱信息" id="contentShort" required="required" autocomplete="off">
+            </div>
+            <div th:include="common/tinymce::tinymce(${ms.content})"></div>
+
+            <input type="hidden" id="fm_img" th:value="${ms.contentImg}">
+            <input type="hidden" id="content_music" th:value="${ms.contentMusic}">
+            <input type="hidden" id="musicId" th:value="${ms.id}">
+        </div>
+    </div>
+</div>
+<script>
+    window.onbeforeunload = function(){
+        return;
+    }
+    let musicId = '';
+    $(document).ready(function () {
+        contentImg = $('#fm_img').val()
+        contentMusic = $('#content_music').val()
+        musicId = $('#musicId').val()
+    });
+    function create() {
+        const content = window.tinymce.get('music').getContent()
+        const title = $('#title').val()
+        const contentShort = $('#contentShort').val()
+        console.log(isModify)
+        if(content == ''|| title == '' || contentShort == '' || contentImg == '') {
+            swal({
+                title: "未填写警告！",
+                text: "请您检查 标题，摘要，内容，封面图片 是否都填写完整",
+                icon:  "warning",
+                timer: 5000,
+                allowOutsideClick : true,
+                content: true
+            });
+            return false
+        }
+        const music = {
+            "title" : title,
+            "contentShort" : contentShort,
+            "content" : content,
+            "contentImg" : contentImg,
+            "contentMusic" : contentMusic,
+            "isModify" : isModify,
+            "id" : musicId
+        }
+        $('#music_create_btn').attr("disabled", true);
+        $.ajax({
+            url :  "/musicupdate",
+            type : "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify(music),
+            success:function(result) {
+                if(result.code == 200) {
+                    swal({
+                        title: result.message,
+                        text: "曲谱修改成功！3秒后跳转",
+                        icon: "success",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                    const openUrl = encodeURI("/musicdetail?id="+ result.data)
+                    setTimeout(function () {
+                        window.location.href = openUrl
+                    }, 3000)
+                }
+                if(result.code == 400) {
+                    swal({
+                        title: result.message,
+                        text: "曲谱修改失败！",
+                        icon: "error",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                    $('#music_create_btn').attr("disabled", false);
+                }
+            },
+            error : function() {
+                swal({
+                    title: "对不起，发生了请求错误",
+                    text: "正在竭力抢修！",
+                    icon:  "error",
+                    timer: 2000,
+                    allowOutsideClick : true
+                });
+                $('#music_create_btn').attr("disabled", false);
+            }
+        })
+    }
+</script>
+<style>
+    body{
+        background-image: url("static/img/body-img/other/bg4.gif");
+    }
+</style>
+</body>
+</html>

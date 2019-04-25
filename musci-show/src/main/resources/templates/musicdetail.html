@@ -7,81 +7,316 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
+    <link rel="shortcut icon" th:href="@{/static/img/body-img/other/bitbug_favicon.ico}" type="image/x-icon" />
+    <!--制作的图标，使用href关联，仅仅需要更改href的内容  -->
 </head>
 <body>
-<div class="wrapper" id="drop">
-<div class="container">
+<div class="container wrapper" >
     <div th:include="common/navbar::navbar"></div>
             <div class="row clearfix">
                 <div class="col-md-8 column" >
-                    <div class="panel panel-primary">
-                        <div class="panel-body" id="music_content">
-                            <span th:utext="${music.content}"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 column">
-                    <div id="fixed">
-                    <div class="panel panel-primary touming" id="music_s" >
-                        <div class="panel-heading" id="music_title">
-                            <h3 class="panel-title" th:text="${music.title}">
-
-                            </h3>
-                        </div>
+                    <div class="panel music_play hidden-lg">
                         <div class="panel-body">
-                            <span>作者：<a href="url?author_account="><span th:text="${music.authorName}"></span></a></span><br/>
-                            <span>创建时间：<span th:text="${music.createTime}"></span></span><br/>
-                            <span>修改时间：<span th:text="${music.updateTime}"></span></span><br/>
-                            <span>修改人：<span th:text="${music.lastAuthor}"></span></span><br/>
-                            点此DIV标题可拖拽<br/>
-                            <!--copy-1-->
-                                    <div class="col-md-12 column">
-                                       <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
-                                    </div>
-                            <!--copy-2-->
+                            <div class="col-md-12 column">
+                                <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
+                            </div>
                         </div>
                     </div>
+                    <div class="btn-group btn-group-justified col-md-12 column" style="margin-top: 5px">
+                        <a href="javascript:void(0)" class="btn font_btn" onclick="fontSizeChange('100%')">初始字体大小</a>
+                        <a href="javascript:void(0)" class="btn font_btn" onclick="fontSizeChange('150%')">1.5倍字体大小</a>
+                        <a href="javascript:void(0)" class="btn font_btn" onclick="fontSizeChange('200%')">2倍字体大小</a>
+                    </div>
+
+                    <div class="panel panel-primary info_div">
+                        <div class="panel-body" id="music_content">
+                            <span th:utext="${music.content}" class="span_content"></span>
+                        </div>
+                    </div>
+                    <div th:include="common/comment::comment(${cmtList},${role})"></div>
+
+                </div>
+                <div class="col-md-4 column hidden-xs hidden-sm hidden-md">
+                    <div id="fixed">
+                        <div th:include="common/search::search('')"></div>
+
+                        <div class="panel music_play" th:if="${music.contentMusic} ne ''" >
+                            <div class="panel-body">
+                                <div class="col-md-12 column">
+                                    <div th:include="common/musicplay::musicPlay(${music.contentMusic})"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="show_btn_div" style="display: none">
+                        <div class="modify_div panel" th:if="${showModify} eq 1" id="modify_div">
+                            <a href="javascript:void(0)" onclick="modifyMusic()" class="btn btn-lg btn-block modify_btn" type="button">点我修改</a>
+                        </div>
+                        <div class="modify_div panel" id="fav_div">
+                            <div th:if="${isFav} eq false" class="add_fav">
+                                <a href="javascript:void(0)" onclick="addFav()" class="btn btn-lg btn-block modify_btn" type="button">点我收藏</a>
+                            </div>
+                            <div th:if="${isFav} eq true" class="cancel_fav">
+                                <a href="javascript:void(0)" onclick="cancelFav()" class="btn btn-lg btn-block modify_btn" type="button">取消收藏</a>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="panel info_div">
+                            <div class="panel-heading info_title_div">
+                                <h3 class="panel-title info_span_color" th:text="${music.title}">
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <p th:text="${music.contentShort}"></p>
+                            </div>
+                        </div>
+
+                    <div class="ul_info">
+                            <ul class="list-group">
+                                <li class="list-group-item li_info">创建作者：<a href="#"><span th:text="${music.authorName}"></span></a></li>
+                                <li class="list-group-item li_info">创建时间：<span th:text="${music.createTime}"></span></li>
+                                <li class="list-group-item li_info" th:if="${music.updateTime} ne null">修改时间：<span th:text="${music.updateTime}"></span></li>
+                                <li class="list-group-item li_info" th:if="${music.lastAuthor} ne null">最后修改：<span th:text="${music.lastAuthor}"></span></li>
+                            </ul>
+                    </div>
+                        <input th:value="${music.id}" type="hidden" id="musicId">
                     </div>
                 </div>
             </div>
+    <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
+        <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(96,96,96); font-size: 53px;"></span>
+    </a>
         </div>
 </div>
 <div th:include="common/backgroundimg::backGroundImg"></div>
+<!--js特效-->
+<!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
+<script th:src="@{/static/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>
+<link id="theme" th:href="@{/static/css/vidbacking/jquery.vidbacking.css}" rel="stylesheet"/>
 <!--视频效果-->
 <!--<video poster="/static/js/vidbacking/preview.jpg" autoplay muted loop class="vidbacking">-->
     <!--<source th:src="@{/static/js/vidbacking/12.28.mp4}" type="video/mp4">-->
 <!--</video>-->
-<!--js特效-->
-<!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
 </body>
-<script th:src="@{/static/js/Tdrag.min.js}" type="text/javascript"></script>
-<script th:src="@{/static/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>
-<script>
-    $(document).ready(function() {
-        $("#music_s").Tdrag({
-            // scope:"#drop",
-            handle:"#music_title"
-        });
-        // $('body').vidbacking({
-        //     'masked': true
-        // });
-    })
-    $(document).onload(function () {
-        $("#music_s")
-    })
-</script>
 <style>
-    span p {
-        font-family: "宋体","仿宋",sans-serif;
-        font-size:150%;
-        font-style: normal;
+    .back_to_top{
+        position: fixed;
+        _position: absolute;
+        bottom: 70px;
+        left: 90%;
     }
-    .touming{
+    .add_fav{
+        text-align: center;
+    }
+    .cancel_fav{
+        text-align: center;
+    }
+    .font_btn,
+    .font_btn:active,
+    .font_btn:visited,
+    .font_btn:active{
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+    }
+    .font_btn:hover{
+        background-color: rgba(255, 81, 42, 0.7);
+        color: white;
+    }
+    .span_content{
+
+    }
+    .music_play{
+        background-color: rgba(0, 0, 0, 0.6);
+        transition: all 1s ease;
+    }
+    .music_play:hover{
+        background-color: rgba(0, 0, 0, 0.7);
+        -webkit-box-shadow: #666 0px 0px 50px;
+        -moz-box-shadow: #666 0px 0px 50px;
+        box-shadow: #666 0px 0px 50px;
+    }
+    .info_div{
         background-color:rgba(255, 255, 255, 0.5);
+        transition: all 1s ease;
     }
-    .panel-body span{
-        font-family: "宋体","仿宋",sans-serif;
-        font-size:120%;font-style: normal;
+    .info_div:hover{
+        background-color:rgba(255, 255, 255, 0.9);
+        -webkit-box-shadow: #666 0px 0px 50px;
+        -moz-box-shadow: #666 0px 0px 50px;
+        box-shadow: #666 0px 0px 50px;
+    }
+    .info_title_div{
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+    .info_span_color{
+        color: white;
+    }
+    .ul_info{
+        background-color:rgba(255, 255, 255, 0.5);
+        transition: all 1s ease;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius:5px
+    }
+    .li_info{
+        background-color:transparent;
+        border: none;
+    }
+    .li_info:hover{
+        background-color:rgba(255, 255, 255, 0.9);
+        -webkit-box-shadow: #666 0px 0px 10px;
+        -moz-box-shadow: #666 0px 0px 10px;
+        box-shadow: #666 0px 0px 10px;
+    }
+    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
+    .modify_div{
+        background-color: rgba(0, 0, 0, 0.6);
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius:5px
+    }
+    .modify_btn{
+        background-color: transparent;
+        transition: all 1s ease;
+        color: white;
+    }
+    .modify_btn:active,
+    .modify_btn:hover{
+        /*background-color: rgba(0, 0, 0, 0.65);*/
+        color: white;
+        -webkit-box-shadow: #666 0px 0px 30px;
+        -moz-box-shadow: #666 0px 0px 30px;
+        box-shadow: #666 0px 0px 30px;
     }
 </style>
+<script>
+    $(document).ready(function() {
+        $('body').vidbacking({
+            'masked': true
+        });
+        if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){
+            // $('#modify_div').css("display","none")
+            // $('#fav_div').css("display","none")
+            $('#show_btn_div').css("display","none")
+        }else {
+            // $('#modify_div').css("display","block")
+            // $('#fav_div').css("display","block")
+            $('#show_btn_div').css("display","block")
+        }
+    })
+    function fontSizeChange(font) {
+        $(".span_content").css("font-size", font)
+    }
+    function modifyMusic() {
+        console.log($('#musicId').val())
+        window.location.href = "/modify?id=" + $('#musicId').val()
+    }
+    function addFav() {
+        $('.add_fav').html('<img src="static/img/body-img/loading/loading.gif">')
+        $.ajax({
+            url : '/favorites/link?music_id=' + $('#musicId').val(),
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType : 'JSON',
+            // data : {
+            //     "music_id" : $('#musicId').val()
+            // },
+            success:function(result) {
+                if(result.code == 200) {
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 1000)
+                }
+                if(result.code == 400) {
+                    swal({
+                        title: result.data,
+                        text: "失败！",
+                        icon: "error",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                }
+            },
+            error : function() {
+                swal({
+                    title: "对不起，发生了请求错误",
+                    text: "正在竭力抢修！",
+                    icon:  "error",
+                    timer: 2000,
+                    allowOutsideClick : true
+                });
+                $('.add_fav').html('<a href="javascript:void(0)" onclick="addFav()" class="btn btn-lg btn-block modify_btn" type="button">点我收藏</a>')
+            }
+        })
+    }
+    function cancelFav() {
+        $('.cancel_fav').html('<img src="static/img/body-img/loading/loading.gif">')
+        $.ajax({
+            url : '/favorites/remove?music_id=' + $('#musicId').val(),
+            type: 'GET',
+            contentType: "application/json; charset=utf-8",
+            dataType : 'JSON',
+            // data : {
+            //     "music_id" : $('#musicId').val()
+            // },
+            success:function(result) {
+                if(result.code == 200) {
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 1000)
+                }
+                if(result.code == 400) {
+                    swal({
+                        title: result.data,
+                        text: "失败！",
+                        icon: "error",
+                        timer: 5000,
+                        allowOutsideClick: true
+                    });
+                }
+            },
+            error : function() {
+                swal({
+                    title: "对不起，发生了请求错误",
+                    text: "正在竭力抢修！",
+                    icon:  "error",
+                    timer: 2000,
+                    allowOutsideClick : true
+                });
+                $('.cancel_fav').html('<a href="javascript:void(0)" onclick="cancelFav()" class="btn btn-lg btn-block modify_btn" type="button">取消收藏</a>')
+            }
+        })
+    }
+    //一键页面置顶start
+    var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
+
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height())
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
+    //一键页面置顶over
+
+    var music_info = $('#fixed');
+    var music_info_top = music_info.offset().top;//元素到页面顶部的距离
+    $(window).bind("scroll",function() {
+        // 窗口置顶
+        if($(document).scrollTop() > music_info_top){
+            music_info.addClass("fixed");
+            $(".tips").css("display","none")
+        }else{
+            music_info.removeClass("fixed");
+            $(".tips").css("display","block")
+        }
+    })
+</script>
 </html>

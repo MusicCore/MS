@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-@CacheConfig(cacheNames = "music")
+//@CacheConfig(cacheNames = "music")
 public interface MusicMapper {
     @Insert("INSERT INTO music_score(" +
             "   id," +
@@ -52,14 +52,14 @@ public interface MusicMapper {
             "   #{isDelete}," +
             "   #{clicks}" +
             ")")
-    @CachePut(key = "'MI'+#p0.id")
+//    @CachePut(key = "'MI'+#p0.id")
     public void save(Music param) throws Exception;
 
     @Select("SELECT id FROM music_score")
     public List<Integer> list() throws Exception;
 
     @Select("SELECT * FROM music_score WHERE id = #{id}")
-    @Cacheable(key="'MI'+#p0",unless="#result == null")
+//    @Cacheable(key="'MI'+#p0",unless="#result == null")
     public Music listById(Integer id) throws Exception;
 
     /**
@@ -73,7 +73,7 @@ public interface MusicMapper {
      * @throws Exception
      */
     @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
-    @CachePut(key = "'MI'+#p0.id")
+//    @CachePut(key = "'MI'+#p0.id")
     //@Caching(put = @CachePut("#p0.id"), evict = { @CacheEvict(value = "Music_Par", allEntries = true) })
     public void  update(Music param) throws Exception;
 

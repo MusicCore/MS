@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="login">
+    <style>
+        .login_div{
+            background-color:rgba(255, 255, 255, 0.5);
+            transition: all 1s ease;
+        }
+        .login_div:hover{
+            background-color:rgba(255, 255, 255, 0.9);
+            -webkit-box-shadow: #666 0px 0px 50px;
+            -moz-box-shadow: #666 0px 0px 50px;
+            box-shadow: #666 0px 0px 50px;
+        }
+        .login_title_div{
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .login_info_input{
+            background-color: transparent;
+        }
+        .login_btn{
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        .login_btn:visited,
+        .login_btn:active{
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        .login_btn:hover{
+            background-color: rgba(255, 81, 42, 0.7);
+            color: white;
+        }
+        .span_color{
+            color: white;
+        }
+    </style>
+    <div id="login_div"  class="panel login_div" style="display: none">
+        <div id="login_display">
+        <div class="panel-heading login_title_div" >
+            <h3 class="panel-title span_color">
+                登录后发谱哦
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form class="bs-example bs-example-form" role="form" id="login_form">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input type="text" class="form-control login_info_input" id="account" name="account" placeholder="">
+                </div><br>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    <input type="password" class="form-control login_info_input" id="password" name="password" placeholder="">
+                </div><br>
+                <div class="input-group">
+                    <span><label> <input type="checkbox" checked="checked"/><i></i> 记住账号密码 </label></span>
+                    <span style="margin-left: 120px"> 忘记密码 ? </span>
+                </div><br>
+                <div class="btn-group btn-group-justified">
+                    <a href="javascript:void(0)" class="btn login_btn" onclick="login()">登  录</a>
+                    <a href="/register" class="btn login_btn">注  册</a>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <div class="create_div panel" id="create_music" style="display: none">
+       <a href="/musiccreate" class="btn btn-lg btn-block create_btn" type="button">点我新建</a>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // $.cookie('token',null)
+            if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){
+                $('#login_div').css("display","block")
+            }else {
+                $('#create_music').css("display","block")
+            }
+        })
+        function login() {
+            if ($("#account").val() == '' || $("#password").val() == ''){
+                swal({
+                    title: "请填写账号密码！",
+                    text : "没账号请您注册哦",
+                    timer: 2000,
+                    icon: "error",
+                    allowOutsideClick : true
+                });
+                return false
+            }
+            var user = {
+                "account" : $("#account").val(),
+                "password" : $("#password").val()
+            }
+            swal({
+                title: "正在努力登录中。。",
+                text: "请稍等片刻,长时间未跳转请您重新登录",
+                icon: "success",
+                allowOutsideClick : true
+            });
+            $.ajax({
+                url : "/api/login",
+                type : "post",
+                dataType:"json",
+                contentType: "application/json; charset=utf-8",
+                data:  JSON.stringify(user),
+                success:function(result) {
+                    // console.log(result) 设置7天的cookie有效时间
+                    if(result.code == 400) {
+                        swal({
+                            title: result.message,
+                            timer: 2000,
+                            icon: "error",
+                            allowOutsideClick : true
+                        });
+                        return false
+                    }
+                    $.cookie('token',result.data.commonContext.token, {expires : 7,path : "/"})
+                    $.cookie('name',result.data.commonContext.name, {expires : 7 ,path : "/"})
+                    $.cookie('avatar',result.data.commonContext.avatar, {expires : 7 ,path : "/"})
+                    $.cookie('role',result.data.commonContext.roles, {expires : 7 ,path : "/"})
+                    window.location.reload()
+                }
+            })
+        }
+    </script>
+</div>
+
+<div th:fragment="tips">
+    <style>
+        .create_div{
+            background-color: rgba(0, 0, 0, 0.6);
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius:5px
+        }
+        .create_btn{
+            background-color: transparent;
+            transition: all 1s ease;
+            color: white;
+        }
+        .create_btn:active,
+        .create_btn:hover{
+            /*background-color: rgba(0, 0, 0, 0.65);*/
+            color: white;
+            -webkit-box-shadow: #666 0px 0px 30px;
+            -moz-box-shadow: #666 0px 0px 30px;
+            box-shadow: #666 0px 0px 30px;
+        }
+        .tips_div{
+            background-color:rgba(255, 255, 255, 0.5);
+            transition: all 1s ease;
+        }
+        .tips_div:hover{
+            background-color:rgba(255, 255, 255, 0.9);
+            -webkit-box-shadow: #666 0px 0px 50px;
+            -moz-box-shadow: #666 0px 0px 50px;
+            box-shadow: #666 0px 0px 50px;
+        }
+        .tips_title_div{
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .tips_span_color{
+            color: white;
+        }
+    </style>
+    <div class="panel tips_div">
+        <div class="panel-heading tips_title_div" >
+            <h3 class="panel-title tips_span_color">
+                小公告
+            </h3>
+        </div>
+        <div class="panel-body">
+            兴趣使然的小站
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="register_tips">
+    <style>
+        .create_div{
+            background-color: rgba(0, 0, 0, 0.6);
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius:5px
+        }
+        .create_btn{
+            background-color: transparent;
+            transition: all 1s ease;
+            color: white;
+        }
+        .create_btn:active,
+        .create_btn:hover{
+            /*background-color: rgba(0, 0, 0, 0.65);*/
+            color: white;
+            -webkit-box-shadow: #666 0px 0px 30px;
+            -moz-box-shadow: #666 0px 0px 30px;
+            box-shadow: #666 0px 0px 30px;
+        }
+        .tips_div{
+            background-color:rgba(255, 255, 255, 0.5);
+            transition: all 1s ease;
+        }
+        .tips_div:hover{
+            background-color:rgba(255, 255, 255, 0.9);
+            -webkit-box-shadow: #666 0px 0px 50px;
+            -moz-box-shadow: #666 0px 0px 50px;
+            box-shadow: #666 0px 0px 50px;
+        }
+        .tips_title_div{
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .tips_span_color{
+            color: white;
+        }
+    </style>
+    <div class="panel tips_div">
+        <div class="panel-heading tips_title_div" >
+            <h3 class="panel-title tips_span_color">
+                小公告
+            </h3>
+        </div>
+        <div class="panel-body">
+            本小破站并没有手机验证功能，请您记住自己的账号密码
+        </div>
+    </div>
+</div>
+</body>
+</html>

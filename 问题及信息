@@ -28,3 +28,7 @@ vue修改后的api为：
 
 
 wechat小程序在此只使用了一些收藏api，在其分类下，用户功能只调用了token返回
+
+
+2019.4.24：
+/show/musicdetail  因为是服务端，所以拿cookie和token会出问题，待整体处理解决   (已设置转发请求头
