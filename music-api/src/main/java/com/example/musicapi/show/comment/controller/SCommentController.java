@@ -29,12 +29,11 @@ public class SCommentController {
 
     /**
      * 添加评论
-     * @param model
      * @param comment
      * @return
      */
     @PostMapping(value="/comment")
-    public Result toComment(Model model, @RequestBody Comment comment){
+    public Result toComment(@RequestBody Comment comment){
         try {
             initComment(comment);
             commentService.save(comment);
@@ -48,12 +47,11 @@ public class SCommentController {
 
     /**
      * 移除评论
-     * @param model
      * @param id
      * @return
      */
     @PostMapping(value="/rComment")
-    public Result removerComment(Model model, Integer id){
+    public Result removerComment(@RequestParam("id") Integer id){
         try {
             commentService.remove(id);
             log.info("移除id为："+ id +"的评论");

@@ -53,8 +53,8 @@ public class SFavController {
      * @param page
      * @return
      */
-    @GetMapping(value="/list")
-    public Result list(Integer page){
+    @PostMapping(value="/list")
+    public Result list(@RequestParam("page") Integer page){
         try{
             JSONObject list = sFavService.listByPage(CommonContext.getInstance().getId(),page,10);
             return ResultFactory.buildSuccessResult(list);
@@ -68,8 +68,8 @@ public class SFavController {
      * @param music_id
      * @return
      */
-    @GetMapping(value="/remove")
-    public Result delete(@RequestParam Integer music_id){
+    @PostMapping(value="/remove")
+    public Result delete(@RequestParam("music_id") Integer music_id){
         try{
             sFavService.remove(music_id);
             return ResultFactory.buildSuccessResult("");

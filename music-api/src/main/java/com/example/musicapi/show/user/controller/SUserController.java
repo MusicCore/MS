@@ -35,12 +35,10 @@ public class SUserController {
     /**
      * 注册
      * @param user
-     * @param
-     * @param request
      * @return
      */
     @PostMapping(value = "/register")
-    public Object register(User user,HttpServletRequest request){
+    public Object register(@RequestBody User user){
         log.info("\n-------------------Method : register--------------------\n");
         try {
             sUserService.checkIsHaveAccount(user);

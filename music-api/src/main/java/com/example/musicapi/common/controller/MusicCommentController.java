@@ -9,9 +9,7 @@ import com.example.musicapi.common.service.MusicService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +23,7 @@ import java.util.List;
  * @Version: 1.0
  * @Description:
  */
-@Controller
+@RestController
 @RequestMapping("/music")
 public class MusicCommentController {
 
@@ -34,15 +32,13 @@ public class MusicCommentController {
     @Resource(name = "musicService")
     private MusicService musicService;
 
-    @GetMapping(value = "/musiclist")
-    @ResponseBody
-    public Result getMusicList(PageForm PageForm){
+    @PostMapping(value = "/musiclist")
+    public Result getMusicList(@RequestBody PageForm PageForm){
         List<Music> list = musicService.listMusicByPar(PageForm);
         return ResultFactory.buildSuccessResult(list);
     }
 
-    @GetMapping(value = "/musicSRlist")
-    @ResponseBody
+    @PostMapping(value = "/musicSRlist")
     public Result getmusicSRlist(HttpServletRequest request){
         SerchBean SB = SerchBean.getFromExt(request);
         List<Music> list = musicService.listByTitle(SB);
