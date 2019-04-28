@@ -153,4 +153,10 @@ public interface CommonServer {
     @PostMapping(value = "/show/updatePwd")
     public Result updatePassword(@RequestBody UserDto userDto);
 
+    /**
+     * chat
+     * @return
+     */
+    @PostMapping(value = "/show/webScoket")
+    public Result goChat();
 }
