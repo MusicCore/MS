@@ -8,6 +8,7 @@ import com.example.muscishow.model.PageForm;
 import com.example.muscishow.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Description:  @FeignClient不能存在相同的name值，boot2.1.0禁止覆盖重复的bean,若要分开写，在applicaton.properties添加
  *                spring.main.allow-bean-definition-overriding=true
  */
+@Component
 @FeignClient(name = "music-producer")
 public interface CommonServer {
 
