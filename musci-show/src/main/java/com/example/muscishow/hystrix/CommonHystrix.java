@@ -171,4 +171,9 @@ public class CommonHystrix implements CommonServer {
     public Result verifyToken() {
         return initErrResult("");
     }
+
+    @Override
+    public Result goChat() {
+        return initErrResult("");
+    }
 }

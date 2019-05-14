@@ -8,6 +8,8 @@ import com.example.muscishow.model.Music;
 import com.example.muscishow.model.PageForm;
 import com.example.muscishow.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  *                spring.main.allow-bean-definition-overriding=true
  */
 @FeignClient(name = "music-producer",fallback = CommonHystrix.class)
+@Component
 public interface CommonServer {
 
     /**
@@ -150,6 +153,12 @@ public interface CommonServer {
     @PostMapping(value = "/show/updatePwd")
     public Result updatePassword(@RequestBody UserDto userDto);
 
+    /**
+     * chat
+     * @return
+     */
+    @PostMapping(value = "/show/webScoket")
+    public Result goChat();
     /**
      * 上传的凭证
      * @return

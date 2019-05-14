@@ -5,6 +5,16 @@ public class PageForm {
 	private int pageStart; //当前页数
 	private int rows; //每页多少条
 	private Long total; //总数
+	private int start;
+	private int end;
+
+	public int getStart() {
+		return (pageStart-1)*rows;
+	}
+	public int getEnd() {
+		return pageStart*rows-1;
+	}
+
 	public PageForm() {
 
 	}

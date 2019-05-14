@@ -21,8 +21,8 @@ import java.util.Set;
  * 包括
  * 分页缓存处理
  */
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class MusicAspect {
     @Autowired
     private RedisTemplate redisTemplate;
@@ -51,13 +51,13 @@ public class MusicAspect {
         if ("listMusicByPar".equals(methodName)){
             PageForm page =  (PageForm) objects[0];
             try {
-                Set<Integer> ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getPageStart(), page.getRows()-1);
+                Set<Integer> ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getStart(), page.getEnd());
                 if(ids.size()<=0){
                     List<Integer> Aids = musicMapper.list();
                     for (Integer id: Aids) {
                         redisTemplate.opsForZSet().add(MUSIC_SET_KEY, id, id);
                     }
-                    ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getPageStart(), page.getRows()-1);
+                    ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getStart(), page.getEnd());
                 }
                 List<Music> list = new ArrayList<>(ids.size());
                 for (int id : ids){

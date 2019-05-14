@@ -52,14 +52,14 @@ public interface MusicMapper {
             "   #{isDelete}," +
             "   #{clicks}" +
             ")")
-//    @CachePut(key = "'MI'+#p0.id")
+    @CachePut(key = "'MI'+#p0.id")
     public void save(Music param) throws Exception;
 
     @Select("SELECT id FROM music_score")
     public List<Integer> list() throws Exception;
 
     @Select("SELECT * FROM music_score WHERE id = #{id}")
-//    @Cacheable(key="'MI'+#p0",unless="#result == null")
+    @Cacheable(key="'MI'+#p0",unless="#result == null")
     public Music listById(Integer id) throws Exception;
 
     /**
@@ -73,12 +73,12 @@ public interface MusicMapper {
      * @throws Exception
      */
     @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
-//    @CachePut(key = "'MI'+#p0.id")
+    @CachePut(key = "'MI'+#p0.id")
     //@Caching(put = @CachePut("#p0.id"), evict = { @CacheEvict(value = "Music_Par", allEntries = true) })
     public void  update(Music param) throws Exception;
 
     @Select("SELECT * FROM music_score order by id desc limit #{page.pageStart},#{page.rows}")
-    //@Cacheable(value = "Music_Par",key = "#p0.pageStart",unless="#result == null")
+    @Cacheable(value = "Music_Par",key = "#p0.pageStart",unless="#result == null")
     public List<Music> listByPar(@Param("page") PageForm pageForm);
 
     @Select("SELECT COUNT(1) FROM music_score")
