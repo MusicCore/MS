@@ -1,0 +1,20 @@
+.search_div{
+    background-color: rgba(0, 0, 0, 0.6);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px
+}
+.search_input{
+    background-color: transparent;
+}
+.search_input:hover{
+    background-color: white;
+}
+.search_btn{
+    background-color: rgba(255, 81, 42, 0.7);
+    color: white;
+}
+.search_btn:hover{
+    background-color: rgba(237, 34, 35, 0.7);
+    color: white;
+}

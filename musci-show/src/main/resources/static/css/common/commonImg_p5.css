@@ -1,0 +1,16 @@
+.img_show_div{
+    height: 200px;
+}
+.img_btn_del{
+    background-color: rgba(255, 17, 10, 0.7);
+    color: white;
+}
+.img_btn_del:visited,
+.img_btn_del:active{
+    background-color: rgba(255, 17, 10, 0.8);
+    color: white;
+}
+.img_btn_del:hover{
+    background-color: rgba(255, 17, 10, 1);
+    color: white;
+}

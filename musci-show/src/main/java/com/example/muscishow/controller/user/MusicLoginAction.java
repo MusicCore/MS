@@ -23,6 +23,7 @@ import java.util.Map;
  */
 @Controller
 public class MusicLoginAction {
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     CommonServer commonServer;
 

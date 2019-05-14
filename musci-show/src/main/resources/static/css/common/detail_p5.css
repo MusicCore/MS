@@ -1,0 +1,115 @@
+
+.add_fav{
+    text-align: center;
+}
+.add_fav:hover .search_img_sword{
+    display: block;
+}
+.cancel_fav{
+    text-align: center;
+}
+.font_btn,
+.font_btn:active,
+.font_btn:visited,
+.font_btn:active{
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+.font_btn:hover{
+    background-color: rgba(255, 81, 42, 0.7);
+    color: white;
+}
+.span_content{
+
+}
+.music_play{
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: all 1s ease;
+}
+.music_play:hover{
+    background-color: rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: #666 0px 0px 50px;
+    -moz-box-shadow: #666 0px 0px 50px;
+    box-shadow: #666 0px 0px 50px;
+}
+.info_div{
+    background-color:rgba(255, 255, 255, 0.5);
+    border: solid 1px crimson;
+    transition: all 1s ease;
+}
+.info_div:hover{
+    background-color:rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: #666 0px 0px 50px;
+    -moz-box-shadow: #666 0px 0px 50px;
+    box-shadow: #666 0px 0px 50px;
+}
+.info_title_div{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.info_span_color{
+    color: white;
+}
+.ul_info{
+    background-color:rgba(255, 255, 255, 0.5);
+    transition: all 1s ease;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px;
+    border: solid 1px crimson;
+}
+.li_info{
+    background-color:transparent;
+    border: none;
+}
+.li_info:hover{
+    background-color:rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: #666 0px 0px 10px;
+    -moz-box-shadow: #666 0px 0px 10px;
+    box-shadow: #666 0px 0px 10px;
+}
+.modify_div{
+    background-color: rgba(0, 0, 0, 0.6);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px;
+    border:solid 1px crimson;
+}
+
+.modify_btn{
+    background-color: transparent;
+    transition: all 1s ease;
+    color: white;
+}
+.modify_div:hover .search_img_sword{
+    display: block;
+}
+.modify_btn:active,
+.modify_btn:hover{
+    /*background-color: rgba(0, 0, 0, 0.65);*/
+    color: white;
+    -webkit-box-shadow: #666 0px 0px 30px;
+    -moz-box-shadow: #666 0px 0px 30px;
+    box-shadow: #666 0px 0px 30px;
+}
+.fav_div{
+    background-color: rgba(0, 0, 0, 0.6);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px;
+    border:solid 1px crimson;
+}
+.fav_cancel_img{
+    display: none;
+    /*animation:search_img_sword 10s linear 0s infinite;*/
+    content: url("../../../static/img/body-img/show/btn_close.png");
+    position: absolute;
+    margin-left: 230px;
+    margin-top: -50px;
+    /*left: 65%;*/
+    /*top: 30%;*/
+    width: 117px;
+    height: 50px;
+}
+.cancel_fav:hover .fav_cancel_img{
+    display: block;
+}

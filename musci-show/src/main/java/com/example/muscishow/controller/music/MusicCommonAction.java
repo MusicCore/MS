@@ -4,6 +4,7 @@ import com.example.muscishow.ResultUtils.Result;
 import com.example.muscishow.model.PageForm;
 import com.example.muscishow.server.CommonServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/music")
 public class MusicCommonAction {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     CommonServer commonServer;
 

@@ -1,0 +1,47 @@
+@import "index.css";
+@import "background_img.css";
+@import "detail.css";
+@import "fav.css";
+@import "comment.css";
+@import "login.css";
+@import "search.css";
+@import "commonImg.css";
+/*让导航条透明*/
+.navbar_black{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+/*用户名字颜色*/
+.user_name_text{
+    color: white;
+}
+.user_name_text:hover{
+    color: crimson;
+}
+/*设置主页按钮图标*/
+.nav_page_index_img{
+
+}
+/*当切换主题时不显示图标，显示文字。反之*/
+.nav_page_index_p{
+    /*display: none;*/
+    color: white;
+}
+.nav_page_index_p:hover{
+    /*display: none;*/
+    color: crimson;
+}
+/*例如 “收藏夹” 文字 适配下面的图片*/
+.nav_page_span{
+    color: white;
+}
+.nav_page_span:hover{
+    color: crimson;
+}
+/*设置 例如 “收藏夹” 的背景图片，切主题不显示可删除*/
+.nav_page_img{
+
+}
+
+.bd_bk_img{
+    background-image: url("../../../static/img/body-img/other/bg4.gif");
+}

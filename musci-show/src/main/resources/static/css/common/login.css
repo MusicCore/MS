@@ -1,0 +1,73 @@
+/*login*/
+.login_div{
+    background-color:rgba(255, 255, 255, 0.5);
+    transition: all 1s ease;
+}
+.login_div:hover{
+    background-color:rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: #666 0px 0px 50px;
+    -moz-box-shadow: #666 0px 0px 50px;
+    box-shadow: #666 0px 0px 50px;
+}
+.login_title_div{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.login_info_input{
+    background-color: transparent;
+}
+.login_btn{
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+.login_btn:visited,
+.login_btn:active{
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+.login_btn:hover{
+    background-color: rgba(255, 81, 42, 0.7);
+    color: white;
+}
+.span_color{
+    color: white;
+}
+
+/*tips*/
+.create_div{
+    background-color: rgba(0, 0, 0, 0.6);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px
+}
+.create_btn{
+    background-color: transparent;
+    transition: all 1s ease;
+    color: white;
+}
+.create_btn:active,
+.create_btn:hover{
+    /*background-color: rgba(0, 0, 0, 0.65);*/
+    color: white;
+    -webkit-box-shadow: #666 0px 0px 30px;
+    -moz-box-shadow: #666 0px 0px 30px;
+    box-shadow: #666 0px 0px 30px;
+}
+.search_img_sword{
+    display: none;
+}
+.tips_div{
+    background-color:rgba(255, 255, 255, 0.5);
+    transition: all 1s ease;
+}
+.tips_div:hover{
+    background-color:rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: #666 0px 0px 50px;
+    -moz-box-shadow: #666 0px 0px 50px;
+    box-shadow: #666 0px 0px 50px;
+}
+.tips_title_div{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.tips_span_color{
+    color: white;
+}

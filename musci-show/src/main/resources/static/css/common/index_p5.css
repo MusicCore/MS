@@ -1,0 +1,99 @@
+/*备案*/
+.ba_info{
+    text-align: center;
+}
+.ba_text{
+    color: black;
+}
+/*一键置顶*/
+.back_to_top{
+    position: fixed;
+    _position: absolute;
+    bottom: 70px;
+    left: 90%;
+}
+.toTop_img{
+    background-color: transparent;
+    outline: none;
+}
+/*乐谱div*/
+.music_info{
+    transition: all 0.5s ease;
+}
+.music_info:before{
+    content:'';
+    background-image: url("/static/img/body-img/show/ftb.png");
+    background-size: 85px 100px;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 85px;
+    position:absolute;
+    top:-10px;
+    left:14px;
+    z-index: 100001;
+}
+.music_info:after{
+    content:'';
+    /*background-image: url("/static/img/body-img/loading/p5_loading_img_2.png");*/
+    background-size: 85px 100px;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 85px;position:absolute;top:-12px;left:90%;
+}
+.show_red{
+
+}
+.music_info:hover .show_red{
+    border: solid 1px red;
+}
+/*div块始终在页面上*/
+.fixed {position:fixed;top:20px;margin-top:0;width: 360px}
+/*使得背景透明*/
+.touming{
+    background-color:rgba(255, 255, 255, 0.5);
+}
+.span_title{
+    background-color: crimson;
+    color: white;
+    font-size: 200%;
+}
+.span_info{
+    background-color: #3c3c3c;
+    color: white;
+    font-size: 100%;
+}
+a,
+a:visited,
+a:link,
+a:active,
+a:hover{
+    text-decoration: none;
+}
+/*乐谱div图片文字样式*/
+.team-grids{ position: relative }
+.team-grids a {
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+.capth h4 {
+    color: #fff; font-size: 1.8em; margin-top: 2px; }
+.capth p { font-size: 1.1em; margin: 0.5em 0 }
+.team-grids a .capth{
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    color: #ffffff;
+    position: absolute;
+    bottom: -75%;
+    right: 0;
+    background-color: rgba(51,51,51,0.68);
+    padding: 1% 10%;
+    text-align: center;
+    transition: all 0.5s ease;
+}
+.team-grids:hover .capth{
+    width: 100%;
+    bottom: 0%;
+    padding: 35% 10%;
+}

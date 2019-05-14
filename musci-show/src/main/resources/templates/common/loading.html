@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="p5">
+    <div>
+        <img src="../../static/img/body-img/loading/p5_loading_img.png"  class="p5_loading_img">
+    </div>
+    <div>
+        <img src="../../static/img/body-img/loading/p5_loading-text.png" class="p5_loading_text">
+    </div>
+<style>
+    .p5_loading_img{
+        height: 80px;
+        width: 55px;
+        animation:p5_loading_img 1.9s linear 0s infinite;
+        /*animation-direction:alternate;*/
+        -webkit-animation-direction:alternate;
+    }
+    @keyframes p5_loading_img{
+        0%{transform:rotateY(0deg);}
+        10%{transform:rotateY(0deg);}
+        20%{transform:rotateY(0deg);}
+        30%{transform:rotateY(60deg);}
+        40%{transform:rotateY(120deg);}
+        44%{transform:rotateY(147deg);}
+        45%{transform:rotateY(150deg);}
+        46%{transform:rotateY(153deg);}
+        50%{transform:rotateY(180deg);}
+        55%{transform:rotateY(180deg);}
+        60%{transform:rotateY(240deg);}
+        70%{transform:rotateY(300deg);}
+        74%{transform:rotateY(327deg);}
+        75%{transform:rotateY(330deg);}
+        76%{transform:rotateY(333deg);}
+        80%{transform:rotateY(360deg);}
+        90%{transform:rotateY(360deg);}
+        100% {transform:rotateY(360deg);}
+    }
+    .p5_loading_text{
+        height: 25px;
+        width: 80px;
+        animation:p5_loading_text 2s linear 0s infinite;
+        /*animation-direction:alternate;*/
+        -webkit-animation-direction:alternate;
+    }
+    @keyframes p5_loading_text{
+        0%{transform:rotateY(0deg);}
+        10%{transform:rotateY(0deg);}
+        25%{transform:rotateY(0deg);}
+        30%{transform:rotateY(60deg);}
+        40%{transform:rotateY(120deg);}
+        50%{transform:rotateY(180deg);}
+        60%{transform:rotateY(240deg);}
+        70%{transform:rotateY(300deg);}
+        75%{transform:rotateY(360deg);}
+        90%{transform:rotateY(360deg);}
+        100% {transform:rotateY(360deg);}
+    }
+</style>
+</div>
+</body>
+</html>

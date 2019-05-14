@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<body style="background-color: #585aa4">
+<div class="container wrapper">
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <nav class="navbar navbar_black" role="navigation" style="border: solid 1px red">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img class="nav_page_index_img">
+                    <p class="nav_page_index_p">普通人口琴</p>
+                </a>
+            </div>
+
+            <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <span id="ad_role" style="display: none">
+                    <li>
+                        <a class="navbar-brand" type="button" href="/bkimgmanage">
+                            <span class="nav_page_span">背景管理</span>
+                            <img class="nav_page_img">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="navbar-brand" type="button" href="/imgmanage">
+                            <span class="nav_page_span">图片管理</span>
+                            <img class="nav_page_img">
+                        </a></li>
+                        </span>
+                    <li><a class="navbar-brand nav_page_a" href="#">
+                        <span class="nav_page_span"> <span class="glyphicon glyphicon-bookmark"></span> 收藏夹</span>
+                        <img class="nav_page_img">
+                    </a></li>
+                    <li id="user_avatar">
+
+                    </li>
+                    <li id="user_info">
+                            <span id="user_name" class="navbar-brand">用户啊实打实的</span>
+                    </li>
+                    <li><a onclick="logout()" href="javascript:void(0);"><span class="glyphicon glyphicon-off"></span></a></li>
+                </ul>
+            </div>
+        </nav>
+</div>
+
+
+<div style="margin-left: 10px">
+<img src="../static/img/body-img/loading/p5_loading_img.png"  class="p5_loading_img">
+</div>
+<div>
+<img src="../static/img/body-img/loading/p5_loading-text.png" class="p5_loading_text">
+</div>
+<span >take your time</span>
+<div class="p5_content" style="margin-left: 200px;margin-top: 200px">
+    <a href="#">
+  <div class="p5_text_first" >TAKE</div><div class="p5_text_next_small">YOUR</div><div class="p5_text_next_big">TIME</div>
+    </a>
+</div>
+    </div>
+</body>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script></head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .nav_page_index_img{
+        content: url("../static/img/body-img/show/index.svg");
+        margin-top: -13px;
+        height: 45px;
+    }
+    .nav_page_index_p{
+        display: none;
+    }
+    .nav_page_span{
+        color: black;
+        position: absolute;
+        z-index: 1000;
+        margin-left: 20px;
+        margin-top: -3px;
+        font-weight: bolder;
+        transform: rotate(-5deg)
+    }
+    .nav_page_img{
+        margin-top: -15px;
+        height: 45px;
+        position: relative;
+        z-index: 999;
+        content: url("../static/img/body-img/show/btn.png");
+    }
+        .p5_loading_img{
+            height: 80px;
+            width: 55px;
+            animation:p5_loading_img 1.9s linear 0s infinite;
+            /*animation-direction:alternate;*/
+            -webkit-animation-direction:alternate;
+        }
+    @keyframes p5_loading_img{
+        0%{transform:rotateY(0deg);}
+        10%{transform:rotateY(0deg);}
+        20%{transform:rotateY(0deg);}
+        30%{transform:rotateY(60deg);}
+        40%{transform:rotateY(120deg);}
+        44%{transform:rotateY(147deg);}
+        45%{transform:rotateY(150deg);}
+        46%{transform:rotateY(153deg);}
+        50%{transform:rotateY(180deg);}
+        55%{transform:rotateY(180deg);}
+        60%{transform:rotateY(240deg);}
+        70%{transform:rotateY(300deg);}
+        74%{transform:rotateY(327deg);}
+        75%{transform:rotateY(330deg);}
+        76%{transform:rotateY(333deg);}
+        80%{transform:rotateY(360deg);}
+        90%{transform:rotateY(360deg);}
+        100% {transform:rotateY(360deg);}
+    }
+    .p5_loading_text{
+        height: 25px;
+        width: 80px;
+        animation:p5_loading_text 2s linear 0s infinite;
+        /*animation-direction:alternate;*/
+        -webkit-animation-direction:alternate;
+    }
+    @keyframes p5_loading_text{
+        0%{transform:rotateY(0deg);}
+        10%{transform:rotateY(0deg);}
+        25%{transform:rotateY(0deg);}
+        30%{transform:rotateY(60deg);}
+        40%{transform:rotateY(120deg);}
+        50%{transform:rotateY(180deg);}
+        60%{transform:rotateY(240deg);}
+        70%{transform:rotateY(300deg);}
+        75%{transform:rotateY(360deg);}
+        90%{transform:rotateY(360deg);}
+        100% {transform:rotateY(360deg);}
+    }
+    .csv{
+        /*height: 200px;*/
+        border: red solid 1px;
+    }
+    .p5_content{
+        display:inline-block;
+    }
+    .p5_text_first{
+        display:inline-block;
+        position: relative;
+        border: 1px solid white;
+        height: 25px;
+        background-color: black;
+        color: red;
+        transform: skew(10deg);
+        font-size: 20px;
+        padding: 5px;
+        z-index: 10000;
+    }
+    .p5_text_next_small{
+        margin-left: -1px;
+        display:inline-block;
+        position: relative;
+        margin-left: -2.2px;
+        height: 20px;
+        background-color: black;
+        color: white;
+        transform: skew(15deg);
+        font-size: 15px;
+        padding: 3px 7px;
+        bottom: 2px;
+        z-index: 10001;
+    }
+    .p5_text_next_small:before{
+        content: '';
+        position: absolute;
+        left: 8.5%;
+        top: 0;
+        bottom: auto;
+        right: auto;
+        height: 1px;
+        width: 90.5%;
+        background-color: white;
+    }
+    .p5_text_next_small:after{
+        content: '';
+        position: absolute;
+        left: 0.5%;
+        top: auto;
+        bottom: 0;
+        right: auto;
+        height: 1.2px;
+        width: 90.5%;
+        background-color: white;
+    }
+    .p5_text_next_big{
+        margin-left: -2.5px;
+        display:inline-block;
+        position: relative;
+        border: 1px solid white;
+        height: 25px;
+        background-color: black;
+        color: #f4ffe3;
+        transform: skew(10deg);
+        font-size: 20px;
+        padding: 5px;
+        z-index: 10000;
+    }
+    .p5_text_tail_small{
+        margin-left: -1px;
+        display:inline-block;
+        position: relative;
+        border: 1px solid white;
+        border-left: none;
+        border-top: none;
+        margin-left: -2.2px;
+        height: 20px;
+        background-color: black;
+        color: white;
+        transform: skew(15deg);
+        font-size: 15px;
+        padding: 3px 5px;
+        bottom: 2px;
+        z-index: 10001;
+    }
+    .p5_text_tail_small:before{
+        content: '';
+        position: absolute;
+        left: 11%;
+        top: 0;
+        bottom: auto;
+        right: auto;
+        height: 1px;
+        width: 90%;
+        background-color: white;
+    }
+    .p5_text_tail_big{
+        margin-left: -2.2px;
+        display:inline-block;
+        position: relative;
+        margin-left: -2px;
+        border: 1px solid white;
+        border-left: none;
+        height: 25px;
+        background-color: black;
+        color: #f4ffe3;
+        transform: skew(10deg);
+        font-size: 20px;
+        padding: 5px;
+        z-index: 10001;
+    }
+    .p5_text_tail_big:before{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: auto;
+        right: auto;
+        height: 19%;
+        width: 1px;
+        background-color: white;
+    }
+    .p5_text_tail_big:after{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 86%;
+        bottom: auto;
+        right: auto;
+        height: 16%;
+        width: 1px;
+        background-color: white;
+    }
+    box-container {
+        position: relative;
+        width: 90%;
+        color: #777;
+    }
+
+    .border-top {
+        background: #b4bcbf;
+        padding: 15px;
+    }
+
+    .border-top:before {
+        content: '';
+        position: absolute;
+        left: 20%;
+        top: 0;
+        bottom: auto;
+        right: auto;
+        height: 8px;
+        width: 50%;
+        background-color: #8796a9;
+    }
+
+    .border-left {
+        background: #dfdad6;
+        padding: 15px;
+    }
+
+    .border-left:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 6%;
+        bottom: auto;
+        right: auto;
+        height: 52%;
+        width: 5px;
+        background-color: #a89d9e;
+    }
+
+    .border-right {
+        background: #eee9c4;
+        padding: 15px;
+    }
+
+    .border-right:after {
+        content: '';
+        position: absolute;
+        left: auto;
+        top: auto;
+        bottom: 5px;
+        right: 0;
+        height: 52%;
+        width: 5px;
+        background-color: #f39c81;
+    }
+
+    .border-bottom {
+        background: #bcdc9d;
+        padding: 15px;
+    }
+
+    .border-bottom:after {
+        content: '';
+        position: absolute;
+        left: 18px;
+        top: auto;
+        bottom: 0;
+        right: auto;
+        height: 6px;
+        width: 105px;
+        background-color: #32b66b;
+    }
+</style>
+<script>
+
+</script>
+</html>

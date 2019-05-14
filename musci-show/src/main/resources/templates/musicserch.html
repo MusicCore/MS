@@ -17,7 +17,7 @@
         <div class="col-md-8 column">
             <div id="musicList" class="row">
                 <div th:each="item:${musiclist}" class="col-md-12 column  music_info">
-                    <div class="thumbnail touming">
+                    <div class="thumbnail touming show_red">
                         <div class="caption" style="text-align: center">
                             <div class="thumbnail touming team-grids" >
                                 <a href='javascript:void(0)' th:onclick='musicDetail([[${item.id}]])'>
@@ -41,6 +41,9 @@
                     <div th:include="common/search::search(${title})"></div>
                     <div th:include="common/login::login"></div>
                     <div th:include="common/login::tips"></div>
+                    <div style="display: none" id="img_loading">
+                        <div th:include="common/loading::p5"></div>
+                    </div>
                 </div>
                 <div class="tips">
                 </div>
@@ -48,6 +51,9 @@
             <a href="javascript:void(0)" class="back_to_top toTop_img btn-lg" >
                 <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(96,96,96); font-size: 53px;"></span>
             </a>
+        <div class="ba_info">
+            备案/许可证编号 | <a href="http://www.miitbeian.gov.cn/" class="ba_text">粤ICP备19037341号</a>
+        </div><br>
         </div>
     </div>
 </div>
@@ -75,16 +81,16 @@
     //鼠标滚动到页面最底部加载数据
     var documentHeight = [0];
     var pageStart = 2;
-    var music_info = $('#fixed');
+    var music_info = $('#fixed');//下滑时div不下滑
     var music_info_top = music_info.offset().top;//元素到页面顶部的距离
     $(window).bind("scroll",function() {
-        if($(document).scrollTop() + $(window).height() > $(document).height()-1){
+        if($(document).scrollTop() + $(window).height() > $(document).height()-50){
             documentHeight.push($(document).height())
             if(documentHeight[documentHeight.length-1]>documentHeight[documentHeight.length-2]){
                 documentHeight[documentHeight.length-2] = documentHeight[documentHeight.length-2] + documentHeight[documentHeight.length-1];
                 // console.log("我在底部")
                 $('#img_loading').css("display","block")
-                listMusic();
+                getMoreData();
                 pageStart++
             }
         }else{
@@ -100,113 +106,10 @@
         }
     })
 
-    function musicDetail(id) {
-        window.open("/musicdetail?id=" + id)
-    }
-    function listMusic(){
-        $.ajax({
-            url :  "/music/musicSRlist",
-            type : "GET",
-            dataType:"json",
-            data: {"title":$('#title').val(),"pageStart":pageStart,"rows":5},
-            success:function(result) {
-                $('#img_loading').css("display","none")
-                if(result.data=='') {
-                    return false}
-                $.each(result.data,function (i,value) {
-                    $('#musicList').append(
-                        "<div  class=\"col-md-12 column music_info\">\n" +
-                        "                <div class=\"thumbnail touming\">\n" +
-                        "                    <div class=\"caption\" style=\"text-align: center\">\n" +
-                        "                         <div class=\"thumbnail touming team-grids\" >\n" +
-                        "                             <a href='javascript:void(0)' onclick='musicDetail("+value.id+")'>\n" +
-                        "                                 <img src="+value.contentImg+" alt=\"图片加载失败了\" class=\"img-responsive\" style=\"height: 380px\">\n" +
-                        "                                 <div class=\"capth\">\n" +
-                        "                                     <h4 class=\"span_title\">"+value.title+"</h4>\n" +
-                        "                                     <div><span class=\"span_info\">&nbsp;<span class=\"glyphicon glyphicon-user\"></span>&nbsp;&nbsp;"+value.authorName+"</span>\n" +
-                        "                                         <span class=\"span_info\">&nbsp;<span class=\"glyphicon glyphicon-time\"></span>&nbsp;&nbsp;"+value.createTime+"</span></div>\n" +
-                        "                                     <p>"+value.contentShort+"</p>\n" +
-                        "                                 </div>\n" +
-                        "                             </a>\n" +
-                        "                         </div>\n" +
-                        "                    </div>\n" +
-                        "                </div>\n" +
-                        "            </div>"
-                    )
-                })
-            }
-        })
+    function getMoreData() {
+        var url = "/music/musicSRlist"
+        var data = {"title":$('#title').val(),"pageStart":pageStart,"rows":5}
+        listMusic(url,data);
     }
 </script>
-<style>
-    .back_to_top{
-        position: fixed;
-        _position: absolute;
-        bottom: 70px;
-        left: 90%;
-    }
-    .toTop_img{
-        background-color: transparent;
-        outline: none;
-    }
-    .music_info{
-        transition: all 0.5s ease;
-    }
-    .music_info:after{
-        content:url("/static/img/body-img/acfun/15.gif");position:absolute;top:-10px;left:-10px;
-    }
-    .music_info:hover{
-        -webkit-box-shadow: #666 0px 0px 30px;
-        -moz-box-shadow: #666 0px 0px 30px;
-        box-shadow: #666 0px 0px 30px;
-    }
-    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
-    .touming{
-        background-color:rgba(255, 255, 255, 0.5);
-    }
-    .span_title{
-        background-color: #2aabd2;
-        color: white;
-        font-size: 200%;
-    }
-    .span_info{
-        background-color: #3c3c3c;
-        color: white;
-        font-size: 100%;
-    }
-    a,
-    a:visited,
-    a:link,
-    a:active,
-    a:hover{
-        text-decoration: none;
-    }
-    .team-grids{ position: relative }
-    .team-grids a {
-        overflow: hidden;
-        position: relative;
-        display: block;
-    }
-    .capth h4 {
-        color: #fff; font-size: 1.8em; margin-top: 2px; }
-    .capth p { font-size: 1.1em; margin: 0.5em 0 }
-    .team-grids a .capth{
-        display: inline-block;
-        height: 100%;
-        width: 100%;
-        color: #ffffff;
-        position: absolute;
-        bottom: -75%;
-        right: 0;
-        background-color: rgba(51,51,51,0.68);
-        padding: 1% 10%;
-        text-align: center;
-        transition: all 0.5s ease;
-    }
-    .team-grids:hover .capth{
-        width: 100%;
-        bottom: 0%;
-        padding: 35% 10%;
-    }
-</style>
 </html>

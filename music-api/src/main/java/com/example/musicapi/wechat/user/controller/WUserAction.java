@@ -12,14 +12,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.Base64;
 
 /**
  * @Author: yuanci
@@ -86,8 +89,9 @@ public class WUserAction {
      * @param request
      * @return
      */
-    @GetMapping(value = "/decodeUserInfo")
-    public Result decodeUserInfo(String encryptedData, String iv, String code, HttpServletRequest request) {
+    @PostMapping(value = "/decodeUserInfo")
+    public Result decodeUserInfo(@RequestParam("encryptedData") String encryptedData,
+                                 @RequestParam("iv") String iv, @RequestParam("code") String code, HttpServletRequest request) {
 
         //登录凭证不能为空
         if (code == null || code.length() == 0) {
@@ -99,8 +103,8 @@ public class WUserAction {
         //////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid ////////////////
         //请求参数
         String params = "appid=" + security.getWxspAppid() + "&secret=" + security.getWxspSecret() + "&js_code=" + code + "&grant_type=" + grant_type;
-        //发送请求
-        String sr = HttpRequest.sendGet("https://api.wechat.qq.com/sns/jscode2session", params);
+        //发送请求  https://api.weixin.qq.com/sns/jscode2session
+        String sr = HttpRequest.sendGet("https://api.weixin.qq.com/sns/jscode2session", params);
         //解析相应内容（转换成json对象）
         net.sf.json.JSONObject json = net.sf.json.JSONObject.fromObject(sr);
         //获取会话密钥（session_key）
@@ -111,7 +115,9 @@ public class WUserAction {
         log.info("\n获得唯一标识openid：" + openid + "\n");
         //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
         try {
-            String result = AesCbcUtil.decrypt(encryptedData, session_key, iv, "UTF-8");
+            final Base64.Decoder decoder = Base64.getDecoder();
+            String result = AesCbcUtil.decrypt(new String(decoder.decode(encryptedData),"UTF-8"),
+                    session_key, new String(decoder.decode(iv),"UTF-8"), "UTF-8");
             if (null != result && result.length() > 0) {
                 net.sf.json.JSONObject userInfoJSON = net.sf.json.JSONObject.fromObject(result);
                 log.info("\n开始AES解密获得unionid："+ userInfoJSON.get("unionId")+ "\n");
@@ -133,7 +139,7 @@ public class WUserAction {
      * @param request
      * @return
      */
-    @GetMapping(value = "/verifytoken")
+    @PostMapping(value = "/verifytoken")
     public Result verifyToken(HttpServletRequest request){
         String token = request.getHeader("X-Token");
         if(token != null){

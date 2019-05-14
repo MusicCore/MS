@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MusicPageAction {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     CommonServer commonServer;
 

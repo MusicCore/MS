@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html th:if="${ms} != null" lang="en">
 <head>
     <title th:text="${ms.title}">新建曲谱</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +9,7 @@
     <link rel="shortcut icon" th:href="@{/static/img/body-img/other/bitbug_favicon.ico}" type="image/x-icon" />
     <!--制作的图标，使用href关联，仅仅需要更改href的内容  -->
 </head>
-<body>
+<body class="bd_bk_img">
 <div class="container">
     <div th:include="common/navbar::navbar"></div>
     <div class="row">
@@ -124,10 +124,5 @@
         })
     }
 </script>
-<style>
-    body{
-        background-image: url("static/img/body-img/other/bg4.gif");
-    }
-</style>
 </body>
 </html>

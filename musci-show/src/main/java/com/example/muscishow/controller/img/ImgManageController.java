@@ -73,8 +73,8 @@ public class ImgManageController {
 
     @RequestMapping("/imgmanage_bk/show")
     @ResponseBody
-    public Result showbkImg(){
-        ImgAndTotal files = getImgList(IMG_PATH_test,security.getTest_domain()+"bgImg/",1);
+    public Result showbkImg(int page){
+        ImgAndTotal files = getImgList(IMG_PATH_test,security.getTest_domain()+"bgImg/",page);
         return ResultFactory.buildSuccessResult(files);
     }
 

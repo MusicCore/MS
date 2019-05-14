@@ -1,0 +1,30 @@
+<svg width="160" height="58" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <filter id="svg_9_blur">
+   <feGaussianBlur stdDeviation="0" in="SourceGraphic"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <polygon id="svg_2" points="1,4 12.5,57.8 58.3,55.9 58.4,50.2 61.1,48.5 91.7,50.9 92.9,46.9 102.4,45.2 102.8,49.2    138.8,45.7 138.6,42 157.1,39.8 159,4.6 134.2,7.4 134.9,0 99.4,2.6 99.5,5.6 93.6,6.1 93.8,3.6 59.3,2.3 59.3,8.4 57.5,8.8    57.6,3.7  " fill="#FFFFFF"/>
+   <polygon id="svg_3" points="56.3,53.1 14.5,54.3 6.9,6.9 54.9,6  "/>
+   <path id="svg_4" d="m75.7,40.3l-24.5,5.7c-0.5,0.1 -0.9,-0.2 -1,-0.6l-6.5,-27.8c-0.1,-0.5 0.2,-0.9 0.6,-1l24.5,-5.8c0.5,-0.1 0.9,0.2 1,0.6l6.5,27.8c0.1,0.5 -0.2,1 -0.6,1.1z"/>
+   <path id="svg_5" d="m88.7,46.5l-27.9,-1.1c-0.6,0 -1,-0.5 -1,-1.1l1.4,-37.3c0,-0.6 0.5,-1 1.1,-1l27.9,1.1c0.6,0 1,0.5 1,1.1l-1.4,37.3c0,0.6 -0.5,1 -1.1,1z"/>
+   <path id="svg_6" d="m112.7,41.4l-27.8,2.1c-0.5,0 -1,-0.4 -1,-0.9l-2.5,-32c0,-0.5 0.4,-1 0.9,-1l27.8,-2.1c0.5,0 1,0.4 1,0.9l2.5,32c0.1,0.5 -0.3,1 -0.9,1z"/>
+   <path id="svg_7" d="m133.8,44.1l-27.6,2.1c-0.6,0 -1.1,-0.4 -1.1,-1l-3,-38.7c0,-0.6 0.4,-1.1 1,-1.1l27.6,-2.1c0.6,0 1.1,0.4 1.1,1l3,38.7c0,0.6 -0.5,1.1 -1,1.1z"/>
+   <path id="svg_8" d="m153.1,37.6l-28.8,2.2c-0.2,0 -0.5,-0.2 -0.5,-0.4l-2.2,-28.9c0,-0.2 0.2,-0.5 0.4,-0.5l31.8,-1.6c0.2,0 0.5,0.2 0.5,0.4l-0.7,28.3c0,0.3 -0.2,0.5 -0.5,0.5z"/>
+   <polygon filter="url(#svg_9_blur)" id="svg_9" points="86.9,13.3 89.8,37.8 107.9,34.7 106.8,11.7  " fill="#FFFFFF"/>
+   <text font-weight="bold" stroke="#000" transform="matrix(1.2393789873793253,0,0,1.1952008276624042,-8.495707407739857,-5.715723511412682) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_22" y="37.628472" x="21" stroke-width="0" fill="#ff0000">普</text>
+   <text font-weight="bold" stroke="null" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_23" y="35.128473" x="62" stroke-opacity="null" stroke-width="0" fill="#f7f4f4">通</text>
+   <path stroke="null" id="svg_24" d="m51.184158,32.681233c-0.67101,-0.070267 -1.294269,-0.452458 -1.167683,-0.898605c0.064068,-0.489778 0.691595,-0.883967 1.322983,-1.143683c0.840295,-0.354899 1.989214,-0.486737 2.915236,-0.180643c0.054259,-2.468784 0.023336,-4.938187 0.031555,-7.40725c0.583955,-0.087719 0.395144,0.386597 0.527769,0.605947c0.126553,0.645008 0.823893,1.151124 1.518013,1.60306c0.861171,0.568063 1.775611,1.170382 2.055523,1.957396c0.305656,0.913108 -0.182985,1.847227 -0.817111,2.665546c-0.045919,0.262263 -0.821351,0.641698 -0.451908,0.167774c0.622077,-0.810729 1.135993,-1.744418 0.711386,-2.642173c-0.40435,-0.89579 -1.664677,-1.64391 -3.16501,-1.778053c-0.009696,1.891529 0.023612,3.783415 -0.035557,5.67464c-0.147499,0.557089 -0.927444,0.970443 -1.709591,1.206473c-0.539328,0.14568 -1.148034,0.233822 -1.735605,0.169571l-0.000001,-0.000001z" stroke-opacity="null" stroke-width="null" fill="#f7f7f7"/>
+   <text font-weight="bold" stroke="null" transform="rotate(-7 97.7292404174805,24.894838333129954) matrix(0.7683683526311663,0,0,0.7854288937863835,23.827811499670577,7.099964714387668) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_25" y="30.966359" x="84.203046" stroke-opacity="null" stroke-width="0" fill="#000000">人</text>
+   <text font-weight="bold" transform="rotate(-4 119.72656250000013,24.17187499999999) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="19" id="svg_26" y="30.795138" x="110.249985" stroke-opacity="null" stroke-width="0" stroke="null" fill="#ffffff">口</text>
+   <text font-weight="bold" font-style="normal" transform="rotate(-2 142.99218750000023,23.17968749999955) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="20" id="svg_27" y="30.128472" x="131" stroke-opacity="null" stroke-width="0" stroke="null" fill="#ffffff">琴</text>
+  </g>
+ </g>
+</svg>

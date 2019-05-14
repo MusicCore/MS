@@ -1,0 +1,50 @@
+@import "index_p5.css";
+@import "background_img_p5.css";
+@import "detail_p5.css";
+@import "fav_p5.css";
+@import "comment_p5.css";
+@import "login_p5.css";
+@import "search_p5.css";
+@import "commonImg_p5.css";
+/*让导航条透明*/
+.navbar_black{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+/*用户名字颜色*/
+.user_name_text{
+    color: white;
+}
+.user_name_text:hover{
+    color: crimson;
+}
+/*设置主页按钮图标*/
+.nav_page_index_img{
+    content: url("../../../static/img/body-img/show/index.svg");
+    margin-top: -13px;
+    height: 45px;
+}
+/*当切换主题时不显示图标，显示文字。反之*/
+.nav_page_index_p{
+    display: none;
+}
+/*例如 “收藏夹” 文字 适配下面的图片*/
+.nav_page_span{
+    color: black;
+    position: absolute;
+    z-index: 1;
+    margin-left: 20px;
+    margin-top: -3px;
+    font-weight: bolder;
+    transform: rotate(-5deg)
+}
+/*设置 例如 “收藏夹” 的背景图片，切主题不显示可删除*/
+.nav_page_img{
+    margin-top: -15px;
+    height: 45px;
+    position: relative;
+    z-index: 0;
+    content: url("../../../static/img/body-img/show/btn.png");
+}
+/*body{*/
+    /*background-color: #606060;*/
+/*}*/

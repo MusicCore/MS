@@ -1,0 +1,125 @@
+
+.add_fav{
+    text-align: center;
+}
+.cancel_fav{
+    text-align: center;
+}
+.font_btn,
+.font_btn:active,
+.font_btn:visited,
+.font_btn:active{
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+.font_btn:hover{
+    background-color: rgba(255, 81, 42, 0.7);
+    color: white;
+}
+.span_content{
+
+}
+.music_play{
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: all 1s ease;
+}
+.music_play:hover{
+    background-color: rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: #666 0px 0px 50px;
+    -moz-box-shadow: #666 0px 0px 50px;
+    box-shadow: #666 0px 0px 50px;
+}
+.info_div{
+    background-color:rgba(255, 255, 255, 0.5);
+    transition: all 1s ease;
+}
+.info_div:hover{
+    background-color:rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: #666 0px 0px 50px;
+    -moz-box-shadow: #666 0px 0px 50px;
+    box-shadow: #666 0px 0px 50px;
+}
+.info_title_div{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.info_span_color{
+    color: white;
+}
+.ul_info{
+    background-color:rgba(255, 255, 255, 0.5);
+    transition: all 1s ease;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px
+}
+.li_info{
+    background-color:transparent;
+    border: none;
+}
+.li_info:hover{
+    background-color:rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: #666 0px 0px 10px;
+    -moz-box-shadow: #666 0px 0px 10px;
+    box-shadow: #666 0px 0px 10px;
+}
+.modify_div{
+    background-color: rgba(0, 0, 0, 0.6);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px
+}
+.modify_btn{
+    background-color: transparent;
+    transition: all 1s ease;
+    color: white;
+}
+.modify_btn:active,
+.modify_btn:hover{
+    /*background-color: rgba(0, 0, 0, 0.65);*/
+    color: white;
+    -webkit-box-shadow: #666 0px 0px 30px;
+    -moz-box-shadow: #666 0px 0px 30px;
+    box-shadow: #666 0px 0px 30px;
+}
+
+
+.fav_add_btn{
+    background-color: transparent;
+    transition: all 1s ease;
+    color: white;
+}
+.fav_add_btn:active,
+.fav_add_btn:hover{
+    /*background-color: rgba(0, 0, 0, 0.65);*/
+    color: white;
+    -webkit-box-shadow: #666 0px 0px 30px;
+    -moz-box-shadow: #666 0px 0px 30px;
+    box-shadow: #666 0px 0px 30px;
+}
+
+.fav_cancel_btn{
+    background-color: transparent;
+    transition: all 1s ease;
+    color: white;
+}
+.fav_cancel_btn:active,
+.fav_cancel_btn:hover{
+    /*background-color: rgba(0, 0, 0, 0.65);*/
+    color: white;
+    -webkit-box-shadow: #666 0px 0px 30px;
+    -moz-box-shadow: #666 0px 0px 30px;
+    box-shadow: #666 0px 0px 30px;
+}
+.search_img_sword{
+    display: none;
+}
+.fav_cancel_img{
+    display: none;
+}
+.fav_div{
+    background-color: rgba(0, 0, 0, 0.6);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px;
+    border:solid 1px crimson;
+}

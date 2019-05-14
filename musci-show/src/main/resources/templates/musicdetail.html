@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${music.title}">我只想静静的吹口琴</title>
+    <title th:if="${music} != null"  th:text="${music.title}"></title>
+    <title th:else>服务未响应</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
@@ -13,7 +14,10 @@
 <body>
 <div class="container wrapper" >
     <div th:include="common/navbar::navbar"></div>
-            <div class="row clearfix">
+    <div th:if="${music} == null" style="text-align: center">
+        <strong>服务器未响应，请刷新页面！</strong>
+    </div>
+            <div th:else class="row clearfix">
                 <div class="col-md-8 column" >
                     <div class="panel music_play hidden-lg">
                         <div class="panel-body">
@@ -51,13 +55,14 @@
                         <div id="show_btn_div" style="display: none">
                         <div class="modify_div panel" th:if="${showModify} eq 1" id="modify_div">
                             <a href="javascript:void(0)" onclick="modifyMusic()" class="btn btn-lg btn-block modify_btn" type="button">点我修改</a>
-                        </div>
-                        <div class="modify_div panel" id="fav_div">
+                            <img class="search_img_sword"></div>
+                        <div class="fav_div panel" id="fav_div">
                             <div th:if="${isFav} eq false" class="add_fav">
                                 <a href="javascript:void(0)" onclick="addFav()" class="btn btn-lg btn-block modify_btn" type="button">点我收藏</a>
-                            </div>
+                                <img class="search_img_sword"></div>
                             <div th:if="${isFav} eq true" class="cancel_fav">
                                 <a href="javascript:void(0)" onclick="cancelFav()" class="btn btn-lg btn-block modify_btn" type="button">取消收藏</a>
+                                <img class="fav_cancel_img">
                             </div>
                         </div>
                         </div>
@@ -92,109 +97,18 @@
 <div th:include="common/backgroundimg::backGroundImg"></div>
 <!--js特效-->
 <!--<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
-<script th:src="@{/static/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>
-<link id="theme" th:href="@{/static/css/vidbacking/jquery.vidbacking.css}" rel="stylesheet"/>
+<!--<script th:src="@{/static/js/vidbacking/jquery.vidbacking.js}" type="text/javascript"></script>-->
+<!--<link id="theme" th:href="@{/static/css/vidbacking/jquery.vidbacking.css}" rel="stylesheet"/>-->
 <!--视频效果-->
 <!--<video poster="/static/js/vidbacking/preview.jpg" autoplay muted loop class="vidbacking">-->
     <!--<source th:src="@{/static/js/vidbacking/12.28.mp4}" type="video/mp4">-->
 <!--</video>-->
 </body>
-<style>
-    .back_to_top{
-        position: fixed;
-        _position: absolute;
-        bottom: 70px;
-        left: 90%;
-    }
-    .add_fav{
-        text-align: center;
-    }
-    .cancel_fav{
-        text-align: center;
-    }
-    .font_btn,
-    .font_btn:active,
-    .font_btn:visited,
-    .font_btn:active{
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-    }
-    .font_btn:hover{
-        background-color: rgba(255, 81, 42, 0.7);
-        color: white;
-    }
-    .span_content{
-
-    }
-    .music_play{
-        background-color: rgba(0, 0, 0, 0.6);
-        transition: all 1s ease;
-    }
-    .music_play:hover{
-        background-color: rgba(0, 0, 0, 0.7);
-        -webkit-box-shadow: #666 0px 0px 50px;
-        -moz-box-shadow: #666 0px 0px 50px;
-        box-shadow: #666 0px 0px 50px;
-    }
-    .info_div{
-        background-color:rgba(255, 255, 255, 0.5);
-        transition: all 1s ease;
-    }
-    .info_div:hover{
-        background-color:rgba(255, 255, 255, 0.9);
-        -webkit-box-shadow: #666 0px 0px 50px;
-        -moz-box-shadow: #666 0px 0px 50px;
-        box-shadow: #666 0px 0px 50px;
-    }
-    .info_title_div{
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-    .info_span_color{
-        color: white;
-    }
-    .ul_info{
-        background-color:rgba(255, 255, 255, 0.5);
-        transition: all 1s ease;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        border-radius:5px
-    }
-    .li_info{
-        background-color:transparent;
-        border: none;
-    }
-    .li_info:hover{
-        background-color:rgba(255, 255, 255, 0.9);
-        -webkit-box-shadow: #666 0px 0px 10px;
-        -moz-box-shadow: #666 0px 0px 10px;
-        box-shadow: #666 0px 0px 10px;
-    }
-    .fixed {position:fixed;top:20px;margin-top:0;width: 360px}
-    .modify_div{
-        background-color: rgba(0, 0, 0, 0.6);
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        border-radius:5px
-    }
-    .modify_btn{
-        background-color: transparent;
-        transition: all 1s ease;
-        color: white;
-    }
-    .modify_btn:active,
-    .modify_btn:hover{
-        /*background-color: rgba(0, 0, 0, 0.65);*/
-        color: white;
-        -webkit-box-shadow: #666 0px 0px 30px;
-        -moz-box-shadow: #666 0px 0px 30px;
-        box-shadow: #666 0px 0px 30px;
-    }
-</style>
 <script>
     $(document).ready(function() {
-        $('body').vidbacking({
-            'masked': true
-        });
+        // $('body').vidbacking({
+        //     'masked': true
+        // });
         if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){
             // $('#modify_div').css("display","none")
             // $('#fav_div').css("display","none")

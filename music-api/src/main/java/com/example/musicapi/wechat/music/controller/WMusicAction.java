@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,7 +54,7 @@ public class WMusicAction {
      * @param request
      * @return
      */
-    @GetMapping(value = "/musicdetail")
+    @PostMapping(value = "/musicdetail")
     public Result getMusicDetail(int id, HttpServletRequest request) {
         try {
 //            List<Comment> cmtList = commentService.listById(id);
@@ -92,7 +93,7 @@ public class WMusicAction {
      * @param request
      * @return
      */
-    @GetMapping(value = "/fav/link")
+    @PostMapping(value = "/fav/link")
     public Result addFavWx(int id, HttpServletRequest request){
         try{
             String token = request.getHeader("X-Token");
@@ -121,7 +122,7 @@ public class WMusicAction {
      * @param id 乐谱ID
      * @return
      */
-    @GetMapping(value="/favorites/remove")
+    @PostMapping(value="/favorites/remove")
     public Result delete(Integer id,HttpServletRequest request){
         try{
             String token = request.getHeader("X-Token");
@@ -141,7 +142,7 @@ public class WMusicAction {
      * @param page
      * @return
      */
-    @GetMapping(value="/favorites/list")
+    @PostMapping(value="/favorites/list")
     public Result list(Integer page,Integer rows,HttpServletRequest request){
         try{
             String token = request.getHeader("X-Token");

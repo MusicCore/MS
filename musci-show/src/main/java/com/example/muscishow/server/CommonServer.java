@@ -2,14 +2,13 @@ package com.example.muscishow.server;
 
 import com.example.muscishow.ResultUtils.Result;
 import com.example.muscishow.dto.UserDto;
+import com.example.muscishow.hystrix.CommonHystrix;
 import com.example.muscishow.model.Comment;
 import com.example.muscishow.model.Music;
 import com.example.muscishow.model.PageForm;
 import com.example.muscishow.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @Author: yuanci
@@ -18,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Description:  @FeignClient不能存在相同的name值，boot2.1.0禁止覆盖重复的bean,若要分开写，在applicaton.properties添加
  *                spring.main.allow-bean-definition-overriding=true
  */
-@FeignClient(name = "music-producer")
+@FeignClient(name = "music-producer",fallback = CommonHystrix.class)
 public interface CommonServer {
 
     /**
@@ -151,4 +150,91 @@ public interface CommonServer {
     @PostMapping(value = "/show/updatePwd")
     public Result updatePassword(@RequestBody UserDto userDto);
 
+    /**
+     * 上传的凭证
+     * @return
+     */
+    @PostMapping("/qiniu/token")
+    public Result token();
+
+    /**
+     * 覆盖上传的凭证
+     * @param key
+     * @return
+     */
+    @PostMapping("/qiniu/keytoken")
+    public Result keyToken(@RequestParam("key") String key);
+
+    /**
+     * 删除七牛上文件
+     * @param fileName
+     * @return
+     */
+    @PostMapping("/qiniu/delete")
+    public Result deleteImg(@RequestParam("fileName") String fileName);
+
+    /**
+     * 获取七牛云上的文件列表
+     * @param prefix 文件前缀，充当文件夹作用
+     * @return
+     */
+    @PostMapping("/qiniu/filelist")
+    public Result getFileList(@RequestParam("prefix") String prefix);
+
+    /**
+     * 当对一个文件进行了替换，删除操作时，进行一次CDN强刷，让CDN中的文件刷新缓存
+     * @param key
+     */
+    @RequestMapping("/qiniu/refresh")
+    public void refresh(@RequestParam("key") String key);
+
+    /**
+     * 微信得到详细的谱子信息
+     * @param id 乐谱ID
+     * @return
+     */
+    @PostMapping(value = "api/weixin/musicdetail")
+    public Result getMusicDetail_wx(@RequestParam("id") int id);
+
+    /**
+     * 微信用户添加收藏夹
+     * @param id 乐谱ID
+     * @return
+     */
+    @PostMapping(value = "api/weixin/fav/link")
+    public Result addFavWx(@RequestParam("id") int id);
+
+    /**
+     * 微信用户删除收藏夹
+     * @param id 乐谱ID
+     * @return
+     */
+    @PostMapping(value="api/weixin/favorites/remove")
+    public Result delete(@RequestParam("id") Integer id);
+
+    /**
+     * 查询收藏夹
+     * @param page
+     * @return
+     */
+    @PostMapping(value="api/weixin/favorites/list")
+    public Result list(@RequestParam("page") Integer page,@RequestParam("rows") Integer rows);
+
+    /**
+     * 生成token,取得openid unionId
+     * @param encryptedData
+     * @param iv
+     * @param code
+     * @return
+     */
+    @PostMapping(value = "api/weixin/decodeUserInfo")
+    public Result decodeUserInfo(@RequestParam("encryptedData") String encryptedData,
+                                 @RequestParam("iv") String iv, @RequestParam("code") String code);
+
+    /**
+     * 验证小程序的token是否过期
+     * @return
+     */
+    @PostMapping(value = "api/weixin/verifytoken")
+    public Result verifyToken();
 }

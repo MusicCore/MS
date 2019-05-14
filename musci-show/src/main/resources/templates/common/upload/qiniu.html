@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="img">
+    <script th:src="@{/static/bootstrap-fileinput/js/fileinput.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/bootstrap-fileinput/js/locales/zh.js}" type="text/javascript"></script>
+    <link  th:href="@{/static/bootstrap-fileinput/css/fileinput.min.css}" rel="stylesheet"/>
+    <form enctype="multipart/form-data">
+        <label>图片上传(图片将自动插入编辑器，若显示完成却未插入图片，请您等待全部文件上传完毕)</label>
+        <div class="file-loading">
+            <input id="img-zh" name="file" type="file" multiple>
+        </div>
+    </form>
+    <script>
+        $(function () {
+            //0.初始化fileinput
+            var oFileInput = new FileInput();
+            oFileInput.Init("img-zh", "http://upload-z2.qiniup.com");
+        })
+        var FileInput = function () {
+            var oFile = new Object();
+            var token;
+            var domain;
+            var fileName;
+            var prefix = 'img/';
+            //初始化fileinput控件（第一次初始化）
+            oFile.Init = function(ctrlName, uploadUrl) {
+                var control = $('#' + ctrlName);
+
+                //初始化上传控件的样式
+                control.fileinput({
+                    language: 'zh', //设置语言
+                    uploadUrl: uploadUrl, //上传的地址
+                    allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+                    showUpload: true, //是否显示上传按钮
+                    showCaption: false,//是否显示标题
+                    browseClass: "btn btn-primary", //按钮样式
+                    dropZoneEnabled: false,//是否显示拖拽区域
+                    //minImageWidth: 50, //图片的最小宽度
+                    //minImageHeight: 50,//图片的最小高度
+                    //maxImageWidth: 1000,//图片的最大宽度
+                    //maxImageHeight: 1000,//图片的最大高度
+                    //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+                    //minFileCount: 0,
+                    maxFileCount: 1, //表示允许同时上传的最大文件个数
+                    enctype: 'multipart/form-data',
+                    validateInitialCount:true,
+                    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                    uploadExtraData:function () {
+                        var data = {
+                            'token': token,
+                            'key': fileName,
+                        }
+                        return data
+                    }
+                });
+                // 选择文件后处理事件
+                $("#img-zh").on("filebatchselected", function(event, files) {
+                    $.ajax({
+                        url : "/qiniu/token",
+                        type : "get",
+                        dataType:"json",
+                        async:false,
+                        contentType: "application/json; charset=utf-8",
+                        success:function(result) {
+                            token = result.data.token
+                            domain = result.data.domain
+                            fileName = prefix + result.data.fileName + returnType(files[0].type)
+                        }
+                    })
+                });
+                //导入文件上传完成之后的事件
+                $("#img-zh").on("fileuploaded", function (event, data, previewId, index) {
+                    // console.log(data)
+                    window.tinymce.get('music').insertContent("<img class=\"img-responsive\" src="+ domain+fileName +">")
+                });
+            }
+            return oFile;
+        };
+        function returnType(type) {
+            var temp;
+            switch (type) {
+                case 'image/jpeg':
+                    temp = '.jpg'
+                    break;
+                case 'image/gif':
+                    temp = '.gif'
+                    break;
+                case 'image/png':
+                    temp = '.png'
+                    break;
+                case 'audio/mp3':
+                    temp = '.mp3'
+                    break;
+                case 'audio/ogg':
+                    temp = '.ogg'
+                    break;
+            }
+            return temp
+        }
+    </script>
+</div>
+
+<div th:fragment="img-fm">
+    <form enctype="multipart/form-data">
+        <label>封面上传(只存在一张哦，后传的会覆盖前面的)</label>
+        <div class="file-loading">
+            <input id="img_fm-zh" name="file" type="file" multiple>
+        </div>
+    </form>
+    <script>
+        let contentImg = '';
+        $(function () {
+            const oFileInput = new imgfmInput();
+            oFileInput.Init("img_fm-zh", "http://upload-z2.qiniup.com");
+        })
+        const imgfmInput = function () {
+            const oFile = new Object();
+            var token;
+            var domain;
+            var fileName;
+            var prefix = 'img/';
+            oFile.Init = function(ctrlName, uploadUrl) {
+                const control = $('#' + ctrlName);
+                control.fileinput({
+                    language: 'zh', //设置语言
+                    uploadUrl: uploadUrl, //上传的地址
+                    allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+                    showUpload: true, //是否显示上传按钮
+                    showCaption: false,//是否显示标题
+                    browseClass: "btn btn-primary", //按钮样式
+                    dropZoneEnabled: false,//是否显示拖拽区域
+                    //minImageWidth: 50, //图片的最小宽度
+                    //minImageHeight: 50,//图片的最小高度
+                    //maxImageWidth: 1000,//图片的最大宽度
+                    //maxImageHeight: 1000,//图片的最大高度
+                    //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+                    //minFileCount: 0,
+                    maxFileCount: 1, //表示允许同时上传的最大文件个数
+                    enctype: 'multipart/form-data',
+                    validateInitialCount:true,
+                    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                    uploadExtraData:function () {
+                        var data = {
+                            'token': token,
+                            'key': fileName,
+                        }
+                        return data
+                    }
+                });
+                // 选择文件后处理事件
+                $("#img_fm-zh").on("filebatchselected", function(event, files) {
+                    $.ajax({
+                        url : "/qiniu/token",
+                        type : "get",
+                        dataType:"json",
+                        async:false,
+                        contentType: "application/json; charset=utf-8",
+                        success:function(result) {
+                            token = result.data.token
+                            domain = result.data.domain
+                            fileName = prefix + result.data.fileName + returnType(files[0].type)
+                        }
+                    })
+                });
+                $("#img_fm-zh").on("fileuploaded", function (event, data, previewId, index) {
+                    contentImg = domain+fileName;
+                    // console.log(contentImg)
+                });
+            }
+            return oFile;
+        };
+    </script>
+</div>
+
+<div th:fragment="music">
+    <form enctype="multipart/form-data">
+        <label>音乐上传(超过一个音乐将插入编辑器，但在编辑器不可预览，点击<span class="glyphicon glyphicon-eye-open"></span>进行预览)</label>
+        <div class="file-loading">
+            <input id="music-zh" name="file" type="file">
+        </div>
+    </form>
+    <script>
+        var contentMusic = '';
+        $(function () {
+            var oFileInput = new musicInput();
+            oFileInput.Init("music-zh", "http://upload-z2.qiniup.com");
+        })
+        var musicInput = function () {
+            var oFile = new Object();
+            var token;
+            var domain;
+            var fileName;
+            var prefix = 'music/';
+            oFile.Init = function(ctrlName, uploadUrl) {
+                var control = $('#' + ctrlName);
+                control.fileinput({
+                    language: 'zh', //设置语言
+                    uploadUrl: uploadUrl, //上传的地址
+                    allowedFileExtensions: ['ogg', 'mp3'],//接收的文件后缀
+                    showUpload: true, //是否显示上传按钮
+                    showCaption: false,//是否显示标题
+                    browseClass: "btn btn-primary", //按钮样式
+                    dropZoneEnabled: false,//是否显示拖拽区域
+                    //minImageWidth: 50, //图片的最小宽度
+                    //minImageHeight: 50,//图片的最小高度
+                    //maxImageWidth: 1000,//图片的最大宽度
+                    //maxImageHeight: 1000,//图片的最大高度
+                    //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+                    //minFileCount: 0,
+                    maxFileCount: 1, //表示允许同时上传的最大文件个数
+                    enctype: 'multipart/form-data',
+                    validateInitialCount:true,
+                    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                    uploadExtraData:function () {
+                        var data = {
+                            'token': token,
+                            'key': fileName,
+                        }
+                        return data
+                    }
+                });
+                // 选择文件后处理事件
+                $("#music-zh").on("filebatchselected", function(event, files) {
+                    console.log(files[0].type)
+                    $.ajax({
+                        url : "/qiniu/token",
+                        type : "get",
+                        dataType:"json",
+                        async:false,
+                        contentType: "application/json; charset=utf-8",
+                        success:function(result) {
+                            token = result.data.token
+                            domain = result.data.domain
+                            fileName = prefix + result.data.fileName + returnType(files[0].type)
+                        }
+                    })
+                });
+                $("#music-zh").on("fileuploaded", function (event, data, previewId, index) {
+                    if(contentMusic!=''){
+                        window.tinymce.get('music').insertContent("<audio src="+domain+fileName+" controlsList=\"nodownload\" controls=\"controls\">\n" +
+                            "        肥肠抱歉，您的浏览器不支持audio音频播放！请考虑更换浏览器！\n" +
+                            "    </audio>")
+                    }
+                    contentMusic = domain+fileName;
+                });
+            }
+            return oFile;
+        };
+    </script>
+</div>
+
+<div th:fragment="bkImg">
+    <script th:src="@{/static/bootstrap-fileinput/js/fileinput.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/bootstrap-fileinput/js/locales/zh.js}" type="text/javascript"></script>
+    <link  th:href="@{/static/bootstrap-fileinput/css/fileinput.min.css}" rel="stylesheet"/>
+    <form enctype="multipart/form-data">
+        <label>图片上传(上传完毕后需要等待七牛CDN刷新完毕才能显示上传后的图片)</label>
+        <div class="file-loading">
+            <input id="img_bk_up" name="file" type="file" multiple>
+        </div>
+    </form>
+    <script>
+        $(function () {
+            //0.初始化fileinput
+            var oFileInput = new FileInput();
+            oFileInput.Init("img_bk_up", "http://upload-z2.qiniup.com");
+        })
+        var FileInput = function () {
+            var oFile = new Object();
+            var token;
+            var key ;
+            //初始化fileinput控件（第一次初始化）
+            oFile.Init = function(ctrlName, uploadUrl) {
+                var control = $('#' + ctrlName);
+
+                //初始化上传控件的样式
+                control.fileinput({
+                    language: 'zh', //设置语言
+                    uploadUrl: uploadUrl, //上传的地址
+                    allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+                    showUpload: true, //是否显示上传按钮
+                    showCaption: false,//是否显示标题
+                    browseClass: "btn btn-primary", //按钮样式
+                    dropZoneEnabled: true,//是否显示拖拽区域
+                    //minImageWidth: 50, //图片的最小宽度
+                    //minImageHeight: 50,//图片的最小高度
+                    //maxImageWidth: 1000,//图片的最大宽度
+                    //maxImageHeight: 1000,//图片的最大高度
+                    //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+                    //minFileCount: 0,
+                    maxFileCount: 1, //表示允许同时上传的最大文件个数
+                    enctype: 'multipart/form-data',
+                    validateInitialCount:true,
+                    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                    uploadExtraData:function () {
+                        var data = {
+                            'token': token,
+                            'key': key,
+                        }
+                        return data
+                    }
+                });
+                // 选择文件后处理事件
+                $("#img_bk_up").on("filebatchselected", function(event, files) {
+                    key = $('#'+bk_name_id).text()
+                    // console.log("key:"+key)
+                    $.ajax({
+                        url : "/qiniu/keytoken",
+                        type : "get",
+                        dataType:"json",
+                        async:false,
+                        contentType: "application/json; charset=utf-8",
+                        data:{
+                            'key': key
+                        },
+                        success:function(result) {
+                            token = result.data
+                        }
+                    })
+                });
+                //导入文件上传完成之后的事件
+                $("#img_bk_up").on("fileuploaded", function (event, data, previewId, index) {
+                    // console.log(data.extra.key)
+                    if(data.extra.key == key){
+                        $('#bkimg').modal('hide')
+                        swal({
+                            title: "替换成功",
+                            text: "CDN缓存刷新中....",
+                            timer: 3000,
+                            icon: "success",
+                            allowOutsideClick: true
+                        });
+                        $.ajax({
+                            url : "/qiniu/refresh",
+                            type : "get",
+                            dataType:"json",
+                            contentType: "application/json; charset=utf-8",
+                            data:{
+                                'key': key
+                            },
+                            success:function(result) {
+                            }
+                        })
+                        getPage(1)
+                    }else{
+                        swal({
+                            title: "替换失败",
+                            text: "请重新尝试....",
+                            timer: 3000,
+                            icon: "error",
+                            allowOutsideClick: true
+                        });
+                    }
+
+                });
+            }
+            return oFile;
+        };
+    </script>
+</div>
+</body>
+</html>

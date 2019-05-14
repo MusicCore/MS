@@ -1,0 +1,15 @@
+.favhtml_cancle_btn{
+
+}
+.favhtml_cancle_btn:before{
+    content: '';
+    background-image: url("../../../static/img/body-img/show/btn_close.png");
+    position: absolute;
+    background-size: 94px 40px;
+    margin-left: 70px;
+    margin-top: -5px;
+    /*left: 50px;*/
+    /*top: 0;*/
+    width: 94px;
+    height: 40px;
+}
