@@ -2,11 +2,12 @@ package com.example.musicapi.common.until;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service
+@Component
 public class RedisCacheUtil<T>
 {
 
@@ -108,7 +109,6 @@ public class RedisCacheUtil<T>
     /**
      * 获得缓存的set
      * @param key
-     * @param operation
      * @return
      */
     public Set<T> getCacheSet(String key/*,BoundSetOperations<String,T> operation*/)
@@ -151,7 +151,6 @@ public class RedisCacheUtil<T>
     /**
      * 获得缓存的Map
      * @param key
-     * @param hashOperation
      * @return
      */
     public <T> Map<String,T> getCacheMap(String key/*,HashOperations<String,String,T> hashOperation*/)
@@ -160,13 +159,6 @@ public class RedisCacheUtil<T>
         /*Map<String, T> map = hashOperation.entries(key);*/
         return map;
     }
-
-
-
-
-
-
-
     /**
      * 缓存Map
      * @param key
@@ -189,11 +181,9 @@ public class RedisCacheUtil<T>
 
         return hashOperations;
     }
-
     /**
      * 获得缓存的Map
      * @param key
-     * @param hashOperation
      * @return
      */
     public <T> Map<Integer,T> getCacheIntegerMap(String key/*,HashOperations<String,String,T> hashOperation*/)
@@ -202,4 +192,13 @@ public class RedisCacheUtil<T>
         /*Map<String, T> map = hashOperation.entries(key);*/
         return map;
     }
+
+    /**
+     * 删除缓存key
+     * @param key
+     */
+    public void deleteKey(String key){
+        redisTemplate.delete(key);
+    }
+
 }

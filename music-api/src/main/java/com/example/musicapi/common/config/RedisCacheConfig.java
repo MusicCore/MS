@@ -45,7 +45,7 @@ public class RedisCacheConfig {
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),
-                this.getRedisCacheConfigurationWithTtl(600), // 默认策略，未配置的 key 会使用这个
+                this.getRedisCacheConfigurationWithTtl(1000), // 默认策略，未配置的 key 会使用这个
                 this.getRedisCacheConfigurationMap() // 指定 key 策略
         );
     }
@@ -53,7 +53,7 @@ public class RedisCacheConfig {
     private Map<String, RedisCacheConfiguration> getRedisCacheConfigurationMap() {
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
         redisCacheConfigurationMap.put("comment", this.getRedisCacheConfigurationWithTtl(3000));
-        redisCacheConfigurationMap.put("MI", this.getRedisCacheConfigurationWithTtl(18000));
+        redisCacheConfigurationMap.put("music", this.getRedisCacheConfigurationWithTtl(18000));
 
         return redisCacheConfigurationMap;
     }

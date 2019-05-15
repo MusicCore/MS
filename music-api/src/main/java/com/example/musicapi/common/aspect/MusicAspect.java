@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Music的切面处理
@@ -34,14 +35,15 @@ public class MusicAspect {
 
     @Pointcut(value = "within( com.example.musicapi.common.service.impl.*)" )
     public void MusicAop() {
-        System.out.println("aop");
+
     }
 
     @Before("MusicAop()")
     public void before(){
-        System.out.println("before");
+
     }
 
+//    zset缓存的是id的值，然后用id值查询查询数据
     @Around("MusicAop()")
     public Object around(ProceedingJoinPoint pjp){
         //方法名
@@ -56,6 +58,7 @@ public class MusicAspect {
                     List<Integer> Aids = musicMapper.list();
                     for (Integer id: Aids) {
                         redisTemplate.opsForZSet().add(MUSIC_SET_KEY, id, id);
+//                        redisTemplate.opsForValue().set(MUSIC_SET_KEY,id,30, TimeUnit.MINUTES);
                     }
                     ids = redisTemplate.opsForZSet().reverseRange(MUSIC_SET_KEY, page.getStart(), page.getEnd());
                 }
@@ -91,16 +94,25 @@ public class MusicAspect {
         }else if("updateMusicInfoById".equals(methodName)){
             Music music =  (Music) objects[0];
             try {
+                //执行原本语句,更新缓存
+                pjp.proceed();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                return null;
+            }
+            redisTemplate.opsForZSet().remove(MUSIC_SET_KEY,music.getId(), music.getId());
+            redisTemplate.opsForZSet().add(MUSIC_SET_KEY, music.getId(), music.getId());
+        }else if("delete".equals(methodName)) {
+            //             删除
+            int id = (int) objects[0];
+            try {
                 pjp.proceed();
                 //执行原本语句,更新缓存
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
                 return null;
             }
-            redisTemplate.opsForZSet().add(MUSIC_SET_KEY, music.getId(), music.getId());
-        }else if("delete".equals(methodName)) {
-                 int id = (int) objects[0];
-               redisTemplate.opsForZSet().remove(MUSIC_SET_KEY, id);
+            redisTemplate.opsForZSet().remove(MUSIC_SET_KEY,id,id);
         }else if("listAll".equals(methodName)){
             try {
                 List<Integer> ids = (List<Integer>)pjp.proceed();
@@ -111,8 +123,10 @@ public class MusicAspect {
                 throwable.printStackTrace();
                 return null;
             }
-
         }
+        /**
+         * 不在上面方法的全部按原本执行
+         */
         try {
             return pjp.proceed();
         }

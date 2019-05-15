@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-//@CacheConfig(cacheNames = "music")
+@CacheConfig(cacheNames = "music")
 public interface MusicMapper {
     @Insert("INSERT INTO music_score(" +
             "   id," +
@@ -74,11 +74,9 @@ public interface MusicMapper {
      */
     @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
     @CachePut(key = "'MI'+#p0.id")
-    //@Caching(put = @CachePut("#p0.id"), evict = { @CacheEvict(value = "Music_Par", allEntries = true) })
     public void  update(Music param) throws Exception;
 
     @Select("SELECT * FROM music_score order by id desc limit #{page.pageStart},#{page.rows}")
-    @Cacheable(value = "Music_Par",key = "#p0.pageStart",unless="#result == null")
     public List<Music> listByPar(@Param("page") PageForm pageForm);
 
     @Select("SELECT COUNT(1) FROM music_score")
