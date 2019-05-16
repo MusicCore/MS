@@ -1,7 +1,7 @@
-package com.example.musicapi.common.controller;
+package com.example.musicapi.rate.controller;
 
 import com.example.musicapi.common.model.Rate;
-import com.example.musicapi.common.service.RateService;
+import com.example.musicapi.rate.service.RateService;
 import com.example.musicapi.common.until.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

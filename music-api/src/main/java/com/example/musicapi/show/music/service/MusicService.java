@@ -1,4 +1,4 @@
-package com.example.musicapi.common.service;
+package com.example.musicapi.show.music.service;
 
 
 import com.example.musicapi.common.model.Music;

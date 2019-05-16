@@ -1,8 +1,8 @@
-package com.example.musicapi.common.service.impl;
+package com.example.musicapi.rate.service.impl;
 
 import com.example.musicapi.common.Repository.RateRepository;
 import com.example.musicapi.common.model.Rate;
-import com.example.musicapi.common.service.RateService;
+import com.example.musicapi.rate.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

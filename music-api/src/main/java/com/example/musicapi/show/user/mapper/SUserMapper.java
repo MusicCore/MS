@@ -1,6 +1,5 @@
 package com.example.musicapi.show.user.mapper;
 
-import com.example.musicapi.common.mapper.UserMapper;
 import com.example.musicapi.common.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

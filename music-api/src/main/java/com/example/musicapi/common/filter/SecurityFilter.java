@@ -3,7 +3,7 @@ package com.example.musicapi.common.filter;
 
 import com.example.musicapi.common.dto.UserDto;
 import com.example.musicapi.common.model.CommonContext;
-import com.example.musicapi.common.service.UserService;
+import com.example.musicapi.show.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

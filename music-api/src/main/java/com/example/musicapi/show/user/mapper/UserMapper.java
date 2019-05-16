@@ -1,4 +1,4 @@
-package com.example.musicapi.common.mapper;
+package com.example.musicapi.show.user.mapper;
 
 import com.example.musicapi.common.model.PageForm;
 import com.example.musicapi.common.model.User;

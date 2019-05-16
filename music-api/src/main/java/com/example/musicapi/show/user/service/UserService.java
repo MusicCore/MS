@@ -1,4 +1,4 @@
-package com.example.musicapi.common.service;
+package com.example.musicapi.show.user.service;
 
 
 import com.example.musicapi.common.dto.UserDto;

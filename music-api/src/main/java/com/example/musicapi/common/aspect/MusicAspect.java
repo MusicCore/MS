@@ -1,9 +1,9 @@
 package com.example.musicapi.common.aspect;
 
-import com.example.musicapi.common.mapper.MusicMapper;
 import com.example.musicapi.common.model.Music;
 import com.example.musicapi.common.model.PageForm;
-import com.example.musicapi.common.service.MusicService;
+import com.example.musicapi.show.music.mapper.MusicMapper;
+import com.example.musicapi.show.music.service.MusicService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Music的切面处理
@@ -36,7 +35,7 @@ public class MusicAspect {
 
     private final String MUSIC_SET_KEY = "music_set";
 
-    @Pointcut(value = "within( com.example.musicapi.common.service.impl.*)" )
+    @Pointcut(value = "within(com.example.musicapi.show.music.service.impl.*)" )
     public void MusicAop() {
 
     }
@@ -82,49 +81,6 @@ public class MusicAspect {
                     throwable.printStackTrace();
                     return null;
                 }
-            }
-        }else if("saveMusic".equals(methodName)){
-            Music music =  (Music) objects[0];
-            try {
-                pjp.proceed();
-                //执行原本语句,更新缓存
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                return null;
-            }
-            //添加
-            redisTemplate.opsForZSet().add(MUSIC_SET_KEY, music.getId(), music.getId());
-        }else if("updateMusicInfoById".equals(methodName)){
-            Music music =  (Music) objects[0];
-            try {
-                //执行原本语句,更新缓存
-                pjp.proceed();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                return null;
-            }
-            redisTemplate.opsForZSet().remove(MUSIC_SET_KEY,music.getId(), music.getId());
-            redisTemplate.opsForZSet().add(MUSIC_SET_KEY, music.getId(), music.getId());
-        }else if("delete".equals(methodName)) {
-            //             删除
-            int id = (int) objects[0];
-            try {
-                pjp.proceed();
-                //执行原本语句,更新缓存
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                return null;
-            }
-            redisTemplate.opsForZSet().remove(MUSIC_SET_KEY,id,id);
-        }else if("listAll".equals(methodName)){
-            try {
-                List<Integer> ids = (List<Integer>)pjp.proceed();
-                for (Integer id: ids) {
-                    redisTemplate.opsForZSet().add(MUSIC_SET_KEY, id, id);
-                }
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                return null;
             }
         }
         /**

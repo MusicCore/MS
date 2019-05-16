@@ -1,10 +1,10 @@
-package com.example.musicapi.common.service.impl;
+package com.example.musicapi.show.user.service.impl;
 
 
 import com.example.musicapi.common.dto.UserDto;
-import com.example.musicapi.common.mapper.UserMapper;
+import com.example.musicapi.show.user.mapper.UserMapper;
 import com.example.musicapi.common.model.User;
-import com.example.musicapi.common.service.UserService;
+import com.example.musicapi.show.user.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

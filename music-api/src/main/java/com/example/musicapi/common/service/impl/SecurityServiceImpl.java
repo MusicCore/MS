@@ -4,7 +4,7 @@ package com.example.musicapi.common.service.impl;
 import com.example.musicapi.common.dto.CommonContextDto;
 import com.example.musicapi.common.dto.UserDto;
 import com.example.musicapi.common.model.User;
-import com.example.musicapi.common.service.UserService;
+import com.example.musicapi.show.user.service.UserService;
 import com.example.musicapi.common.until.TFM;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

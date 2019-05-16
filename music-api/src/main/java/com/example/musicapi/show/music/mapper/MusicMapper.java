@@ -1,13 +1,10 @@
-package com.example.musicapi.common.mapper;
+package com.example.musicapi.show.music.mapper;
 
 import com.example.musicapi.common.model.Music;
 import com.example.musicapi.common.model.PageForm;
 import com.example.musicapi.common.model.SerchBean;
 import com.example.musicapi.common.provider.MusicProvider;
 import org.apache.ibatis.annotations.*;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -51,7 +48,11 @@ public interface MusicMapper {
             "   #{isDelete}," +
             "   #{clicks}" +
             ")")
+    @SelectKey(before = false, statement = "SELECT LAST_INSERT_ID() AS id",resultType = Integer.class, keyProperty = "id")
     public void save(Music param) throws Exception;
+
+    @Select("SELECT id FROM music_score")
+    public List<Integer> findId() throws Exception;
 
     @Select("SELECT id FROM music_score")
     public List<Integer> list() throws Exception;

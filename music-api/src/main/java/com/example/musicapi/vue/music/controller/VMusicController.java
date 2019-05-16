@@ -6,7 +6,7 @@ import com.example.musicapi.common.ResultUtils.ResultFactory;
 import com.example.musicapi.common.model.CommonContext;
 import com.example.musicapi.common.model.Music;
 import com.example.musicapi.common.model.PageForm;
-import com.example.musicapi.common.service.MusicService;
+import com.example.musicapi.show.music.service.MusicService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

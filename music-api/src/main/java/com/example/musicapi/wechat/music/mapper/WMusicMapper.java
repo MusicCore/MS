@@ -1,6 +1,6 @@
 package com.example.musicapi.wechat.music.mapper;
 
-import com.example.musicapi.common.mapper.MusicMapper;
+import com.example.musicapi.show.music.mapper.MusicMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
