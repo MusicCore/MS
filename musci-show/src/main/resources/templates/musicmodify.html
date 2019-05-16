@@ -12,6 +12,9 @@
 <body class="bd_bk_img">
 <div class="container">
     <div th:include="common/navbar::navbar"></div>
+    <link th:href="@{/static/css/jplayer/audioplay.css}" rel="stylesheet"/>
+    <link th:href="@{/static/css/jplayer/main.css}" rel="stylesheet"/>
+    <script th:src="@{/static/js/jplay/audioplayer.js}" type="text/javascript"></script>
     <div class="row">
         <div class="col-md-12">
             <div class="alert alert-warning alert-dismissable">
@@ -45,6 +48,7 @@
     </div>
 </div>
 <script>
+    $('audio').audioPlayer();
     window.onbeforeunload = function(){
         return;
     }
@@ -52,13 +56,14 @@
     $(document).ready(function () {
         contentImg = $('#fm_img').val()
         contentMusic = $('#content_music').val()
+        modifyStatus = true
         musicId = $('#musicId').val()
     });
     function create() {
         const content = window.tinymce.get('music').getContent()
         const title = $('#title').val()
         const contentShort = $('#contentShort').val()
-        console.log(isModify)
+        // console.log(isModify)
         if(content == ''|| title == '' || contentShort == '' || contentImg == '') {
             swal({
                 title: "未填写警告！",

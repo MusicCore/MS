@@ -16,7 +16,7 @@
     <div  class="row">
         <div class="col-md-8 column">
             <div id="musicList" class="row">
-                <div th:each="item:${musiclist}" class="col-md-12 column  music_info">
+                <div th:else th:each="item:${musiclist}" class="col-md-12 column  music_info">
                     <div class="thumbnail touming show_red">
                         <div class="caption" style="text-align: center">
                             <div class="thumbnail touming team-grids" >
