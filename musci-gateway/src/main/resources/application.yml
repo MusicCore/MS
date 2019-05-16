@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: gateway
+  gateway:
+    routes:
+    - id: api
+      # 重点！/info必须使用http进行转发，lb代表从注册中心获取服务
+      uri: lb://music-producer
+      predicates:
+      # 重点！转发该路径！
+      - Path=/api/**
+#    - id: bulletscreen
+#      # 重点！lb:ws://代表从注册中心获取服务，并且转发协议为websocket，这种格式怀疑人生！
+#      uri: lb:ws://bullet
+#      predicates:
+#      # 转发/bullet端点下的所有路径
+#      - Path=/bullet/**
+server:
+  port: 9999
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
