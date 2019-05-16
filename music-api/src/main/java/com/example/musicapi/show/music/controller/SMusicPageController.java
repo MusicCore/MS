@@ -165,6 +165,22 @@ public class SMusicPageController {
     }
 
     /**
+     * 简谱删除
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/musicDelete")
+    public Result musicDelete(@RequestParam Integer id){
+        log.info("------------method:musicUpdate-------------");
+        try {
+            musicService.delete(id);
+            return ResultFactory.buildSuccessResult("ok");
+        }catch (Exception e){
+            log.info("简谱删除错误："+e.getMessage());
+            return ResultFactory.buildFailResult(e.getMessage());
+        }
+    }
+    /**
      * music数据装载
      * @param music
      */

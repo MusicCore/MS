@@ -3,6 +3,7 @@ package com.example.musicapi.common.aspect;
 import com.example.musicapi.common.mapper.MusicMapper;
 import com.example.musicapi.common.model.Music;
 import com.example.musicapi.common.model.PageForm;
+import com.example.musicapi.common.service.MusicService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +31,8 @@ public class MusicAspect {
     private RedisTemplate redisTemplate;
     @Autowired
     private MusicMapper musicMapper;
-
+    @Resource(name = "musicService")
+    private MusicService musicService;
 
     private final String MUSIC_SET_KEY = "music_set";
 
@@ -67,7 +70,7 @@ public class MusicAspect {
                     //查询list的时候冲缓存中拿取
                     //第一次查询查数据库
                     //后面以命中缓存为准
-                    list.add(musicMapper.listById(id));
+                    list.add(musicService.listMusicById(id));
                 }
                 return list;
             }catch (Exception e){

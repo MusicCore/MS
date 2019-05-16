@@ -56,4 +56,10 @@ public interface MusicService {
      * @return
      */
     public List<Music>  listByTitle(SerchBean sb);
+
+    /**
+     * 删除
+     * @param id
+     */
+    public void delete(Integer id);
 }
