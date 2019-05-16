@@ -177,13 +177,14 @@
 
 <div th:fragment="music">
     <form enctype="multipart/form-data">
-        <label>音乐上传(超过一个音乐将插入编辑器，但在编辑器不可预览，点击<span class="glyphicon glyphicon-eye-open"></span>进行预览)</label>
+        <label>音乐上传(音乐将插入编辑器，但在编辑器不可预览，点击<span class="glyphicon glyphicon-eye-open"></span>进行预览，音乐栏会自动换行)</label>
         <div class="file-loading">
             <input id="music-zh" name="file" type="file">
         </div>
     </form>
     <script>
         var contentMusic = '';
+        let modifyStatus = false;
         $(function () {
             var oFileInput = new musicInput();
             oFileInput.Init("music-zh", "http://upload-z2.qiniup.com");
@@ -240,12 +241,13 @@
                     })
                 });
                 $("#music-zh").on("fileuploaded", function (event, data, previewId, index) {
-                    if(contentMusic!=''){
-                        window.tinymce.get('music').insertContent("<audio src="+domain+fileName+" controlsList=\"nodownload\" controls=\"controls\">\n" +
+                    // if(contentMusic!='' && modifyStatus == true){
+                        window.tinymce.get('music').insertContent("<br><audio src="+domain+fileName+" controlsList=\"nodownload\" controls=\"controls\">\n" +
                             "        肥肠抱歉，您的浏览器不支持audio音频播放！请考虑更换浏览器！\n" +
                             "    </audio>")
-                    }
-                    contentMusic = domain+fileName;
+                    // }
+                    // contentMusic = domain+fileName;
+                    // modifyStatus = true
                 });
             }
             return oFile;

@@ -191,6 +191,13 @@
 
         function addComment() {
             if(window.tinymce.get('comment_tinymce').getContent() == '') {
+                swal({
+                    title: "评论内容空了！",
+                    text: "输了！",
+                    icon: "error",
+                    timer: 3000,
+                    allowOutsideClick: true
+                });
                 return false
             }
             if(typeof ($.cookie('token')) == 'undefined' || $.cookie('token') == 'null' || $.cookie('token') == ''){

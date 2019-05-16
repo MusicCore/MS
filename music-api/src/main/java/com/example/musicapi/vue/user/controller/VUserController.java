@@ -32,7 +32,7 @@ public class VUserController {
      * @return
      */
     @PostMapping(value = "/userlist")
-    public Object getUserList(PageForm pageForm){
+    public Object getUserList(@RequestBody PageForm pageForm){
         log.info("\n-------------------Method : getAllUser--------------------\n");
         try {
             List<User> list = vUserService.listUserbyAll(pageForm);

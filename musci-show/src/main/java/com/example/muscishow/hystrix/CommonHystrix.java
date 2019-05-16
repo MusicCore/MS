@@ -108,23 +108,18 @@ public class CommonHystrix implements CommonServer {
     }
 
     @Override
-    public Result updateInfo(User user) {
-        return initErrResult("");
-    }
-
-    @Override
     public Result updatePassword(UserDto userDto) {
         return initErrResult("");
     }
 
     @Override
     public Result token() {
-        return initErrResult("");
+        return initErrResult("获取上传凭证失败，请重新选择文件");
     }
 
     @Override
     public Result keyToken(String key) {
-        return initErrResult("");
+        return initErrResult("获取上传凭证失败，请重新选择文件");
     }
 
     @Override
@@ -174,6 +169,56 @@ public class CommonHystrix implements CommonServer {
 
     @Override
     public Result goChat() {
+        return initErrResult("");
+    }
+
+    @Override
+    public Result updateInfo_show(User user) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Object vueLogin_vue(User user) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Result loginOut_vue() {
+        return initErrResult("");
+    }
+
+    @Override
+    public Object getUserList_vue(PageForm pageForm) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Object getUserInfo_vue(String account) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Result updateInfo_vue(User user) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Result musicEidt_vue(Integer id) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Result musicUpdate_vue(Music music) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Result musicList_vue(PageForm pageForm) {
+        return initErrResult("");
+    }
+
+    @Override
+    public Result musicCreate_vue(Music music) {
         return initErrResult("");
     }
 }

@@ -34,7 +34,7 @@ public class VMusicController {
      * @param id
      * @return
      */
-    @GetMapping(value = "/detail")
+    @PostMapping(value = "/detail")
     public Result musicEidt(@RequestParam Integer id) {
         log.info("------------method:musicEidt-------------");
         try {
@@ -70,7 +70,7 @@ public class VMusicController {
      * @param pageForm
      * @return
      */
-    @GetMapping(value = "/list")
+    @PostMapping(value = "/list")
     public Result musicList(PageForm pageForm){
         log.info("------------method:musicList-------------");
         try {

@@ -39,7 +39,7 @@ public class VLoginController {
      */
     @PostMapping(value = "/login")
     public Object vueLogin(@RequestBody User user, HttpServletRequest request){
-        log.info("\n-------------------Method : login--------------------\n");
+        log.info("\n-------------------Method : vue login--------------------\n");
         try{
             //账号密码认证成功之后创建用户令牌时间为20分钟。并存入redis里
             CommonContextDto commonContext = securityService.createUserContext(user.getAccount(),user.getPassword(),request);
@@ -63,7 +63,7 @@ public class VLoginController {
      */
     @RequestMapping(value = "/logout")
     public Result loginOut(HttpServletRequest request){
-        log.info("\n-------------------Method : login--------------------\n");
+        log.info("\n-------------------Method :vue logout--------------------\n");
         String token = request.getHeader("X-Token");
         try {
             if (token == null) {

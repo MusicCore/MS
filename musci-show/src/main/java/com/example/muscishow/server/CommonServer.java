@@ -144,7 +144,7 @@ public interface CommonServer {
      * @return
      */
     @PostMapping(value = "/show/userupdate")
-    public Result updateInfo(@RequestBody User user);
+    public Result updateInfo_show(@RequestBody User user);
 
     /**
      * show修改密码 暂未使用
@@ -246,4 +246,74 @@ public interface CommonServer {
      */
     @PostMapping(value = "api/weixin/verifytoken")
     public Result verifyToken();
+
+    /**
+     * vue登入
+     * @param user
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/vue/login")
+    public Object vueLogin_vue(@RequestBody User user);
+
+    /**
+     * vue登出
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/vue/logout")
+    public Result loginOut_vue();
+
+    /**
+     * vue 查看用户信息(全)
+     * @return
+     */
+    @PostMapping(value = "/vue/userlist")
+    public Object getUserList_vue(@RequestBody PageForm pageForm);
+
+    /**
+     * vue拉取用户信息
+     * @param account
+     * @return
+     */
+    @PostMapping(value = "/vue/info")
+    public Object getUserInfo_vue(@RequestParam("account") String account);
+
+    /**
+     * vue更新用户信息
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/vue/userupdate")
+    public Result updateInfo_vue(@RequestBody User user);
+
+    /**
+     * vue获取修改页面信息
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/vue/music/detail")
+    public Result musicEidt_vue(@RequestParam("id") Integer id);
+
+    /**
+     * vue更新
+     * @param music
+     * @return
+     */
+    @PostMapping(value = "/vue/music/update")
+    public Result musicUpdate_vue(@RequestBody Music music);
+
+    /**
+     * vue获取信息
+     * @param pageForm
+     * @return
+     */
+    @PostMapping(value = "/vue/music/list")
+    public Result musicList_vue(@RequestBody PageForm pageForm);
+
+    /**
+     * vue插入信息
+     */
+    @PostMapping(value = "/vue/music/create")
+    public Result musicCreate_vue(@RequestBody Music music);
 }
