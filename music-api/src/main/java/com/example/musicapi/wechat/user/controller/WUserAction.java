@@ -47,13 +47,12 @@ public class WUserAction {
 
     /**
      * 验证微信小程序的请求域名
-     * @param model
      * @param request
      * @param response
      * @throws IOException
      */
     @RequestMapping("/token")
-    public void weChat(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void weChat(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("---------------------------");
         boolean isGet = request.getMethod().toLowerCase().equals("get");
         PrintWriter print;

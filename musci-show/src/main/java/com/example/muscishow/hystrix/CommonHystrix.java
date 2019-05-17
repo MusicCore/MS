@@ -221,4 +221,9 @@ public class CommonHystrix implements CommonServer {
     public Result musicCreate_vue(Music music) {
         return initErrResult("");
     }
+
+    @Override
+    public Result musicDelete(Integer id) {
+        return initErrResult("");
+    }
 }

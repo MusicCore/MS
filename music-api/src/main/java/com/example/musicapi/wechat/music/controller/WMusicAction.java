@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +52,7 @@ public class WMusicAction {
      * @return
      */
     @PostMapping(value = "/musicdetail")
-    public Result getMusicDetail(int id, HttpServletRequest request) {
+    public Result getMusicDetail(@RequestParam int id, HttpServletRequest request) {
         try {
 //            List<Comment> cmtList = commentService.listById(id);
             Music music = wMusicService.listMusicById(id);
@@ -94,7 +91,7 @@ public class WMusicAction {
      * @return
      */
     @PostMapping(value = "/fav/link")
-    public Result addFavWx(int id, HttpServletRequest request){
+    public Result addFavWx(@RequestParam int id, HttpServletRequest request){
         try{
             String token = request.getHeader("X-Token");
             String openId = null;
@@ -123,7 +120,7 @@ public class WMusicAction {
      * @return
      */
     @PostMapping(value="/favorites/remove")
-    public Result delete(Integer id,HttpServletRequest request){
+    public Result delete(@RequestParam Integer id,HttpServletRequest request){
         try{
             String token = request.getHeader("X-Token");
             String openId = null;
@@ -143,7 +140,7 @@ public class WMusicAction {
      * @return
      */
     @PostMapping(value="/favorites/list")
-    public Result list(Integer page,Integer rows,HttpServletRequest request){
+    public Result list(@RequestParam Integer page,@RequestParam Integer rows,HttpServletRequest request){
         try{
             String token = request.getHeader("X-Token");
             String openId = null;

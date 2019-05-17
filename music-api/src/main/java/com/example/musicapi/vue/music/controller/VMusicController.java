@@ -71,7 +71,7 @@ public class VMusicController {
      * @return
      */
     @PostMapping(value = "/list")
-    public Result musicList(PageForm pageForm){
+    public Result musicList(@RequestBody PageForm pageForm){
         log.info("------------method:musicList-------------");
         try {
             List<Music> list = musicService.listMusicByPar(pageForm);
@@ -98,6 +98,23 @@ public class VMusicController {
             return ResultFactory.buildSuccessResult("");
         }catch (Exception e){
             log.info("简谱上传存入错误："+e.getMessage());
+            return ResultFactory.buildFailResult(e.getMessage());
+        }
+    }
+
+    /**
+     * 简谱删除
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/musicDelete")
+    public Result musicDelete(@RequestParam Integer id){
+        log.info("------------method:musicUpdate-------------");
+        try {
+            musicService.delete(id);
+            return ResultFactory.buildSuccessResult("ok");
+        }catch (Exception e){
+            log.info("简谱删除错误："+e.getMessage());
             return ResultFactory.buildFailResult(e.getMessage());
         }
     }

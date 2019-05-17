@@ -58,4 +58,14 @@ public class VMusicAction {
     public Result musicCreate_vue(@RequestBody Music music){
         return commonServer.musicCreate_vue(music);
     }
+
+    /**
+     * 简谱删除
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/musicDelete")
+    public Result musicDelete(@RequestParam Integer id){
+        return commonServer.musicDelete(id);
+    }
 }

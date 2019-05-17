@@ -24,5 +24,7 @@ HELP.md
 /nbdist/
 /.nb-gradle/
 /build/
+/src/main/resources/application.properties
+/src/main/resources/common-application.properties
 ### VS Code ###
 .vscode/

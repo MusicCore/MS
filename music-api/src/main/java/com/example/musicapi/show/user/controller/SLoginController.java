@@ -47,6 +47,12 @@ public class SLoginController {
             object.put("commonContext",commonContext);
             //          createUserContext里已经存了taken了
 //          redisTemplate.opsForValue().set(taken,user.getAccount(),6, TimeUnit.HOURS);//以token为key，用户账号为值设置6小时过期时间
+            if (commonContext.getActive().equals("N")){
+                return ResultFactory.buildFailResult("你被禁止登录");
+            }
+            if (commonContext.getActive().equals("D")){
+                return ResultFactory.buildFailResult("此账号已被删除，请联系管理员恢复");
+            }
             Result result= ResultFactory.buildSuccessResult(object);
             return result;
         }catch (Exception e){

@@ -128,7 +128,7 @@ public class SMusicPageController {
      * @return
      */
     @PostMapping(value = "/modify")
-    public Result musicModify(int id,Model model) {
+    public Result musicModify(@RequestParam int id) {
         log.info("------------method:musicModify-------------");
         try {
             Music music = musicService.listMusicById(id);

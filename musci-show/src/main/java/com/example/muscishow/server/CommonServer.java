@@ -316,4 +316,12 @@ public interface CommonServer {
      */
     @PostMapping(value = "/vue/music/create")
     public Result musicCreate_vue(@RequestBody Music music);
+
+    /**
+     * vue简谱删除
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/vue/music/musicDelete")
+    public Result musicDelete(@RequestParam("id") Integer id);
 }

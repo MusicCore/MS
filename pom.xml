@@ -16,7 +16,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>musci-manger</module>
         <module>musci-show</module>
         <module>music-api</module>
     </modules>
